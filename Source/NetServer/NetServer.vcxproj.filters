@@ -14,23 +14,32 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\Header">
-      <UniqueIdentifier>{c52cef0f-3e86-4f67-b3e9-3f9c67d2b120}</UniqueIdentifier>
+      <UniqueIdentifier>{e532cf59-5d28-4356-ae63-b6baebf41577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{7aa446f3-8e74-4825-a2f5-a48fc9b436d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{6cca7d7d-5d99-4b0e-aad1-e75554619866}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Header Files\Header</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Server.h">
+      <Filter>Header Files\Manager</Filter>
     </ClInclude>
     <ClInclude Include="PrecompiledHeader.h">
       <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="INetServer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

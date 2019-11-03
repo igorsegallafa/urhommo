@@ -7,7 +7,7 @@ Main::Main( Context* context ) : Application( context )
 
 void Main::Setup()
 {
-    engineParameters_[EP_WINDOW_TITLE] = "Master Server";
+    engineParameters_[EP_WINDOW_TITLE] = "Game Server";
     engineParameters_[EP_FULL_SCREEN] = false;
     engineParameters_[EP_HEADLESS] = true;
     engineParameters_[EP_SOUND] = false;

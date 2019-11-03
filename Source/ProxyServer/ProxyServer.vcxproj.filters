@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\Header">
-      <UniqueIdentifier>{c52cef0f-3e86-4f67-b3e9-3f9c67d2b120}</UniqueIdentifier>
+      <UniqueIdentifier>{2b6e60a2-05ae-47d5-85ff-184f06a6427b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
