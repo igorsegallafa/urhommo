@@ -3,6 +3,7 @@
 
 Main::Main( Context* context ) : Application( context )
 {
+    Net::Server::RegisterServerLibrary( context );
 }
 
 void Main::Setup()
@@ -14,6 +15,7 @@ void Main::Setup()
     engineParameters_[EP_WINDOW_RESIZABLE] = false;
     engineParameters_[EP_WINDOW_WIDTH] = 800;
     engineParameters_[EP_WINDOW_HEIGHT] = 416;
+    engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;ServerData;";
 }
 
 void Main::Start()
