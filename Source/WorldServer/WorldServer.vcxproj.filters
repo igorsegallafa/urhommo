@@ -16,21 +16,33 @@
     <Filter Include="Header Files\Header">
       <UniqueIdentifier>{5ed3d5d2-21ff-4e15-abab-2722e1a927e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{2fdbf818-36a1-442f-b3a6-840d648895a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler">
+      <UniqueIdentifier>{78fed0d8-5499-475f-bde8-1d6394e23fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{a6cdac1d-cf04-40f2-8bdb-3bf50cf3bd4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler">
+      <UniqueIdentifier>{333199f9-78a1-4dc3-8469-95f9bd635683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Header Files\Header</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PrecompiledHeader.h">
       <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

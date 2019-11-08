@@ -1,14 +1,14 @@
 #include "PrecompiledHeader.h"
-#include "Main.h"
+#include "Server.h"
 
-Main::Main( Context* context ) : Application( context )
+Server::Server( Context* context ) : Application( context )
 {
     Net::Server::RegisterServerLibrary( context );
 }
 
-void Main::Setup()
+void Server::Setup()
 {
-    engineParameters_[EP_WINDOW_TITLE] = "Master Server";
+    engineParameters_[EP_WINDOW_TITLE] = "Login Server";
     engineParameters_[EP_FULL_SCREEN] = false;
     engineParameters_[EP_HEADLESS] = true;
     engineParameters_[EP_SOUND] = false;
@@ -18,11 +18,16 @@ void Main::Setup()
     engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;ServerData;";
 }
 
-void Main::Start()
+void Server::Start()
 {
     OpenConsoleWindow();
+
+    GetSubsystem<Net::Server>()->Init();
+    GetSubsystem<Net::Server>()->Start( Net::ServerType::Login );
+    GetSubsystem<Net::Server>()->Load( Net::ServerType::Master );
+    GetSubsystem<Net::Server>()->ConnectAll();
 }
 
-void Main::Stop()
+void Server::Stop()
 {
 }

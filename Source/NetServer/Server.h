@@ -1,26 +1,34 @@
 #pragma once
 
 #include <Urho3D/Network/Connection.h>
+#include <Urho3D/Network/Network.h>
+#include <Urho3D/Network/NetworkEvents.h>
 
 namespace Net
 {
 
+/**
+ * Custom Parameters for Client Identity Event 
+ */
+URHO3D_PARAM( P_SERVERTYPE, ServerType );
+URHO3D_PARAM( P_SERVERID, ServerID );
+
 enum class ServerType
 {
+    Undefined,
     Master,
     Login,
     Game,
-    Proxy,
 };
 
 struct NetConnection
 {
-    int id;
-    String name;
-    String ip;
-    int port;
-    ServerType serverType;
-    SharedPtr<Connection> connection;
+    int id; //!< Connection ID
+    String name;    //!< Server Name
+    String ip;  //!< Server IP
+    int port;   //!< Server Port
+    ServerType serverType;  //!< Server Type
+    Connection* connection;   //!< Connection Pointer
 };
 
 const char* ServerTypeToString( const ServerType& serverType );
@@ -38,12 +46,28 @@ public:
     //! Deconstructor.
     ~Server();
 
-    //! Clear Connections.
-    void Clear(){ connections.Clear(); }
+    bool Init();
+
+    //! Start Server.
+    bool Start( ServerType serverType, int index = 0 );
 
     //! Load Server Configuration.
     bool Load( ServerType serverType );
+
+    //! Connect with all Servers loaded.
+    bool ConnectAll();
+
+    NetConnection* GetConnection( ServerType serverType, int index = 0 ) const;
+
+    void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
+
+    void HandleConnectionStatus( StringHash eventType, VariantMap& eventData );
 private:
-    Vector<NetConnection> connections;
+    int id;   //!< Current Server ID.
+    ServerType type;  //!< Current Server Type.
+
+    Vector<SharedPtr<Network>> networks;    //!< Network interfaces.
+    HashMap<Connection*,Network*> serverConnections;  //!< Server Connections.
+    Vector<NetConnection> connections;  //!< Net Connections Opened.
 };
 }

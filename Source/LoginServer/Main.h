@@ -1,10 +1,10 @@
 #pragma once
 
-class Main : public Application
+class Server : public Application
 {
 public:
     //! Constructor.
-    Main( Context* context );
+    Server( Context* context );
 
     void Setup();
 
@@ -13,4 +13,4 @@ public:
     void Stop();
 };
 
-URHO3D_DEFINE_APPLICATION_MAIN( Main )
+URHO3D_DEFINE_APPLICATION_MAIN( Server )
