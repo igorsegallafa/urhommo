@@ -16,6 +16,12 @@
     <Filter Include="Header Files\Header">
       <UniqueIdentifier>{e532cf59-5d28-4356-ae63-b6baebf41577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler">
+      <UniqueIdentifier>{eb2341dc-61e2-4ecc-98f4-744d8e5e903b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler">
+      <UniqueIdentifier>{f1072235-bd39-4ad5-94fd-6be098278603}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -23,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageHandler.cpp">
+      <Filter>Source Files\Handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageHandler.h">
+      <Filter>Header Files\Handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

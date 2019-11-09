@@ -28,6 +28,12 @@
     <Filter Include="Header Files\Handler">
       <UniqueIdentifier>{333199f9-78a1-4dc3-8469-95f9bd635683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\Network">
+      <UniqueIdentifier>{fc94b165-25d1-4541-899b-edcded0e19ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Network">
+      <UniqueIdentifier>{1ae2df77-6761-45c8-98b7-9916bf84d823}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -36,6 +42,15 @@
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ServerManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHandler.cpp">
+      <Filter>Source Files\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHandler.cpp">
+      <Filter>Source Files\Handler\Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -43,6 +58,18 @@
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerManager.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerHandler.h">
+      <Filter>Header Files\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHandler.h">
+      <Filter>Header Files\Handler\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

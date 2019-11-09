@@ -17,3 +17,6 @@
 #include "../NetServer/INetServer.h"
 
 using namespace Urho3D;
+
+//Globals:
+#include "globals.h"

@@ -1,9 +1,12 @@
 #include "PrecompiledHeader.h"
 #include "Server.h"
+#include "ServerManager.h"
 
 Server::Server( Context* context ) : Application( context )
 {
-    Net::Server::RegisterServerLibrary( context );
+    Net::Server::RegisterLibrary( context );
+    Manager::Server::RegisterLibrary( context );
+    Handler::Server::RegisterLibrary( context );
 }
 
 void Server::Setup()
@@ -22,12 +25,12 @@ void Server::Start()
 {
     OpenConsoleWindow();
 
-    GetSubsystem<Net::Server>()->Init();
-    GetSubsystem<Net::Server>()->Start( Net::ServerType::Game );
-    GetSubsystem<Net::Server>()->Load( Net::ServerType::Master );
-    GetSubsystem<Net::Server>()->ConnectAll();
+    GetSubsystem<Manager::Server>()->Init();
+    GetSubsystem<Handler::Server>()->Init();
 }
 
 void Server::Stop()
 {
+    GetSubsystem<Handler::Server>()->UnInit();
+    GetSubsystem<Manager::Server>()->UnInit();
 }

@@ -18,15 +18,17 @@ const char* ServerTypeToString( const ServerType& serverType )
     return "unknown";
 }
 
-void Server::RegisterServerLibrary( Context* context_ )
+void Server::RegisterLibrary( Context* context_ )
 {
     context_->RegisterSubsystem( new Server( context_ ) );
+    context_->RegisterSubsystem( new Handler::Message( context_ ) );
 }
 
 Server::Server( Context* context_ ) : 
     Object( context_ ), 
     id( 0 ), 
     type( ServerType::Undefined ),
+    serverConnection( nullptr ),
     connections{}
 {
 }
@@ -39,11 +41,23 @@ bool Server::Init()
 {
     //Subscribe Events
     SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Server, HandleClientIdentity ) );
+    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( Server, HandleMessage ) );
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
     SubscribeToEvent( E_SERVERDISCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
     SubscribeToEvent( E_CONNECTFAILED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
 
     return true;
+}
+
+void Server::UnInit()
+{
+    //Disconnect Net Connections
+    for( const auto& connection : connections )
+        if( connection.connection )
+            connection.connection->Disconnect();
+
+    //Close Server
+    GetSubsystem<Network>()->Disconnect();
 }
 
 bool Server::Start( ServerType serverType, int index )
@@ -134,7 +148,9 @@ bool Server::Load( ServerType serverType )
 
 bool Server::ConnectAll()
 {
-    int serversConnected = 0;
+    //Server already connected
+    if( !serverConnection )
+        return false;
 
     for( const auto& connectionInfo : connections )
     {
@@ -143,26 +159,12 @@ bool Server::ConnectAll()
         identity[P_SERVERTYPE] = (int)type;
         identity[P_SERVERID] = id;
 
-        auto network = GetSubsystem<Network>();
-
-        //Create new network interface if want to have more than one server connection
-        if( serverConnections.Size() )
-        {
-            SharedPtr<Network> newNetwork( new Network( context_ ) );
-            networks.Push( newNetwork );
-
-            network = newNetwork;
-        }
-
         //Make server connection
-        if( auto serverConnection = network->Connect( connectionInfo.ip, connectionInfo.port, nullptr, identity ); serverConnection )
-        {
-            serverConnections[serverConnection] = network;
-            serversConnected++;
-        }
+        if( serverConnection = GetSubsystem<Network>()->Connect( connectionInfo.ip, connectionInfo.port, nullptr, identity ); serverConnection )
+            return true;
     }
 
-    return (serversConnected == connections.Size());
+    return false;
 }
 
 NetConnection* Server::GetConnection( ServerType serverType, int index ) const
@@ -202,15 +204,21 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
     }
 }
 
+void Server::HandleMessage( StringHash eventType, VariantMap& eventData )
+{
+    GetSubsystem<Handler::Message>()->HandleMessage( eventType, eventData );
+}
+
 void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData )
 {
     //Server Connected
     if( eventType == E_SERVERCONNECTED )
     {
     }
-    //Server Disconencted
+    //Server Disconnected
     else if( eventType == E_SERVERDISCONNECTED )
     {
+        serverConnection = nullptr;
     }
     //Server Connect Failed
     else if( eventType == E_CONNECTFAILED )

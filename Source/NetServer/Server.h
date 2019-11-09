@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MessageHandler.h"
+
 #include <Urho3D/Network/Connection.h>
 #include <Urho3D/Network/Network.h>
 #include <Urho3D/Network/NetworkEvents.h>
@@ -37,8 +39,8 @@ class Server : public Object
 {
     URHO3D_OBJECT( Server, Object );
 public:
-    //! Register Object as Subsystem.
-    static void RegisterServerLibrary( Context* context_ );
+    //! Register Object Factory.
+    static void RegisterLibrary( Context* context_ );
 
     //! Constructor.
     Server( Context* context_ );
@@ -46,7 +48,11 @@ public:
     //! Deconstructor.
     ~Server();
 
+    //! Initialize Net Server.
     bool Init();
+
+    //! UnInitialize.
+    void UnInit();
 
     //! Start Server.
     bool Start( ServerType serverType, int index = 0 );
@@ -59,15 +65,19 @@ public:
 
     NetConnection* GetConnection( ServerType serverType, int index = 0 ) const;
 
+    //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 
+    //! Handle Network Message.
+    void HandleMessage( StringHash eventType, VariantMap& eventData );
+
+    //! Handle Server Connection Status.
     void HandleConnectionStatus( StringHash eventType, VariantMap& eventData );
 private:
     int id;   //!< Current Server ID.
     ServerType type;  //!< Current Server Type.
 
-    Vector<SharedPtr<Network>> networks;    //!< Network interfaces.
-    HashMap<Connection*,Network*> serverConnections;  //!< Server Connections.
+    Connection* serverConnection;  //!< Server Connection.
     Vector<NetConnection> connections;  //!< Net Connections Opened.
 };
 }
