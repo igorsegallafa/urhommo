@@ -27,7 +27,7 @@ public:
     template<typename ...T>
     MessageImpl& Validate( T... handler )
     {
-        std::function<bool( Connection * connection )>* args[]{ handler... };
+        std::function<bool( Connection * connection )> args[]{ handler... };
 
         for( auto& i : args )
             validations.Push( i );
@@ -43,7 +43,7 @@ public:
     template<typename ...T>
     MessageImpl& Process( T... handler )
     {
-        std::function<bool( Connection* connection, MemoryBuffer& message )>* args[]{ handler... };
+        std::function<bool( Connection* connection, MemoryBuffer& message )> args[]{ handler... };
 
         for( auto& i : args )
             processing.Push( i );
@@ -68,6 +68,12 @@ public:
     //! Deconstructor.
     ~Message();
 
+    //! Add Global Validation Handler.
+    void AddValidation( std::function<bool( Connection* connection )> handler ){ validations.push_back( handler ); }
+
+    //! Add Global Processing Handler.
+    void AddProcessing( std::function<bool( Connection* connection, MemoryBuffer& message )> handler ){ processing.push_back( handler ); }
+
     //! Register a Handler for some message ID. 
     MessageImpl& Handle( int messageID );
 
@@ -75,5 +81,7 @@ public:
     bool HandleMessage( StringHash eventType, VariantMap& eventData );
 private:
     HashMap<int, MessageImpl*> handlers;    //!< List of Messages Handlers.
+    std::vector<std::function<bool( Connection* connection )>> validations;  //!< List of Global Validation Handler.
+    std::vector<std::function<bool( Connection* connection, MemoryBuffer& message )>> processing;    //!< List of Global Processing Handler.
 };
 }

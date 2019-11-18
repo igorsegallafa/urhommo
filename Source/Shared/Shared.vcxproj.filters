@@ -13,5 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Header">
+      <UniqueIdentifier>{e532cf59-5d28-4356-ae63-b6baebf41577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{e6315202-9c98-4f25-82bf-e8c072485395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{ac441bdb-7005-41c0-b229-01eea8489a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{c7531feb-8e4f-4581-8574-7f49705d2d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{258adebf-fe76-4945-8512-83debb7d2769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\User">
+      <UniqueIdentifier>{f0f94938-9bc6-4316-8b9c-a15f3bb882df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\User">
+      <UniqueIdentifier>{2a00d2bc-1d02-4b40-b67d-d9439f0d1339}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <Filter>Header Files\Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files\Core\User</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PrecompiledHeader.h">
+      <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files\Core\User</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

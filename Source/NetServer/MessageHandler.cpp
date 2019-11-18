@@ -55,6 +55,11 @@ bool Message::HandleMessage( StringHash eventType, VariantMap& eventData )
     {
         auto message = it->second_;
 
+        //Validate Message with Global Validations before
+        for( const auto& handler : validations )
+            if( !handler( sender ) )
+                return false;
+
         //Validate Message Authorization
         if( !message->IsValid( sender ) )
             return false;
@@ -62,6 +67,11 @@ bool Message::HandleMessage( StringHash eventType, VariantMap& eventData )
         //Casting Message Data to Memory Buffer
         const PODVector<unsigned char>& data = eventData[P_DATA].GetBuffer();
         MemoryBuffer buffer( data );
+
+        //Process Message with Global Processing Handlers before
+        for( const auto& handler : processing )
+            if( !handler( sender, buffer ) )
+                return false;
 
         //Process Message
         if( !message->CanProcess( sender, buffer ) )
