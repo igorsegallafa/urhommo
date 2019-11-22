@@ -14,19 +14,43 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\Header">
-      <UniqueIdentifier>{74fb94d8-81af-4c87-82de-f14e57a67acd}</UniqueIdentifier>
+      <UniqueIdentifier>{5ed3d5d2-21ff-4e15-abab-2722e1a927e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Manager">
-      <UniqueIdentifier>{681a339e-04cd-4fdd-980e-16cc3b6d79af}</UniqueIdentifier>
+      <UniqueIdentifier>{2fdbf818-36a1-442f-b3a6-840d648895a3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Handler">
-      <UniqueIdentifier>{ed150deb-b064-4d37-a948-060d3c686fd4}</UniqueIdentifier>
+      <UniqueIdentifier>{78fed0d8-5499-475f-bde8-1d6394e23fd7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Manager">
-      <UniqueIdentifier>{add4fd24-0e5a-448b-97ad-4ae7d458efc6}</UniqueIdentifier>
+      <UniqueIdentifier>{a6cdac1d-cf04-40f2-8bdb-3bf50cf3bd4d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Handler">
-      <UniqueIdentifier>{b450fb3f-95ae-4090-a9ac-2d64c19f6e2a}</UniqueIdentifier>
+      <UniqueIdentifier>{333199f9-78a1-4dc3-8469-95f9bd635683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler\Network">
+      <UniqueIdentifier>{fc94b165-25d1-4541-899b-edcded0e19ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Network">
+      <UniqueIdentifier>{1ae2df77-6761-45c8-98b7-9916bf84d823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{c4acae6f-9598-499f-952c-a487d8e4f2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{ff3188ed-c35b-4238-9f82-519465a1b357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\User">
+      <UniqueIdentifier>{d82d2e59-165f-489f-b061-41d555f8746c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\User">
+      <UniqueIdentifier>{667ef1ab-d905-4b49-b744-855d3698494c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\User">
+      <UniqueIdentifier>{c0cac2be-95b6-44da-af06-cc8ee18f9821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\User">
+      <UniqueIdentifier>{0764c388-08a2-4f62-b11d-ba6cf195e4af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +60,27 @@
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ServerManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHandler.cpp">
+      <Filter>Source Files\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHandler.cpp">
+      <Filter>Source Files\Handler\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files\Core\User</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager.cpp">
+      <Filter>Source Files\Manager\User</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerImpl.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="HandlerImpl.cpp">
+      <Filter>Source Files\Handler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -43,6 +88,30 @@
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerManager.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerHandler.h">
+      <Filter>Header Files\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHandler.h">
+      <Filter>Header Files\Handler\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files\Core\User</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager.h">
+      <Filter>Header Files\Manager\User</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerImpl.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerImpl.h">
+      <Filter>Header Files\Handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

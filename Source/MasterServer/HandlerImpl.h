@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Manager
+namespace Handler
 {
 class Impl : public Object
 {

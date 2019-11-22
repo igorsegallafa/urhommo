@@ -23,7 +23,7 @@ bool MessageImpl::CanProcess( Connection* connection, MemoryBuffer& message )
 
 namespace Handler
 {
-Message::Message( Context* context_ ) : Object( context_ )
+Message::Message( Context* context ) : Object( context ), handlers{}, validations{}, processing{}
 {
 }
 
@@ -38,7 +38,7 @@ MessageImpl& Message::Handle( int messageID )
         return *handlers[messageID];
 
     //Create a new message handler
-    SharedPtr<MessageImpl> newHandler( new MessageImpl( context_ ) );
+    MessageImpl* newHandler( new MessageImpl( context_ ) );
     handlers[messageID] = newHandler;
 
     //Return message handler pointer

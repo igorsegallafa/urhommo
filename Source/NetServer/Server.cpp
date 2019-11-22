@@ -18,14 +18,8 @@ const char* ServerTypeToString( const ServerType& serverType )
     return "unknown";
 }
 
-void Server::RegisterLibrary( Context* context_ )
-{
-    context_->RegisterSubsystem( new Server( context_ ) );
-    context_->RegisterSubsystem( new Handler::Message( context_ ) );
-}
-
-Server::Server( Context* context_ ) : 
-    Object( context_ ), 
+Server::Server( Context* context ) :
+    Object( context ),
     id( 0 ), 
     type( ServerType::Undefined ),
     serverConnection( nullptr ),
@@ -41,7 +35,6 @@ bool Server::Init()
 {
     //Subscribe Events
     SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Server, HandleClientIdentity ) );
-    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( Server, HandleMessage ) );
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
     SubscribeToEvent( E_SERVERDISCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
     SubscribeToEvent( E_CONNECTFAILED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
@@ -149,7 +142,7 @@ bool Server::Load( ServerType serverType )
 bool Server::ConnectAll()
 {
     //Server already connected
-    if( !serverConnection )
+    if( serverConnection )
         return false;
 
     for( const auto& connectionInfo : connections )
@@ -202,11 +195,6 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
             //TODO: Validate the connection with specific password
         }
     }
-}
-
-void Server::HandleMessage( StringHash eventType, VariantMap& eventData )
-{
-    GetSubsystem<Handler::Message>()->HandleMessage( eventType, eventData );
 }
 
 void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData )

@@ -20,7 +20,7 @@ bool Network::Init()
 {
     //Initialize Net Server
     netServer->Init();
-    netServer->Start( Net::ServerType::Game );
+    netServer->Start( Net::ServerType::Login );
     netServer->Load( Net::ServerType::Master );
     netServer->ConnectAll();
 

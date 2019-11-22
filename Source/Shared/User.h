@@ -7,7 +7,7 @@ class User : public Object
     URHO3D_OBJECT( User, Object );
 public:
     //! Constructor.
-    User( Context* context_ );
+    User( Context* context );
 
     //! Deconstructor.
     ~User();

@@ -20,9 +20,7 @@ bool Network::Init()
 {
     //Initialize Net Server
     netServer->Init();
-    netServer->Start( Net::ServerType::Game );
-    netServer->Load( Net::ServerType::Master );
-    netServer->ConnectAll();
+    netServer->Start( Net::ServerType::Master );
 
     //Subscribe Events
     SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Network, HandleClientIdentity ) );

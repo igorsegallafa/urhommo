@@ -6,14 +6,13 @@
 
 Server::Server( Context* context ) : Application( context )
 {
-    Net::Server::RegisterLibrary( context );
     Manager::Server::RegisterLibrary( context );
     Handler::Server::RegisterLibrary( context );
 }
 
 void Server::Setup()
 {
-    engineParameters_[EP_WINDOW_TITLE] = "Game Server";
+    engineParameters_[EP_WINDOW_TITLE] = "Login Server";
     engineParameters_[EP_FULL_SCREEN] = false;
     engineParameters_[EP_HEADLESS] = true;
     engineParameters_[EP_SOUND] = false;
@@ -21,6 +20,7 @@ void Server::Setup()
     engineParameters_[EP_WINDOW_WIDTH] = 800;
     engineParameters_[EP_WINDOW_HEIGHT] = 416;
     engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;ServerData;";
+    engineParameters_[EP_LOG_NAME] = "Logs/" + engineParameters_[EP_WINDOW_TITLE].GetString() + ".log";
 }
 
 void Server::Start()

@@ -39,22 +39,25 @@
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Header Files\Header</Filter>
     </ClCompile>
-    <ClCompile Include="Message.cpp">
-      <Filter>Source Files\Network</Filter>
-    </ClCompile>
     <ClCompile Include="User.cpp">
       <Filter>Source Files\Core\User</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageDef.cpp">
+      <Filter>Source Files\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
       <Filter>Header Files\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Header Files\Network</Filter>
-    </ClInclude>
     <ClInclude Include="User.h">
       <Filter>Header Files\Core\User</Filter>
+    </ClInclude>
+    <ClInclude Include="IShared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageDef.h">
+      <Filter>Header Files\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

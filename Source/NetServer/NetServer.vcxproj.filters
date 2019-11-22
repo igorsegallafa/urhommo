@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Handler">
       <UniqueIdentifier>{f1072235-bd39-4ad5-94fd-6be098278603}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{61fd97b6-c9c7-4093-86e1-0f7bda7445e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="MessageHandler.h">
       <Filter>Header Files\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageDef.h">
+      <Filter>Header Files\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

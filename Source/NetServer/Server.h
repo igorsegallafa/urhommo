@@ -2,10 +2,6 @@
 
 #include "MessageHandler.h"
 
-#include <Urho3D/Network/Connection.h>
-#include <Urho3D/Network/Network.h>
-#include <Urho3D/Network/NetworkEvents.h>
-
 namespace Net
 {
 
@@ -39,11 +35,8 @@ class Server : public Object
 {
     URHO3D_OBJECT( Server, Object );
 public:
-    //! Register Object Factory.
-    static void RegisterLibrary( Context* context_ );
-
     //! Constructor.
-    Server( Context* context_ );
+    Server( Context* context );
 
     //! Deconstructor.
     ~Server();
@@ -68,9 +61,6 @@ public:
     //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 
-    //! Handle Network Message.
-    void HandleMessage( StringHash eventType, VariantMap& eventData );
-
     //! Handle Server Connection Status.
     void HandleConnectionStatus( StringHash eventType, VariantMap& eventData );
 private:
@@ -78,6 +68,6 @@ private:
     ServerType type;  //!< Current Server Type.
 
     Connection* serverConnection;  //!< Server Connection.
-    Vector<NetConnection> connections;  //!< Net Connections Opened.
+    Urho3D::Vector<NetConnection> connections;  //!< Net Connections Opened.
 };
 }

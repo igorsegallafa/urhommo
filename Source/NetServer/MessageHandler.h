@@ -3,12 +3,15 @@
 #include <Urho3D/Network/Network.h>
 #include <Urho3D/Network/NetworkEvents.h>
 
+#define HANDLER_VALIDATE(function)  std::bind( &function, std::placeholders::_1 )
+#define HANDLER_PROCESS(function)   std::bind( &function, std::placeholders::_1, std::placeholders::_2 )
+
 class MessageImpl : public Object
 {
     URHO3D_OBJECT( MessageImpl, Object );
 public:
     //! Constructor.
-    MessageImpl( Context* context_ ) : Object( context_ ) {}
+    MessageImpl( Context* context ) : Object( context ), validations{}, processing{} {}
 
     //! Deconstructor.
     ~MessageImpl() = default;
@@ -27,7 +30,7 @@ public:
     template<typename ...T>
     MessageImpl& Validate( T... handler )
     {
-        std::function<bool( Connection * connection )> args[]{ handler... };
+        std::function<bool( Connection * connection )>* args[]{ handler... };
 
         for( auto& i : args )
             validations.Push( i );
@@ -63,16 +66,16 @@ class Message : public Object
     URHO3D_OBJECT( Message, Object );
 public:
     //! Constructor.
-    Message( Context* context_ );
+    Message( Context* context );
 
     //! Deconstructor.
     ~Message();
 
     //! Add Global Validation Handler.
-    void AddValidation( std::function<bool( Connection* connection )> handler ){ validations.push_back( handler ); }
+    void AddValidation( std::function<bool( Connection* connection )> handler ){ validations.Push( handler ); }
 
     //! Add Global Processing Handler.
-    void AddProcessing( std::function<bool( Connection* connection, MemoryBuffer& message )> handler ){ processing.push_back( handler ); }
+    void AddProcessing( std::function<bool( Connection* connection, MemoryBuffer& message )> handler ){ processing.Push( handler ); }
 
     //! Register a Handler for some message ID. 
     MessageImpl& Handle( int messageID );
@@ -81,7 +84,7 @@ public:
     bool HandleMessage( StringHash eventType, VariantMap& eventData );
 private:
     HashMap<int, MessageImpl*> handlers;    //!< List of Messages Handlers.
-    std::vector<std::function<bool( Connection* connection )>> validations;  //!< List of Global Validation Handler.
-    std::vector<std::function<bool( Connection* connection, MemoryBuffer& message )>> processing;    //!< List of Global Processing Handler.
+    Vector<std::function<bool( Connection* connection )>> validations;  //!< List of Global Validation Handler.
+    Vector<std::function<bool( Connection* connection, MemoryBuffer& message )>> processing;    //!< List of Global Processing Handler.
 };
 }

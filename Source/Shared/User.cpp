@@ -3,8 +3,8 @@
 
 namespace Shared::Core
 {
-User::User( Context* context_ ) : 
-    Object( context_ ),
+User::User( Context* context ) :
+    Object( context ),
     connection( nullptr )
 {
 }

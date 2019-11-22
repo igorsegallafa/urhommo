@@ -1,5 +1,5 @@
 #include "PrecompiledHeader.h"
-#include "Message.h"
+#include "MessageDef.h"
 
 namespace Shared::Network
 {
