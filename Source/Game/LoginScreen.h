@@ -25,5 +25,7 @@ private:
 
     //! Build Window.
     void BuildWindow();
+private:
+    SharedPtr<UIElement> window;
 };
 }

@@ -3,7 +3,9 @@
 
 namespace Core
 {
-LoginScreen::LoginScreen( Context* context ) : Screen( context )
+LoginScreen::LoginScreen( Context* context ) : 
+    Screen( context ),
+    window( nullptr )
 {
 }
 
@@ -42,5 +44,13 @@ void LoginScreen::SetupViewport()
 
 void LoginScreen::BuildWindow()
 {
+    //Load UI Style
+    auto style = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
+
+    //Load Layout from XML
+    window = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/Login.xml" ), style );
+
+    //Add Window for UI
+    USERINTERFACE->GetRoot()->AddChild( window );
 }
 }
