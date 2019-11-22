@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Core\User">
       <UniqueIdentifier>{2a00d2bc-1d02-4b40-b67d-d9439f0d1339}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interface">
+      <UniqueIdentifier>{aae903dc-4fca-484b-a358-3687e05e1e6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -58,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="MessageDef.h">
       <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerImpl.h">
+      <Filter>Header Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerImpl.h">
+      <Filter>Header Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

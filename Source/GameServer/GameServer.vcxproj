@@ -125,7 +125,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(URHO3D_HOME)\lib\;..\Lib\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Shared.lib;NetServer.lib;Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(OutDir)$(ProjectName).exe" "C:\Users\igorc\Desktop\UrhoMMO\Dev\Server" /d /y</Command>
@@ -147,8 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HandlerImpl.cpp" />
-    <ClCompile Include="ManagerImpl.cpp" />
     <ClCompile Include="NetworkHandler.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -164,8 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="globals.h" />
-    <ClInclude Include="HandlerImpl.h" />
-    <ClInclude Include="ManagerImpl.h" />
     <ClInclude Include="NetworkHandler.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="PrecompiledHeader.h" />

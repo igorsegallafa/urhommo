@@ -1,11 +1,5 @@
 #pragma once
 
-//Net Server Library
-#pragma comment(lib, "NetServer.lib")
-
-//Shared Library
-#pragma comment(lib, "Shared.lib")
-
 //STD:
 #include <string>
 #include <sstream>

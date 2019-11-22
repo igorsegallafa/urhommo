@@ -167,7 +167,9 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HandlerImpl.h" />
     <ClInclude Include="IShared.h" />
+    <ClInclude Include="ManagerImpl.h" />
     <ClInclude Include="MessageDef.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="User.h" />

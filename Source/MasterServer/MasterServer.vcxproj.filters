@@ -75,12 +75,6 @@
     <ClCompile Include="UserManager.cpp">
       <Filter>Source Files\Manager\User</Filter>
     </ClCompile>
-    <ClCompile Include="ManagerImpl.cpp">
-      <Filter>Source Files\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="HandlerImpl.cpp">
-      <Filter>Source Files\Handler</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -106,12 +100,6 @@
     </ClInclude>
     <ClInclude Include="UserManager.h">
       <Filter>Header Files\Manager\User</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagerImpl.h">
-      <Filter>Header Files\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="HandlerImpl.h">
-      <Filter>Header Files\Handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,8 +9,5 @@
 //Core:
 #include "User.h"
 
-#include "HandlerImpl.h"
-#include "ManagerImpl.h"
-
 #include "ServerManager.h"
 #include "ServerHandler.h"

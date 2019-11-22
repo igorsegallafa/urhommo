@@ -16,6 +16,18 @@
     <Filter Include="Header Files\Header">
       <UniqueIdentifier>{851fe52f-d8bd-49e3-8fb6-2883c75763b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{b6c38813-73a4-4d6d-adfc-2af536aae4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler">
+      <UniqueIdentifier>{6ae8d5cd-52cd-412e-a5c2-8966498bd92c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler">
+      <UniqueIdentifier>{d389b093-dfba-42aa-a3a1-54c4cf0bfcb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{836ddf75-7815-4961-9180-3fa5af93b67f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -24,6 +36,12 @@
     <ClCompile Include="PrecompiledHeader.cpp">
       <Filter>Header Files\Header</Filter>
     </ClCompile>
+    <ClCompile Include="GameHandler.cpp">
+      <Filter>Source Files\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -31,6 +49,15 @@
     </ClInclude>
     <ClInclude Include="PrecompiledHeader.h">
       <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHandler.h">
+      <Filter>Header Files\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

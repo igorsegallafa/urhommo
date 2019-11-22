@@ -8,3 +8,6 @@
 #include <Urho3D/Urho3DAll.h>
 
 using namespace Urho3D;
+
+//Globals:
+#include "globals.h"

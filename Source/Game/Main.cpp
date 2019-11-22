@@ -1,8 +1,11 @@
 #include "PrecompiledHeader.h"
 #include "Main.h"
+#include "GameHandler.h"
 
 Game::Game( Context* context ) : Application( context )
 {
+    Handler::Game::RegisterLibrary( context );
+    Manager::Game::RegisterLibrary( context );
 }
 
 void Game::Setup()
@@ -15,8 +18,13 @@ void Game::Setup()
 void Game::Start()
 {
     GetSubsystem<Input>()->SetMouseVisible( true );
+
+    GAMEMANAGER->Init();
+    GAMEHANDLER->Init();
 }
 
 void Game::Stop()
 {
+    GAMEHANDLER->UnInit();
+    GAMEMANAGER->UnInit();
 }
