@@ -70,6 +70,12 @@
     <Filter Include="Header Files\Manager\Screen">
       <UniqueIdentifier>{13e8865c-6fcd-49f4-ab8f-95e0f693cbd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Camera">
+      <UniqueIdentifier>{0e59569c-74fc-48ed-9996-ad112ab6f44a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Camera">
+      <UniqueIdentifier>{8281a7a1-b9ef-4277-9f31-fa2d6fe15e29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -101,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="ScreenManager.cpp">
       <Filter>Source Files\Manager\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>Source Files\Manager\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="ScreenManager.h">
       <Filter>Header Files\Manager\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
+      <Filter>Header Files\Manager\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ScreenManager.h"
+#include "CameraManager.h"
 
 #define SCREENMANAGER      (GAMEMANAGER->GetScreenManager())
+#define CAMERAMANAGER      (GAMEMANAGER->GetCameraManager())
 
 namespace Manager
 {
@@ -27,7 +29,9 @@ public:
 
     //! Getters.
     Screen* GetScreenManager() const{ return screenManager; }
+    Camera* GetCameraManager() const{ return cameraManager; }
 private:
     SharedPtr<Screen> screenManager;    //!< Pointer for Screen Manager.
+    SharedPtr<Camera> cameraManager;    //!< Pointer for Camera Manager.
 };
 }

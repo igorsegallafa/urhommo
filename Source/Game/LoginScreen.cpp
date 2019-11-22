@@ -36,7 +36,7 @@ void LoginScreen::CreateScene()
 void LoginScreen::SetupViewport()
 {
     //Create Viewport and Set it
-    SharedPtr<Viewport> viewport( new Viewport( context_, scene, scene->GetChild( "Camera", true )->GetComponent<Camera>( true ) ) );
+    SharedPtr<Viewport> viewport( new Viewport( context_, scene, CAMERA ) );
     RENDERER->SetViewport( 0, viewport );
 }
 

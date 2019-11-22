@@ -6,6 +6,7 @@
 #define USERINTERFACE       GetSubsystem<UI>()
 #define RESOURCECACHE       GetSubsystem<ResourceCache>()
 #define RENDERER            GetSubsystem<Renderer>()
+#define GRAPHICS            GetSubsystem<Graphics>()
 
 //Shared:
 #include "../Shared/IShared.h"

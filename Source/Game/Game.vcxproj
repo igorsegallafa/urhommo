@@ -82,6 +82,7 @@
       <EnableModules>true</EnableModules>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>URHO3D_PHYSICS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -118,6 +119,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableModules>true</EnableModules>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>URHO3D_PHYSICS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CharacterScreen.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="WorldScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CharacterScreen.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="GameManager.h" />
