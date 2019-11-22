@@ -5,7 +5,6 @@ namespace Core
 {
 WorldScreen::WorldScreen( Context* context ) : Screen( context )
 {
-    Init();
 }
 
 WorldScreen::~WorldScreen()

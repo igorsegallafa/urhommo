@@ -5,6 +5,7 @@
 #define INPUT               GetSubsystem<Input>()
 #define USERINTERFACE       GetSubsystem<UI>()
 #define RESOURCECACHE       GetSubsystem<ResourceCache>()
+#define RENDERER            GetSubsystem<Renderer>()
 
 //Shared:
 #include "../Shared/IShared.h"

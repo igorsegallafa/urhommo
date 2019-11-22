@@ -5,7 +5,6 @@ namespace Core
 {
 TestScreen::TestScreen( Context* context ) : Screen( context )
 {
-    Init();
 }
 
 TestScreen::~TestScreen()

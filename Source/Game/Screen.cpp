@@ -29,6 +29,7 @@ void Screen::Dispose()
         scene->Remove();
     }
 
-    USERINTERFACE->GetRoot()->RemoveAllChildren();
+    if( USERINTERFACE )
+        USERINTERFACE->GetRoot()->RemoveAllChildren();
 }
 }

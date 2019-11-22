@@ -19,7 +19,7 @@ void Server::Setup()
     engineParameters_[EP_WINDOW_RESIZABLE] = false;
     engineParameters_[EP_WINDOW_WIDTH] = 800;
     engineParameters_[EP_WINDOW_HEIGHT] = 416;
-    engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;ServerData;";
+    engineParameters_[EP_RESOURCE_PATHS] = "Data;ServerData;";
     engineParameters_[EP_LOG_NAME] = "Logs/" + engineParameters_[EP_WINDOW_TITLE].GetString() + ".log";
 }
 

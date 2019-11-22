@@ -13,6 +13,8 @@ namespace Manager
 {
 class Screen : public Impl
 {
+    URHO3D_OBJECT( Screen, Impl );
+
     enum class FadeStep
     {
         Prepare,
@@ -38,7 +40,6 @@ public:
 
     //! Handlers.
     void HandleUpdate( StringHash eventType, VariantMap& eventData );
-    void HandlePostUpdate( StringHash eventType, VariantMap& eventData );
 
     //! Getters.
     Core::Screen* GetActiveScreen() const{ return activeScreen; }

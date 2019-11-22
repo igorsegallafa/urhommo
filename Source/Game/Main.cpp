@@ -10,9 +10,12 @@ Game::Game( Context* context ) : Application( context )
 
 void Game::Setup()
 {
+    engineParameters_[EP_WINDOW_TITLE] = "Game";
     engineParameters_[EP_FULL_SCREEN] = false;
     engineParameters_[EP_WINDOW_HEIGHT] = 600;
     engineParameters_[EP_WINDOW_WIDTH] = 800;
+    engineParameters_[EP_WINDOW_RESIZABLE] = true;
+    engineParameters_[EP_RESOURCE_PATHS] = "Data;";
 }
 
 void Game::Start()
@@ -21,9 +24,6 @@ void Game::Start()
 
     GAMEMANAGER->Init();
     GAMEHANDLER->Init();
-
-    //Set Login Screen
-    SCREENMANAGER->SetActiveScreen( Core::ScreenType::Login );
 }
 
 void Game::Stop()

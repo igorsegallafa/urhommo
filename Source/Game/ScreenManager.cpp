@@ -13,7 +13,6 @@ Screen::Screen( Context* context ) : Impl( context )
     SubscribeToEvent( Core::E_SET_SCREEN, URHO3D_HANDLER( Screen, HandleSetLevelQueue ) );
     SubscribeToEvent( E_SCREENMODE, URHO3D_HANDLER( Screen, HandleResolutionChange ) );
     SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( Screen, HandleUpdate ) );
-    SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( Screen, HandlePostUpdate ) );
 }
 
 Screen::~Screen()
@@ -23,17 +22,11 @@ Screen::~Screen()
 bool Screen::Init()
 {
     SetActiveScreen( Core::ScreenType::Login );
-    return TRUE;
+    return true;
 }
 
 void Screen::UnInit()
 {
-}
-
-void Screen::HandlePostUpdate( StringHash eventType, VariantMap& eventData )
-{
-    if( activeScreen )
-        activeScreen->HandlePostUpdate( eventType, eventData );
 }
 
 void Screen::SetActiveScreen( const Core::ScreenType& screen )
@@ -156,9 +149,6 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
         //Release all unused resources
         RESOURCECACHE->ReleaseAllResources( false );
     }
-
-    if( activeScreen )
-        activeScreen->HandleUpdate( eventType, eventData );
 }
 
 void Screen::HandleSetLevelQueue( StringHash eventType, VariantMap& eventData )

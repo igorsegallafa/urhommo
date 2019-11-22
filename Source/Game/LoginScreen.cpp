@@ -5,7 +5,6 @@ namespace Core
 {
 LoginScreen::LoginScreen( Context* context ) : Screen( context )
 {
-    Init();
 }
 
 LoginScreen::~LoginScreen()
@@ -28,10 +27,17 @@ void LoginScreen::Init()
 
 void LoginScreen::CreateScene()
 {
+    auto sceneFile = RESOURCECACHE->GetResource<XMLFile>( "Scenes/Login.xml" );
+
+    if( sceneFile )
+        scene->LoadXML( sceneFile->GetRoot() );
 }
 
 void LoginScreen::SetupViewport()
 {
+    //Create Viewport and Set it
+    SharedPtr<Viewport> viewport( new Viewport( context_, scene, scene->GetChild( "Camera", true )->GetComponent<Camera>( true ) ) );
+    RENDERER->SetViewport( 0, viewport );
 }
 
 void LoginScreen::BuildWindow()

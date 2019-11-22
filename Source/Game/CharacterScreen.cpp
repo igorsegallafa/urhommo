@@ -5,7 +5,6 @@ namespace Core
 {
 CharacterScreen::CharacterScreen( Context* context ) : Screen( context )
 {
-    Init();
 }
 
 CharacterScreen::~CharacterScreen()

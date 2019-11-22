@@ -8,6 +8,7 @@ namespace Manager
 {
 class Game : public Impl
 {
+    URHO3D_OBJECT( Game, Impl );
 public:
     //! Register Object Factory.
     static void RegisterLibrary( Context* context );

@@ -15,7 +15,7 @@ public:
     ~CharacterScreen();
 protected:
     //! Initialize Scene.
-    virtual void Init();
+    void Init() override;
 private:
     //! Create Scene.
     void CreateScene();

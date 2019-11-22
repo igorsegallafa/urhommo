@@ -20,18 +20,13 @@ class Screen : public Object
     URHO3D_OBJECT( Screen, Object );
 public:
     //! Constructor.
-    Screen( Context* context ) : Object( context ), scene( nullptr ){}
+    Screen( Context* context ) : Object( context ), scene( nullptr ) {}
 
     //! Deconstructor.
     ~Screen() { Dispose(); }
 
     //! Initialize Screen.
-    void Init();
-
-    //! Subscribed Events.
-    virtual void HandleUpdate( StringHash cEventType, VariantMap & vEventData ){};
-    virtual void HandlePostUpdate( StringHash cEventType, VariantMap & vEventData ){};
-    virtual void HandlePhysicsPreStep( StringHash cEventType, VariantMap & vEventData ){};
+    virtual void Init();
 
     //! Getters.
     Scene* GetScene(){ return scene; }
