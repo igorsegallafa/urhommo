@@ -11,23 +11,25 @@ void Server::RegisterLibrary( Context* context )
 Server::Server( Context* context ) :
     Impl( context )
 {
-    networkHandler = new Handler::Network( context );
+    IMPL_HANDLER( Network );
 }
 
 Server::~Server()
 {
-    networkHandler = nullptr;
+    handlers.Clear();
 }
 
 bool Server::Init()
 {
-    networkHandler->Init();
+    for( const auto& m : handlers )
+        m.second_->Init();
 
     return true;
 }
 
 void Server::UnInit()
 {
-    networkHandler->UnInit();
+    for( const auto& m : handlers )
+        m.second_->UnInit();
 }
 }

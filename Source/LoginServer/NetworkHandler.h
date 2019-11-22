@@ -7,6 +7,7 @@ namespace Handler
 {
 class Network : public Impl
 {
+    URHO3D_OBJECT( Network, Impl );
 public:
     //! Constructor.
     Network( Context* context );

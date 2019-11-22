@@ -1,5 +1,7 @@
 #pragma once
 
+#define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
+
 namespace Handler
 {
 class Game : public Impl
@@ -19,5 +21,19 @@ public:
 
     //! UnInitialize Object.
     void UnInit();
+
+    //! Handler Getter.
+    template<class T>
+    inline T* Get()
+    {
+        auto it = handlers.Find( T::GetTypeStatic() );
+
+        if( it != handlers.End() )
+            return static_cast<T*>(it->second_);
+
+        return nullptr;
+    }
+private:
+    HashMap<StringHash, Impl*> handlers;  //!< Pointer for Handlers.
 };
 }

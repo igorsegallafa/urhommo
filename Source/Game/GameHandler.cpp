@@ -15,14 +15,20 @@ Game::Game( Context* context ) :
 
 Game::~Game()
 {
+    handlers.Clear();
 }
 
 bool Game::Init()
 {
+    for( const auto& m : handlers )
+        m.second_->Init();
+
     return true;
 }
 
 void Game::UnInit()
 {
+    for( const auto& m : handlers )
+        m.second_->UnInit();
 }
 }

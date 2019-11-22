@@ -3,8 +3,10 @@
 #include "ScreenManager.h"
 #include "CameraManager.h"
 
-#define SCREENMANAGER      (GAMEMANAGER->GetScreenManager())
-#define CAMERAMANAGER      (GAMEMANAGER->GetCameraManager())
+#define SCREENMANAGER       (GAMEMANAGER->Get<Manager::Screen>())
+#define CAMERAMANAGER       (GAMEMANAGER->Get<Manager::Camera>())
+
+#define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
 
 namespace Manager
 {
@@ -27,11 +29,18 @@ public:
     //! UnInitialize Object.
     void UnInit();
 
-    //! Getters.
-    Screen* GetScreenManager() const{ return screenManager; }
-    Camera* GetCameraManager() const{ return cameraManager; }
+    //! Manager Getter.
+    template<class T>
+    inline T* Get()
+    {
+        auto it = managers.Find( T::GetTypeStatic() );
+
+        if( it != managers.End() )
+            return static_cast<T*>(it->second_);
+
+        return nullptr;
+    }
 private:
-    SharedPtr<Screen> screenManager;    //!< Pointer for Screen Manager.
-    SharedPtr<Camera> cameraManager;    //!< Pointer for Camera Manager.
+    HashMap<StringHash, Impl*> managers;  //!< Pointer for Managers.
 };
 }

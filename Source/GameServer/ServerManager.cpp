@@ -11,20 +11,25 @@ void Server::RegisterLibrary( Context* context )
 Server::Server( Context* context ) :
     Impl( context )
 {
-    userManager = new User( context );
+    IMPL_MANAGER( User );
 }
 
 Server::~Server()
 {
-    userManager = nullptr;
+    managers.Clear();
 }
 
 bool Server::Init()
 {
+    for( const auto& m : managers )
+        m.second_->Init();
+
     return true;
 }
 
 void Server::UnInit()
 {
+    for( const auto& m : managers )
+        m.second_->UnInit();
 }
 }

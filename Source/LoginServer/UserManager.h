@@ -4,6 +4,7 @@ namespace Manager
 {
 class User : public Impl
 {
+    URHO3D_OBJECT( User, Impl );
 public:
     //! Constructor.
     User( Context* context );

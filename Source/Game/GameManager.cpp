@@ -11,27 +11,26 @@ void Game::RegisterLibrary( Context* context )
 Game::Game( Context* context ) :
     Impl( context )
 {
-    screenManager = new Screen( context );
-    cameraManager = new Camera( context );
+    IMPL_MANAGER( Screen );
+    IMPL_MANAGER( Camera );
 }
 
 Game::~Game()
 {
-    screenManager = nullptr;
-    cameraManager = nullptr;
+    managers.Clear();
 }
 
 bool Game::Init()
 {
-    screenManager->Init();
-    cameraManager->Init();
+    for( const auto& m : managers )
+        m.second_->Init();
 
     return true;
 }
 
 void Game::UnInit()
 {
-    screenManager->UnInit();
-    cameraManager->UnInit();
+    for( const auto& m : managers )
+        m.second_->UnInit();
 }
 }
