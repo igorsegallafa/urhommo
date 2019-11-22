@@ -52,6 +52,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <Import Project="../PropertySheet.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -90,7 +91,7 @@
       <AdditionalDependencies>Shared_d.lib;NetServer_d.lib;Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)$(ProjectName).exe" "C:\Users\igorc\Desktop\UrhoMMO\Dev\Server" /d /y</Command>
+      <Command>xcopy "$(OutDir)$(ProjectName).exe" "$(SERVER_DIR)" /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +129,7 @@
       <AdditionalDependencies>Shared.lib;NetServer.lib;Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)$(ProjectName).exe" "C:\Users\igorc\Desktop\UrhoMMO\Dev\Server" /d /y</Command>
+      <Command>xcopy "$(OutDir)$(ProjectName).exe" "$(SERVER_DIR)" /d /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
