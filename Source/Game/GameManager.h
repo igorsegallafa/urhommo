@@ -1,5 +1,9 @@
 #pragma once
 
+#include "ScreenManager.h"
+
+#define SCREENMANAGER      (GAMEMANAGER->GetScreenManager())
+
 namespace Manager
 {
 class Game : public Impl
@@ -19,5 +23,10 @@ public:
 
     //! UnInitialize Object.
     void UnInit();
+
+    //! Getters.
+    Screen* GetScreenManager() const{ return screenManager; }
+private:
+    SharedPtr<Screen> screenManager;    //!< Pointer for Screen Manager.
 };
 }

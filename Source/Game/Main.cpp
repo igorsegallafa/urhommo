@@ -21,6 +21,9 @@ void Game::Start()
 
     GAMEMANAGER->Init();
     GAMEHANDLER->Init();
+
+    //Set Login Screen
+    SCREENMANAGER->SetActiveScreen( Core::ScreenType::Login );
 }
 
 void Game::Stop()

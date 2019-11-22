@@ -28,6 +28,48 @@
     <Filter Include="Header Files\Manager">
       <UniqueIdentifier>{836ddf75-7815-4961-9180-3fa5af93b67f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{58d2607f-3357-4931-87d4-b29118685e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{83bfb236-001b-4b7d-a874-0f8acc102685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Screen">
+      <UniqueIdentifier>{ad335a3c-995f-4537-a7fa-6eefc52aff23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Screen">
+      <UniqueIdentifier>{9b751102-b904-4d4f-8eb0-525a1176dcb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Screen\World">
+      <UniqueIdentifier>{7db2e135-f424-414c-8be2-0e611d18b5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Screen\Login">
+      <UniqueIdentifier>{3b93d777-8dfe-43ae-a1f9-5b3f39c4f83a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Screen\Character">
+      <UniqueIdentifier>{371df184-e7cd-4456-b7fe-a33662542e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Screen\Test">
+      <UniqueIdentifier>{1cedcc99-28ac-4947-a911-270801dd99dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Screen\Login">
+      <UniqueIdentifier>{19c8dc7f-470e-4566-b148-3c49363353df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Screen\Character">
+      <UniqueIdentifier>{b69683bb-6009-4b2b-8f27-bff5239c9877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Screen\Test">
+      <UniqueIdentifier>{a04921da-5bbb-48c5-b481-57593b4941dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Screen\World">
+      <UniqueIdentifier>{59be9d75-9f23-4942-895a-dfd871c7f07d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Screen">
+      <UniqueIdentifier>{505655b1-5922-42ec-b9c0-5b12a52959fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Screen">
+      <UniqueIdentifier>{13e8865c-6fcd-49f4-ab8f-95e0f693cbd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -41,6 +83,24 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files\Core\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScreen.cpp">
+      <Filter>Source Files\Core\Screen\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterScreen.cpp">
+      <Filter>Source Files\Core\Screen\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginScreen.cpp">
+      <Filter>Source Files\Core\Screen\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldScreen.cpp">
+      <Filter>Source Files\Core\Screen\World</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files\Manager\Screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +118,24 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\Core\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScreen.h">
+      <Filter>Header Files\Core\Screen\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterScreen.h">
+      <Filter>Header Files\Core\Screen\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginScreen.h">
+      <Filter>Header Files\Core\Screen\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldScreen.h">
+      <Filter>Header Files\Core\Screen\World</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Header Files\Manager\Screen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
