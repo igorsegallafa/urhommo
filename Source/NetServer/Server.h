@@ -1,10 +1,10 @@
 #pragma once
 
-#include "MessageHandler.h"
+#include <Urho3D/Network/Network.h>
+#include <Urho3D/Network/NetworkEvents.h>
 
 namespace Net
 {
-
 /**
  * Custom Parameters for Client Identity Event 
  */

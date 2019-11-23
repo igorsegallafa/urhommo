@@ -11,6 +11,8 @@ void Game::RegisterLibrary( Context* context )
 Game::Game( Context* context ) :
     Impl( context )
 {
+    IMPL_HANDLER( Login );
+    IMPL_HANDLER( Network );
 }
 
 Game::~Game()

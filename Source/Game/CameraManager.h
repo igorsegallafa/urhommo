@@ -30,12 +30,6 @@ public:
     //! Deconstructor.
     ~Camera();
 
-    //! Initialize Object.
-    bool Init();
-
-    //! UnInitialize Object.
-    void UnInit();
-
     /**
      * Set Camera Type and your target if needed
      * @param cameraType Type desired for camera

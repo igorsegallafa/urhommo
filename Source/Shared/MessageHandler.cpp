@@ -25,6 +25,7 @@ namespace Handler
 {
 Message::Message( Context* context ) : Object( context ), handlers{}, validations{}, processing{}
 {
+    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( Message, HandleMessage ) );
 }
 
 Message::~Message()
@@ -45,7 +46,7 @@ MessageImpl& Message::Handle( int messageID )
     return *newHandler;
 }
 
-bool Message::HandleMessage( StringHash eventType, VariantMap& eventData )
+void Message::HandleMessage( StringHash eventType, VariantMap& eventData )
 {
     using namespace NetworkMessage;
     auto sender = static_cast<Connection*>(eventData[P_CONNECTION].GetPtr());
@@ -58,11 +59,11 @@ bool Message::HandleMessage( StringHash eventType, VariantMap& eventData )
         //Validate Message with Global Validations before
         for( const auto& handler : validations )
             if( !handler( sender ) )
-                return false;
+                return;
 
         //Validate Message Authorization
         if( !message->IsValid( sender ) )
-            return false;
+            return;
 
         //Casting Message Data to Memory Buffer
         const PODVector<unsigned char>& data = eventData[P_DATA].GetBuffer();
@@ -71,15 +72,11 @@ bool Message::HandleMessage( StringHash eventType, VariantMap& eventData )
         //Process Message with Global Processing Handlers before
         for( const auto& handler : processing )
             if( !handler( sender, buffer ) )
-                return false;
+                return;
 
         //Process Message
         if( !message->CanProcess( sender, buffer ) )
-            return false;
-
-        return true;
+            return;
     }
-
-    return false;
 }
 }

@@ -1,5 +1,11 @@
 #pragma once
 
+#include "LoginHandler.h"
+#include "NetworkHandler.h"
+
+#define LOGINHANDLER        (GAMEHANDLER->Get<Handler::Login>())
+#define NETWORKHANDLER      (GAMEHANDLER->Get<Handler::Network>())
+
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 
 namespace Handler

@@ -76,6 +76,18 @@
     <Filter Include="Header Files\Manager\Camera">
       <UniqueIdentifier>{8281a7a1-b9ef-4277-9f31-fa2d6fe15e29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\Login">
+      <UniqueIdentifier>{bc4c47a1-d8c9-4bfc-ba29-bed61edb5cad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Login">
+      <UniqueIdentifier>{9d7ed320-35f5-40f3-bd09-9bd2730ca1a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Network">
+      <UniqueIdentifier>{cf980c6f-90e1-41ba-b3a9-d08bc3c563d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler\Network">
+      <UniqueIdentifier>{34ff118b-37b6-4a7f-9f42-f88b6b2624f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -110,6 +122,12 @@
     </ClCompile>
     <ClCompile Include="CameraManager.cpp">
       <Filter>Source Files\Manager\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginHandler.cpp">
+      <Filter>Source Files\Handler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHandler.cpp">
+      <Filter>Source Files\Handler\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="CameraManager.h">
       <Filter>Header Files\Manager\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginHandler.h">
+      <Filter>Header Files\Handler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHandler.h">
+      <Filter>Header Files\Handler\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

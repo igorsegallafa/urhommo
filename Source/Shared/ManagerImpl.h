@@ -13,9 +13,9 @@ public:
     ~Impl() {}
 
     //! Initialize Object.
-    virtual bool Init() = 0;
+    virtual bool Init() { return false; }
 
     //! UnInitialize Object.
-    virtual void UnInit() = 0;
+    virtual void UnInit() {}
 };
 }

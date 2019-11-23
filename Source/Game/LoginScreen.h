@@ -25,6 +25,9 @@ private:
 
     //! Build Window.
     void BuildWindow();
+
+    //! Login Button Handler.
+    void HandleLoginButtonPressed( StringHash eventType, VariantMap& eventData );
 private:
     SharedPtr<UIElement> window;
 };

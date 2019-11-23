@@ -20,15 +20,6 @@ Camera::~Camera()
 {
 }
 
-bool Camera::Init()
-{
-    return true;
-}
-
-void Camera::UnInit()
-{
-}
-
 void Camera::SetCameraPosition( const Vector3& position, const Quaternion& rotation )
 {
     GetCameraNode()->SetPosition( position );

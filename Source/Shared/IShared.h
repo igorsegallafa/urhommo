@@ -6,3 +6,5 @@
 
 #include "User.h"
 #include "MessageDef.h"
+
+#include "MessageHandler.h"

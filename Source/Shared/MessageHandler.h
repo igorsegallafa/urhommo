@@ -81,7 +81,7 @@ public:
     MessageImpl& Handle( int messageID );
 
     //! Handle Message from Network.
-    bool HandleMessage( StringHash eventType, VariantMap& eventData );
+    void HandleMessage( StringHash eventType, VariantMap& eventData );
 private:
     HashMap<int, MessageImpl*> handlers;    //!< List of Messages Handlers.
     Vector<std::function<bool( Connection* connection )>> validations;  //!< List of Global Validation Handler.

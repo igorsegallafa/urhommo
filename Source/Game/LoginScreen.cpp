@@ -50,7 +50,18 @@ void LoginScreen::BuildWindow()
     //Load Layout from XML
     window = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/Login.xml" ), style );
 
+    //Subscribe Events
+    SubscribeToEvent( window->GetChild( "ButtonLogin", true ), E_RELEASED, URHO3D_HANDLER( LoginScreen, HandleLoginButtonPressed ) );
+
     //Add Window for UI
     USERINTERFACE->GetRoot()->AddChild( window );
+}
+
+void LoginScreen::HandleLoginButtonPressed( StringHash eventType, VariantMap& eventData )
+{
+    auto lineEditAccount = window->GetChildStaticCast<LineEdit>( "Account", true );
+    auto lineEditPassword = window->GetChildStaticCast<LineEdit>( "Password", true );
+
+    LOGINHANDLER->ProcessLogin( lineEditAccount->GetText(), lineEditPassword->GetText() );
 }
 }

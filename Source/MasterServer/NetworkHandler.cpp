@@ -50,6 +50,5 @@ void Network::HandleClientDisconnected( StringHash eventType, VariantMap& eventD
 
 void Network::HandleMessage( StringHash eventType, VariantMap& eventData )
 {
-    messageHandler->HandleMessage( eventType, eventData );
 }
 }

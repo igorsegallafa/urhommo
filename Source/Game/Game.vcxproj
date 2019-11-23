@@ -156,8 +156,10 @@
     <ClCompile Include="CharacterScreen.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="LoginHandler.cpp" />
     <ClCompile Include="LoginScreen.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="NetworkHandler.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PrecompiledHeader.h</PrecompiledHeaderFile>
@@ -175,8 +177,10 @@
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="LoginHandler.h" />
     <ClInclude Include="LoginScreen.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="NetworkHandler.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenManager.h" />

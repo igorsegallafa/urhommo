@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MessageDef.cpp" />
+    <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PrecompiledHeader.h</PrecompiledHeaderFile>
@@ -171,6 +172,7 @@
     <ClInclude Include="IShared.h" />
     <ClInclude Include="ManagerImpl.h" />
     <ClInclude Include="MessageDef.h" />
+    <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

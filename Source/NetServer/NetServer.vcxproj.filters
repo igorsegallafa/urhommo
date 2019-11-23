@@ -16,12 +16,6 @@
     <Filter Include="Header Files\Header">
       <UniqueIdentifier>{e532cf59-5d28-4356-ae63-b6baebf41577}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Handler">
-      <UniqueIdentifier>{eb2341dc-61e2-4ecc-98f4-744d8e5e903b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Handler">
-      <UniqueIdentifier>{f1072235-bd39-4ad5-94fd-6be098278603}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Network">
       <UniqueIdentifier>{61fd97b6-c9c7-4093-86e1-0f7bda7445e4}</UniqueIdentifier>
     </Filter>
@@ -33,9 +27,6 @@
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MessageHandler.cpp">
-      <Filter>Source Files\Handler</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -46,9 +37,6 @@
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageHandler.h">
-      <Filter>Header Files\Handler</Filter>
     </ClInclude>
     <ClInclude Include="MessageDef.h">
       <Filter>Header Files\Network</Filter>

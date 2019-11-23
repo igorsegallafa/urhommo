@@ -157,7 +157,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PrecompiledHeader.h</PrecompiledHeaderFile>
@@ -169,7 +168,6 @@
   <ItemGroup>
     <ClInclude Include="INetServer.h" />
     <ClInclude Include="MessageDef.h" />
-    <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="Server.h" />
   </ItemGroup>
