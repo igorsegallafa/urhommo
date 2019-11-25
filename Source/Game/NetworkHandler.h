@@ -46,8 +46,6 @@ public:
 private:
     Connection* Connect( const String& ip, unsigned int port, VariantMap& identity );
 
-    void Close( Connection* connection );
-
     //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 
@@ -61,8 +59,6 @@ private:
     void HandleMessage( StringHash eventType, VariantMap& eventData );
 private:
     SharedPtr<Handler::Message> messageHandler; //!< Pointer for the Message Handler.
-    Vector<SharedPtr<Urho3D::Network>> networks;    //!< Network interfaces.
-    HashMap<Connection*, Urho3D::Network*> serverConnections;  //!< Server Connections.
 
     Connection* loginServerConnection;  //!< Pointer for Login Server Connection.
     Connection* masterServerConnection; //!< Pointer for Master Server Connection.

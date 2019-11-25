@@ -5,8 +5,6 @@ namespace Handler
 {
 Network::Network( Context* context ) : 
     Impl( context ),
-    networks{},
-    serverConnections{},
     loginServerConnection( nullptr ),
     masterServerConnection( nullptr ),
     gameServerConnection( nullptr )
@@ -21,13 +19,6 @@ Network::~Network()
 
 bool Network::Init()
 {
-    //Create Network Instances
-    for( int i = 0; i < 2; i++ )
-    {
-        SharedPtr<Urho3D::Network> newNetwork( new Urho3D::Network( context_ ) );
-        networks.Push( newNetwork );
-    }
-
     //Subscribe Events
     SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Network, HandleClientIdentity ) );
     SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( Network, HandleClientConnected ) );
@@ -39,6 +30,7 @@ bool Network::Init()
 
 void Network::UnInit()
 {
+    CloseConnections();
 }
 
 void Network::ConnectLoginServer( const String& ip, unsigned int port, VariantMap& identity )
@@ -68,55 +60,29 @@ void Network::CloseConnections()
 
 void Network::CloseLoginServer()
 {
-    Close( loginServerConnection );
+    loginServerConnection->Disconnect();
     loginServerConnection = nullptr;
 }
 
 void Network::CloseMasterServer()
 {
-    Close( masterServerConnection );
+    masterServerConnection->Disconnect();
     masterServerConnection = nullptr;
 }
 
 void Network::CloseGameServer()
 {
-    Close( gameServerConnection );
+    gameServerConnection->Disconnect();
     gameServerConnection = nullptr;
 }
 
 Connection* Network::Connect( const String& ip, unsigned int port, VariantMap& identity )
 {
-    auto network = GetSubsystem<Urho3D::Network>();
-
-    //Find a empty network instance
-    for( auto p : networks )
-    {
-        if( p->GetServerConnection() == nullptr )
-        {
-            network = p;
-            break;
-        }
-    }
-
     //Make server connection
-    if( auto serverConnection = network->Connect( ip, port, nullptr, identity ); serverConnection )
-    {
-        serverConnections[serverConnection] = network;
+    if( auto serverConnection = NETWORK->Connect( ip, port, nullptr, identity ); serverConnection )
         return serverConnection;
-    }
 
     return nullptr;
-}
-
-void Network::Close( Connection* connection )
-{
-    if( connection )
-    {
-        auto it = serverConnections.Find( connection );
-
-        if( it != serverConnections.End() )
-            it->second_->Disconnect();
-    }
 }
 
 void Network::HandleClientIdentity( StringHash eventType, VariantMap& eventData )

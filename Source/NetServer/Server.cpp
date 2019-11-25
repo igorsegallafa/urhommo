@@ -51,6 +51,7 @@ void Server::UnInit()
 
     //Close Server
     GetSubsystem<Network>()->Disconnect();
+    GetSubsystem<Network>()->StopServer();
 }
 
 bool Server::Start( ServerType serverType, int index )
@@ -153,7 +154,7 @@ bool Server::ConnectAll()
         identity[P_SERVERID] = id;
 
         //Make server connection
-        if( serverConnection = GetSubsystem<Network>()->Connect( connectionInfo.ip, connectionInfo.port, nullptr, identity ); serverConnection )
+        if( GetSubsystem<Network>()->Connect( connectionInfo.ip, connectionInfo.port, nullptr, identity ) )
             return true;
     }
 
