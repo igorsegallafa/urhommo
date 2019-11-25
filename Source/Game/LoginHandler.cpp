@@ -17,9 +17,9 @@ void Login::ProcessLogin( const String& account, const String& password )
     if( account.Length() && password.Length() )
     {
         VariantMap t;
-        NETWORKHANDLER->ConnectLoginServer( "127.0.0.1", 52010, t );
-        NETWORKHANDLER->ConnectMasterServer( "127.0.0.1", 52011, t );
-        NETWORKHANDLER->ConnectGameServer( "127.0.0.1", 52012, t );
+        t[Shared::Login::P_ACCOUNTNAME] = account;
+        t[Shared::Login::P_PASSWORD] = password;
+        NETWORKHANDLER->ConnectLoginServer( "127.0.0.1", 52011, t );
     }
 }
 }

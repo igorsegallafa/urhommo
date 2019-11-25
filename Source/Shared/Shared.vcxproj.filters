@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Interface">
       <UniqueIdentifier>{aae903dc-4fca-484b-a358-3687e05e1e6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Definitions">
+      <UniqueIdentifier>{6827d99a-a302-4275-9f24-36be0a146a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Definitions">
+      <UniqueIdentifier>{1e5dcadd-6dcd-4292-9bc2-1c37451280cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -50,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="MessageHandler.cpp">
       <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginDef.cpp">
+      <Filter>Source Files\Definitions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="MessageHandler.h">
       <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginDef.h">
+      <Filter>Header Files\Definitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

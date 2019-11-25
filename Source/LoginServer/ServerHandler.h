@@ -1,8 +1,10 @@
 #pragma once
 
 #include "NetworkHandler.h"
+#include "LoginHandler.h"
 
 #define NETWORKHANDLER      (SERVERHANDLER->Get<Handler::Network>())
+#define LOGINHANDLER        (SERVERHANDLER->Get<Handler::Login>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 

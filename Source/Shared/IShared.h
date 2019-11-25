@@ -5,6 +5,8 @@
 #include "ManagerImpl.h"
 
 #include "User.h"
+
 #include "MessageDef.h"
+#include "LoginDef.h"
 
 #include "MessageHandler.h"

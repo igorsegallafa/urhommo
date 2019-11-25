@@ -32,7 +32,15 @@ void LoginScreen::CreateScene()
     auto sceneFile = RESOURCECACHE->GetResource<XMLFile>( "Scenes/Login.xml" );
 
     if( sceneFile )
+    {
         scene->LoadXML( sceneFile->GetRoot() );
+
+        if( auto birdNode = scene->GetChild( "s_login_niao", true ); birdNode )
+        {
+            if( auto animCtrl = birdNode->GetComponent<AnimationController>(); animCtrl )
+                animCtrl->PlayExclusive( "Models/login/s_login_niao_Take.ani", 0, true );
+        }
+    }
 }
 
 void LoginScreen::SetupViewport()

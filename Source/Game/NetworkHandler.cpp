@@ -60,20 +60,29 @@ void Network::CloseConnections()
 
 void Network::CloseLoginServer()
 {
-    loginServerConnection->Disconnect();
-    loginServerConnection = nullptr;
+    if( loginServerConnection )
+    {
+        loginServerConnection->Disconnect();
+        loginServerConnection = nullptr;
+    }
 }
 
 void Network::CloseMasterServer()
 {
-    masterServerConnection->Disconnect();
-    masterServerConnection = nullptr;
+    if( masterServerConnection )
+    {
+        masterServerConnection->Disconnect();
+        masterServerConnection = nullptr;
+    }
 }
 
 void Network::CloseGameServer()
 {
-    gameServerConnection->Disconnect();
-    gameServerConnection = nullptr;
+    if( gameServerConnection )
+    {
+        gameServerConnection->Disconnect();
+        gameServerConnection = nullptr;
+    }
 }
 
 Connection* Network::Connect( const String& ip, unsigned int port, VariantMap& identity )

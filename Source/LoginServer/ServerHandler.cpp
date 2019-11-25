@@ -12,6 +12,7 @@ Server::Server( Context* context ) :
     Impl( context )
 {
     IMPL_HANDLER( Network );
+    IMPL_HANDLER( Login );
 }
 
 Server::~Server()

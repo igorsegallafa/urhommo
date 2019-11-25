@@ -178,8 +178,7 @@ NetConnection* Server::GetConnection( ServerType serverType, int index ) const
 
 void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
-    Variant outServerType, outServerID;
-    if( eventData.TryGetValue( P_SERVERTYPE, outServerType ) && eventData.TryGetValue( P_SERVERID, outServerID ) )
+    if( Variant outServerType, outServerID; eventData.TryGetValue( P_SERVERTYPE, outServerType ) && eventData.TryGetValue( P_SERVERID, outServerID ) )
     {
         //Check if already have the connection
         if( GetConnection( (ServerType)outServerType.GetInt(), outServerID.GetInt() ) )

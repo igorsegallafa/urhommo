@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LoginDef.cpp" />
     <ClCompile Include="MessageDef.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="HandlerImpl.h" />
     <ClInclude Include="IShared.h" />
+    <ClInclude Include="LoginDef.h" />
     <ClInclude Include="ManagerImpl.h" />
     <ClInclude Include="MessageDef.h" />
     <ClInclude Include="MessageHandler.h" />
