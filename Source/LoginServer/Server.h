@@ -11,6 +11,8 @@ public:
     void Start();
 
     void Stop();
+private:
+    void PrintSignature();
 };
 
 URHO3D_DEFINE_APPLICATION_MAIN( Server )

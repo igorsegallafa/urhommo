@@ -23,6 +23,7 @@ void Server::Setup()
 void Server::Start()
 {
     OpenConsoleWindow();
+    PrintSignature();
 
     SERVERMANAGER->Init();
     SERVERHANDLER->Init();
@@ -32,4 +33,17 @@ void Server::Stop()
 {
     SERVERHANDLER->UnInit();
     SERVERMANAGER->UnInit();
+}
+
+void Server::PrintSignature()
+{
+    printf( "Version Compiled on %s %s\n", __DATE__, __TIME__ );
+    printf( "(C) 2019 - 2020\n" );
+    printf( "\nMP\"\"\"\"\"\"`MM M\"\"MMMMM\"\"M\n" );
+    printf( "M  mmmmm..M M  MMMMM  M\n" );
+    printf( "M.      `YM M  MMMMP  M\n" );
+    printf( "MMMMMMM.  M M  MMMM' .M\t\tLogin Server\n" );
+    printf( "M. .MMM'  M M  MMP' .MM\n" );
+    printf( "Mb.     .dM M     .dMMM\n" );
+    printf( "MMMMMMMMMMM MMMMMMMMMMM\n\n" );
 }
