@@ -1,7 +1,5 @@
 #pragma once
 
-namespace Core
-{
 const float MAX_FADE_TIME = 1.0f;
 static const StringHash E_SET_SCREEN = StringHash( "Set Screen" );
 
@@ -37,4 +35,3 @@ protected:
 protected:
     SharedPtr<Scene> scene; //!< Pointer for scene.
 };
-}

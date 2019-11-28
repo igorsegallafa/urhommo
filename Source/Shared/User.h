@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Shared::Core
+namespace Core
 {
 class User : public Object
 {
@@ -12,8 +12,10 @@ public:
     //! Deconstructor.
     ~User();
     
-    //! Getters.
+    //! Getters and Setters.
     const String& GetAccountName() const{ return accountName; }
+
+    void SetConnection( Connection* connection_ ){ connection = connection_; }
     Connection* GetConnection() const{ return connection; }
 private:
     String accountName; //!< Account Name.

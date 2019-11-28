@@ -1,7 +1,7 @@
 #pragma once
 
-#define SERVERMANAGER       GetSubsystem<Manager::Server>()
-#define SERVERHANDLER       GetSubsystem<Handler::Server>()
+#define SERVERMANAGER       GetSubsystem<ServerManager>()
+#define SERVERHANDLER       GetSubsystem<ServerHandler>()
 
 //Shared:
 #include "../Shared/IShared.h"

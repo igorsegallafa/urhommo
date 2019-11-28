@@ -1,26 +1,24 @@
 #include "PrecompiledHeader.h"
 #include "LoginHandler.h"
 
-namespace Handler
-{
-Login::Login( Context* context ) : 
-    Impl( context )
+LoginHandler::LoginHandler( Context* context ) :
+    HandlerImpl( context )
 {
 }
 
-Login::~Login()
+LoginHandler::~LoginHandler()
 {
 }
 
-bool Login::Init()
+bool LoginHandler::Init()
 {
     //Subscribe Events
-    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Login, HandleClientIdentity ) );
+    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( LoginHandler, HandleClientIdentity ) );
 
     return true;
 }
 
-void Login::ProcessLogin( Core::User* user )
+void LoginHandler::ProcessLogin( Core::User* user )
 {
     VectorBuffer message;
 
@@ -41,12 +39,12 @@ void Login::ProcessLogin( Core::User* user )
     }
 
     //Send Message
-    user->GetConnection()->Send( Shared::Network::MSGID_LoginData, true, true, message );
+    user->GetConnection()->Send( MSGID_LoginData, true, true, message );
 }
 
-void Login::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
+void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
-    if( Variant outAccountName, outPassword; eventData.TryGetValue( Shared::Login::P_ACCOUNTNAME, outAccountName ) && eventData.TryGetValue( Shared::Login::P_PASSWORD, outPassword ) )
+    if( Variant outAccountName, outPassword; eventData.TryGetValue( Login::P_ACCOUNTNAME, outAccountName ) && eventData.TryGetValue( Login::P_PASSWORD, outPassword ) )
     {
         auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
 
@@ -63,5 +61,4 @@ void Login::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
             ProcessLogin( user );
         }
     }
-}
 }

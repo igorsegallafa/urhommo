@@ -1,26 +1,24 @@
 #include "PrecompiledHeader.h"
 #include "ServerHandler.h"
 
-namespace Handler
+void ServerHandler::RegisterLibrary( Context* context )
 {
-void Server::RegisterLibrary( Context* context )
-{
-    context->RegisterSubsystem( new Server( context ) );
+    context->RegisterSubsystem( new ServerHandler( context ) );
 }
 
-Server::Server( Context* context ) :
-    Impl( context )
+ServerHandler::ServerHandler( Context* context ) :
+    HandlerImpl( context )
 {
-    IMPL_HANDLER( Network );
-    IMPL_HANDLER( Login );
+    IMPL_HANDLER( NetworkHandler );
+    IMPL_HANDLER( LoginHandler );
 }
 
-Server::~Server()
+ServerHandler::~ServerHandler()
 {
     handlers.Clear();
 }
 
-bool Server::Init()
+bool ServerHandler::Init()
 {
     for( const auto& m : handlers )
         m.second_->Init();
@@ -28,9 +26,8 @@ bool Server::Init()
     return true;
 }
 
-void Server::UnInit()
+void ServerHandler::UnInit()
 {
     for( const auto& m : handlers )
         m.second_->UnInit();
-}
 }

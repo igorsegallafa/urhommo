@@ -4,8 +4,8 @@
 
 Game::Game( Context* context ) : Application( context )
 {
-    Handler::Game::RegisterLibrary( context );
-    Manager::Game::RegisterLibrary( context );
+    GameHandler::RegisterLibrary( context );
+    GameManager::RegisterLibrary( context );
 }
 
 void Game::Setup()

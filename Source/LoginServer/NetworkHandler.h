@@ -3,17 +3,15 @@
 #define NETSERVER       (NETWORKHANDLER->GetNetServer())
 #define MESSAGEHANDLER  (NETWORKHANDLER->GetMessageHandler())
 
-namespace Handler
+class NetworkHandler : public HandlerImpl
 {
-class Network : public Impl
-{
-    URHO3D_OBJECT( Network, Impl );
+    URHO3D_OBJECT( NetworkHandler, HandlerImpl );
 public:
     //! Constructor.
-    Network( Context* context );
+    NetworkHandler( Context* context );
 
     //! Deconstructor.
-    ~Network();
+    ~NetworkHandler();
 
     //! Initialize Object.
     bool Init();
@@ -40,4 +38,3 @@ private:
     SharedPtr<Net::Server> netServer;   //!< Pointer for the Net Server.
     SharedPtr<Handler::Message> messageHandler; //!< Pointer for the Message Handler.
 };
-}

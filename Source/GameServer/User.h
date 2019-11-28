@@ -1,10 +1,8 @@
 #pragma once
 
-namespace Core
+class User : public Core::User
 {
-class User : public Shared::Core::User
-{
-    URHO3D_OBJECT( User, Shared::Core::User );
+    URHO3D_OBJECT( User, Core::User );
 public:
     //! Constructor.
     User( Context* context );
@@ -12,4 +10,3 @@ public:
     //! Deconstructor.
     ~User();
 };
-}

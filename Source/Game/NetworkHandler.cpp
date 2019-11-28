@@ -1,10 +1,8 @@
 #include "PrecompiledHeader.h"
 #include "NetworkHandler.h"
 
-namespace Handler
-{
-Network::Network( Context* context ) : 
-    Impl( context ),
+NetworkHandler::NetworkHandler( Context* context ) :
+    HandlerImpl( context ),
     loginServerConnection( nullptr ),
     masterServerConnection( nullptr ),
     gameServerConnection( nullptr )
@@ -12,56 +10,56 @@ Network::Network( Context* context ) :
     messageHandler = new Handler::Message( context );
 }
 
-Network::~Network()
+NetworkHandler::~NetworkHandler()
 {
     messageHandler = nullptr;
 }
 
-bool Network::Init()
+bool NetworkHandler::Init()
 {
     //Subscribe Events
-    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Network, HandleClientIdentity ) );
-    SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( Network, HandleClientConnected ) );
-    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( Network, HandleClientDisconnected ) );
-    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( Network, HandleMessage ) );
+    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( NetworkHandler, HandleClientIdentity ) );
+    SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientConnected ) );
+    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
+    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
 
     //Handlers
-    messageHandler->Handle( Shared::Network::MSGID_LoginData ).Process( HANDLE_MESSAGE( &Handler::Login::HandleLoginData, LOGINHANDLER ) );
+    messageHandler->Handle( MSGID_LoginData ).Process( HANDLE_MESSAGE( &LoginHandler::HandleLoginData, LOGINHANDLER ) );
 
     return true;
 }
 
-void Network::UnInit()
+void NetworkHandler::UnInit()
 {
     CloseConnections();
 }
 
-void Network::ConnectLoginServer( const String& ip, unsigned int port, VariantMap& identity )
+void NetworkHandler::ConnectLoginServer( const String& ip, unsigned int port, VariantMap& identity )
 {
     if( auto connection = Connect( ip, port, identity ); connection )
         loginServerConnection = connection;
 }
 
-void Network::ConnectMasterServer( const String& ip, unsigned int port, VariantMap& identity )
+void NetworkHandler::ConnectMasterServer( const String& ip, unsigned int port, VariantMap& identity )
 {
     if( auto connection = Connect( ip, port, identity ); connection )
         masterServerConnection = connection;
 }
 
-void Network::ConnectGameServer( const String& ip, unsigned int port, VariantMap& identity )
+void NetworkHandler::ConnectGameServer( const String& ip, unsigned int port, VariantMap& identity )
 {
     if( auto connection = Connect( ip, port, identity ); connection )
         gameServerConnection = connection;
 }
 
-void Network::CloseConnections()
+void NetworkHandler::CloseConnections()
 {
     CloseLoginServer();
     CloseMasterServer();
     CloseGameServer();
 }
 
-void Network::CloseLoginServer()
+void NetworkHandler::CloseLoginServer()
 {
     if( loginServerConnection )
     {
@@ -70,7 +68,7 @@ void Network::CloseLoginServer()
     }
 }
 
-void Network::CloseMasterServer()
+void NetworkHandler::CloseMasterServer()
 {
     if( masterServerConnection )
     {
@@ -79,7 +77,7 @@ void Network::CloseMasterServer()
     }
 }
 
-void Network::CloseGameServer()
+void NetworkHandler::CloseGameServer()
 {
     if( gameServerConnection )
     {
@@ -88,7 +86,7 @@ void Network::CloseGameServer()
     }
 }
 
-Connection* Network::Connect( const String& ip, unsigned int port, VariantMap& identity )
+Connection* NetworkHandler::Connect( const String& ip, unsigned int port, VariantMap& identity )
 {
     //Make server connection
     if( auto serverConnection = NETWORK->Connect( ip, port, nullptr, identity ); serverConnection )
@@ -97,19 +95,18 @@ Connection* Network::Connect( const String& ip, unsigned int port, VariantMap& i
     return nullptr;
 }
 
-void Network::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
+void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
 }
 
-void Network::HandleClientConnected( StringHash eventType, VariantMap& eventData )
+void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
 {
 }
 
-void Network::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
+void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
 {
 }
 
-void Network::HandleMessage( StringHash eventType, VariantMap& eventData )
+void NetworkHandler::HandleMessage( StringHash eventType, VariantMap& eventData )
 {
-}
 }

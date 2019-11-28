@@ -1,8 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "WorldScreen.h"
 
-namespace Core
-{
 WorldScreen::WorldScreen( Context* context ) : Screen( context )
 {
 }
@@ -35,5 +33,4 @@ void WorldScreen::SetupViewport()
 
 void WorldScreen::BuildWindow()
 {
-}
 }

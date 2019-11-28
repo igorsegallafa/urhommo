@@ -1,7 +1,7 @@
 #include "PrecompiledHeader.h"
 #include "User.h"
 
-namespace Shared::Core
+namespace Core
 {
 User::User( Context* context ) :
     Object( context ),

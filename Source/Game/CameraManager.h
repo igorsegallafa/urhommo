@@ -18,17 +18,15 @@ enum class CameraType
     Follow,
 };
 
-namespace Manager
+class CameraManager : public ManagerImpl
 {
-class Camera : public Impl
-{
-    URHO3D_OBJECT( Camera, Impl );
+    URHO3D_OBJECT( CameraManager, ManagerImpl );
 public:
     //! Constructor.
-    Camera( Context* context );
+    CameraManager( Context* context );
 
     //! Deconstructor.
-    ~Camera();
+    ~CameraManager();
 
     /**
      * Set Camera Type and your target if needed
@@ -73,4 +71,3 @@ private:
 
     float mouseYaw; //!< Mouse Yaw.
 };
-}

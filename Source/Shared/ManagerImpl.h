@@ -1,16 +1,14 @@
 #pragma once
 
-namespace Manager
+class ManagerImpl : public Object
 {
-class Impl : public Object
-{
-    URHO3D_OBJECT( Impl, Object );
+    URHO3D_OBJECT( ManagerImpl, Object );
 public:
     //! Constructor.
-    Impl( Context* context ) : Object( context ) {}
+    ManagerImpl( Context* context ) : Object( context ) {}
 
     //! Deconstructor.
-    ~Impl() {}
+    ~ManagerImpl() {}
 
     //! Initialize Object.
     virtual bool Init() { return false; }
@@ -18,4 +16,3 @@ public:
     //! UnInitialize Object.
     virtual void UnInit() {}
 };
-}

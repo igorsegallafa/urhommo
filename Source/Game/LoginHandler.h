@@ -1,16 +1,14 @@
 #pragma once
 
-namespace Handler
+class LoginHandler : public HandlerImpl
 {
-class Login : public Impl
-{
-    URHO3D_OBJECT( Login, Impl );
+    URHO3D_OBJECT( LoginHandler, HandlerImpl );
 public:
     //! Constructor.
-    Login( Context* context );
+    LoginHandler( Context* context );
 
     //! Deconstructor.
-    ~Login();
+    ~LoginHandler();
 
     /**
      * Process Account Login for Login Server
@@ -22,4 +20,3 @@ public:
     //! Handle Login Data Message.
     bool HandleLoginData( Connection* connection, MemoryBuffer& message );
 };
-}

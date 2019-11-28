@@ -8,20 +8,18 @@
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 
-namespace Handler
+class ServerHandler : public HandlerImpl
 {
-class Server : public Impl
-{
-    URHO3D_OBJECT( Server, Impl );
+    URHO3D_OBJECT( ServerHandler, HandlerImpl );
 public:
     //! Register Object Factory.
     static void RegisterLibrary( Context* context );
 
     //! Constructor.
-    Server( Context* context );
+    ServerHandler( Context* context );
 
     //! Deconstructor.
-    ~Server();
+    ~ServerHandler();
 
     //! Initialize Object.
     bool Init();
@@ -41,6 +39,5 @@ public:
         return nullptr;
     }
 private:
-    HashMap<StringHash, Impl*> handlers;  //!< Pointer for Handlers.
+    HashMap<StringHash, HandlerImpl*> handlers;  //!< Pointer for Handlers.
 };
-}

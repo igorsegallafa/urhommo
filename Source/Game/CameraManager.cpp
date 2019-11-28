@@ -1,10 +1,8 @@
 #include "PrecompiledHeader.h"
 #include "CameraManager.h"
 
-namespace Manager
-{
-Camera::Camera( Context* context ) : 
-    Impl( context ),
+CameraManager::CameraManager( Context* context ) :
+    ManagerImpl( context ),
     cameraDistance( 100.f ),
     cameraPitch( 0.f ),
     cameraYaw( 0.f ),
@@ -16,11 +14,11 @@ Camera::Camera( Context* context ) :
 {
 }
 
-Camera::~Camera()
+CameraManager::~CameraManager()
 {
 }
 
-void Camera::SetCameraPosition( const Vector3& position, const Quaternion& rotation )
+void CameraManager::SetCameraPosition( const Vector3& position, const Quaternion& rotation )
 {
     GetCameraNode()->SetPosition( position );
     GetCameraNode()->SetRotation( rotation );
@@ -28,7 +26,7 @@ void Camera::SetCameraPosition( const Vector3& position, const Quaternion& rotat
     UpdateCameraBase();
 }
 
-void Camera::UpdateCameraBase()
+void CameraManager::UpdateCameraBase()
 {
     if( type == CameraType::Follow && targetNode )
     {
@@ -39,7 +37,7 @@ void Camera::UpdateCameraBase()
     }
 }
 
-Node* Camera::GetCameraNode()
+Node* CameraManager::GetCameraNode()
 {
     if( cameraNode == nullptr )
     {
@@ -57,7 +55,7 @@ Node* Camera::GetCameraNode()
     return cameraNode;
 }
 
-Node* Camera::GetNodeRaycast()
+Node* CameraManager::GetNodeRaycast()
 {
     if( ACTIVESCREEN->GetScene() )
     {
@@ -102,7 +100,7 @@ Node* Camera::GetNodeRaycast()
     return nullptr;
 }
 
-void Camera::HandlePostUpdate( StringHash eventType, VariantMap& eventData )
+void CameraManager::HandlePostUpdate( StringHash eventType, VariantMap& eventData )
 {
     float timeStep = eventData[Update::P_TIMESTEP].GetFloat();
 
@@ -112,5 +110,4 @@ void Camera::HandlePostUpdate( StringHash eventType, VariantMap& eventData )
         GetCameraNode()->SetRotation( Quaternion( cameraPitch, cameraYaw, 0.0f ) );
         GetCameraNode()->SetPosition( targetNode->GetPosition() + lookAtBase + GetCameraNode()->GetRotation() * Vector3::BACK * cameraDistance );
     }
-}
 }

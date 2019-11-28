@@ -1,26 +1,24 @@
 #include "PrecompiledHeader.h"
 #include "GameManager.h"
 
-namespace Manager
+void GameManager::RegisterLibrary( Context* context )
 {
-void Game::RegisterLibrary( Context* context )
-{
-    context->RegisterSubsystem( new Game( context ) );
+    context->RegisterSubsystem( new GameManager( context ) );
 }
 
-Game::Game( Context* context ) :
-    Impl( context )
+GameManager::GameManager( Context* context ) :
+    ManagerImpl( context )
 {
-    IMPL_MANAGER( Screen );
-    IMPL_MANAGER( Camera );
+    IMPL_MANAGER( ScreenManager );
+    IMPL_MANAGER( CameraManager );
 }
 
-Game::~Game()
+GameManager::~GameManager()
 {
     managers.Clear();
 }
 
-bool Game::Init()
+bool GameManager::Init()
 {
     for( const auto& m : managers )
         m.second_->Init();
@@ -28,9 +26,8 @@ bool Game::Init()
     return true;
 }
 
-void Game::UnInit()
+void GameManager::UnInit()
 {
     for( const auto& m : managers )
         m.second_->UnInit();
-}
 }

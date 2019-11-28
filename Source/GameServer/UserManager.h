@@ -1,16 +1,14 @@
 #pragma once
 
-namespace Manager
+class UserManager : public ManagerImpl
 {
-class User : public Impl
-{
-    URHO3D_OBJECT( User, Impl );
+    URHO3D_OBJECT( UserManager, ManagerImpl );
 public:
     //! Constructor.
-    User( Context* context );
+    UserManager( Context* context );
 
     //! Deconstructor.
-    ~User();
+    ~UserManager();
 
     //! Initialize Object.
     bool Init();
@@ -29,4 +27,3 @@ public:
 private:
     HashMap<Connection*, SharedPtr<Core::User>> users;
 };
-}

@@ -1,25 +1,23 @@
 #include "PrecompiledHeader.h"
 #include "ServerManager.h"
 
-namespace Manager
+void ServerManager::RegisterLibrary( Context* context )
 {
-void Server::RegisterLibrary( Context* context )
-{
-    context->RegisterSubsystem( new Server( context ) );
+    context->RegisterSubsystem( new ServerManager( context ) );
 }
 
-Server::Server( Context* context ) :
-    Impl( context )
+ServerManager::ServerManager( Context* context ) :
+    ManagerImpl( context )
 {
-    IMPL_MANAGER( User );
+    IMPL_MANAGER( UserManager );
 }
 
-Server::~Server()
+ServerManager::~ServerManager()
 {
     managers.Clear();
 }
 
-bool Server::Init()
+bool ServerManager::Init()
 {
     for( const auto& m : managers )
         m.second_->Init();
@@ -27,9 +25,8 @@ bool Server::Init()
     return true;
 }
 
-void Server::UnInit()
+void ServerManager::UnInit()
 {
     for( const auto& m : managers )
         m.second_->UnInit();
-}
 }

@@ -2,17 +2,15 @@
 
 #include "../Shared/LoginDef.h"
 
-namespace Handler
+class LoginHandler : public HandlerImpl
 {
-class Login : public Impl
-{
-    URHO3D_OBJECT( Login, Impl );
+    URHO3D_OBJECT( LoginHandler, HandlerImpl );
 public:
     //! Constructor.
-    Login( Context* context );
+    LoginHandler( Context* context );
 
     //! Deconstructor.
-    ~Login();
+    ~LoginHandler();
 
     //! Initialize Object.
     bool Init() override;
@@ -21,4 +19,3 @@ private:
 
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 };
-}

@@ -4,17 +4,15 @@
 
 #define HANDLE_MESSAGE(function,ptr)   std::bind( function, ptr, std::placeholders::_1, std::placeholders::_2 )
 
-namespace Handler
+class NetworkHandler : public HandlerImpl
 {
-class Network : public Impl
-{
-    URHO3D_OBJECT( Network, Impl );
+    URHO3D_OBJECT( NetworkHandler, HandlerImpl );
 public:
     //! Constructor.
-    Network( Context* context );
+    NetworkHandler( Context* context );
 
     //! Deconstructor.
-    ~Network();
+    ~NetworkHandler();
 
     //! Initialize Object.
     bool Init();
@@ -66,4 +64,3 @@ private:
     Connection* masterServerConnection; //!< Pointer for Master Server Connection.
     Connection* gameServerConnection;   //!< Pointer for Game Server Connection.
 };
-}

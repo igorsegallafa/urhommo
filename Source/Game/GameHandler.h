@@ -3,24 +3,22 @@
 #include "LoginHandler.h"
 #include "NetworkHandler.h"
 
-#define LOGINHANDLER        (GAMEHANDLER->Get<Handler::Login>())
-#define NETWORKHANDLER      (GAMEHANDLER->Get<Handler::Network>())
+#define LOGINHANDLER        (GAMEHANDLER->Get<LoginHandler>())
+#define NETWORKHANDLER      (GAMEHANDLER->Get<NetworkHandler>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 
-namespace Handler
-{
-class Game : public Impl
+class GameHandler : public HandlerImpl
 {
 public:
     //! Register Object Factory.
     static void RegisterLibrary( Context* context );
 
     //! Constructor.
-    Game( Context* context );
+    GameHandler( Context* context );
 
     //! Deconstructor.
-    ~Game();
+    ~GameHandler();
 
     //! Initialize Object.
     bool Init();
@@ -40,6 +38,5 @@ public:
         return nullptr;
     }
 private:
-    HashMap<StringHash, Impl*> handlers;  //!< Pointer for Handlers.
+    HashMap<StringHash, HandlerImpl*> handlers;  //!< Pointer for Handlers.
 };
-}

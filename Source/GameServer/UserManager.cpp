@@ -1,26 +1,24 @@
 #include "PrecompiledHeader.h"
 #include "UserManager.h"
 
-namespace Manager
-{
-User::User( Context* context ) : Impl( context )
+UserManager::UserManager( Context* context ) : ManagerImpl( context )
 {
 }
 
-User::~User()
+UserManager::~UserManager()
 {
 }
 
-bool User::Init()
+bool UserManager::Init()
 {
     return true;
 }
 
-void User::UnInit()
+void UserManager::UnInit()
 {
 }
 
-SharedPtr<Core::User> User::AddUser( Connection* connection )
+SharedPtr<Core::User> UserManager::AddUser( Connection* connection )
 {
     auto it = users.Find( connection );
 
@@ -35,11 +33,10 @@ SharedPtr<Core::User> User::AddUser( Connection* connection )
     return newUser;
 }
 
-void User::DelUser( Connection* connection )
+void UserManager::DelUser( Connection* connection )
 {
     auto it = users.Find( connection );
 
     if( it != users.End() )
         users.Erase( it );
-}
 }

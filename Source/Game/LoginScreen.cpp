@@ -1,8 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "LoginScreen.h"
 
-namespace Core
-{
 LoginScreen::LoginScreen( Context* context ) : 
     Screen( context ),
     window( nullptr )
@@ -71,5 +69,4 @@ void LoginScreen::HandleLoginButtonPressed( StringHash eventType, VariantMap& ev
     auto lineEditPassword = window->GetChildStaticCast<LineEdit>( "Password", true );
 
     LOGINHANDLER->ProcessLogin( lineEditAccount->GetText(), lineEditPassword->GetText() );
-}
 }

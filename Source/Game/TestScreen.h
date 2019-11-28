@@ -2,8 +2,6 @@
 
 #include "Screen.h"
 
-namespace Core
-{
 class TestScreen : public Screen
 {
     URHO3D_OBJECT( TestScreen, Screen );
@@ -26,4 +24,3 @@ private:
     //! Build Window.
     void BuildWindow();
 };
-}

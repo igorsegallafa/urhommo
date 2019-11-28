@@ -3,25 +3,23 @@
 #include "ScreenManager.h"
 #include "CameraManager.h"
 
-#define SCREENMANAGER       (GAMEMANAGER->Get<Manager::Screen>())
-#define CAMERAMANAGER       (GAMEMANAGER->Get<Manager::Camera>())
+#define SCREENMANAGER       (GAMEMANAGER->Get<ScreenManager>())
+#define CAMERAMANAGER       (GAMEMANAGER->Get<CameraManager>())
 
 #define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
 
-namespace Manager
+class GameManager : public ManagerImpl
 {
-class Game : public Impl
-{
-    URHO3D_OBJECT( Game, Impl );
+    URHO3D_OBJECT( GameManager, ManagerImpl );
 public:
     //! Register Object Factory.
     static void RegisterLibrary( Context* context );
 
     //! Constructor.
-    Game( Context* context );
+    GameManager( Context* context );
 
     //! Deconstructor.
-    ~Game();
+    ~GameManager();
 
     //! Initialize Object.
     bool Init();
@@ -41,6 +39,5 @@ public:
         return nullptr;
     }
 private:
-    HashMap<StringHash, Impl*> managers;  //!< Pointer for Managers.
+    HashMap<StringHash, ManagerImpl*> managers;  //!< Pointer for Managers.
 };
-}

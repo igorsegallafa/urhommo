@@ -2,8 +2,6 @@
 
 #include "Screen.h"
 
-namespace Core
-{
 class LoginScreen : public Screen
 {
     URHO3D_OBJECT( LoginScreen, Screen );
@@ -31,4 +29,3 @@ private:
 private:
     SharedPtr<UIElement> window;
 };
-}

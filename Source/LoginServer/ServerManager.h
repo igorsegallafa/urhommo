@@ -2,24 +2,22 @@
 
 #include "UserManager.h"
 
-#define USERMANAGER      (SERVERMANAGER->Get<Manager::User>())
+#define USERMANAGER      (SERVERMANAGER->Get<UserManager>())
 
 #define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
 
-namespace Manager
+class ServerManager : public ManagerImpl
 {
-class Server : public Impl
-{
-    URHO3D_OBJECT( Server, Impl );
+    URHO3D_OBJECT( ServerManager, ManagerImpl );
 public:
     //! Register Object Factory.
     static void RegisterLibrary( Context* context );
 
     //! Constructor.
-    Server( Context* context );
+    ServerManager( Context* context );
 
     //! Deconstructor.
-    ~Server();
+    ~ServerManager();
 
     //! Initialize Object.
     bool Init();
@@ -39,6 +37,5 @@ public:
         return nullptr;
     }
 private:
-    HashMap<StringHash, Impl*> managers;  //!< Pointer for Managers.
+    HashMap<StringHash, ManagerImpl*> managers;  //!< Pointer for Managers.
 };
-}

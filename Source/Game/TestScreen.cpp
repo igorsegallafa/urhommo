@@ -1,8 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "TestScreen.h"
 
-namespace Core
-{
 TestScreen::TestScreen( Context* context ) : Screen( context )
 {
 }
@@ -35,5 +33,4 @@ void TestScreen::SetupViewport()
 
 void TestScreen::BuildWindow()
 {
-}
 }

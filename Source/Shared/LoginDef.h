@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Shared::Login
+namespace Login
 {
 /**
  * Custom Parameters for Client Identity Event

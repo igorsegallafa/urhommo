@@ -9,11 +9,9 @@
 
 #define ACTIVESCREEN			(SCREENMANAGER->GetActiveScreen())
 
-namespace Manager
+class ScreenManager : public ManagerImpl
 {
-class Screen : public Impl
-{
-    URHO3D_OBJECT( Screen, Impl );
+    URHO3D_OBJECT( ScreenManager, ManagerImpl );
 
     enum class FadeStep
     {
@@ -27,10 +25,10 @@ class Screen : public Impl
 
 public:
     //! Constructor.
-    Screen( Context* context );
+    ScreenManager( Context* context );
 
     //! Deconstructor.
-    ~Screen();
+    ~ScreenManager();
 
     //! Initialize Screen Manager.
     bool Init();
@@ -42,11 +40,11 @@ public:
     void HandleUpdate( StringHash eventType, VariantMap& eventData );
 
     //! Getters.
-    Core::Screen* GetActiveScreen() const{ return activeScreen; }
-    const Core::ScreenType& GetActiveScreenType() const{ return activeScreenType; }
+    Screen* GetActiveScreen() const{ return activeScreen; }
+    const ScreenType& GetActiveScreenType() const{ return activeScreenType; }
     
     //! Setters.
-    void SetActiveScreen( const Core::ScreenType& screen );
+    void SetActiveScreen( const ScreenType& screen );
 private:
     //! Scene Handlers.
     void HandleSetLevelQueue( StringHash eventType, VariantMap& eventData );
@@ -55,12 +53,11 @@ private:
     //! Build Window.
     void BuildWindow();
 private:
-    List<Core::ScreenType> screenQueue;
-    SharedPtr<Core::Screen> activeScreen;
-    Core::ScreenType activeScreenType;
+    List<ScreenType> screenQueue;
+    SharedPtr<Screen> activeScreen;
+    ScreenType activeScreenType;
     SharedPtr<Window> window;
 
     float fadeTime;
     FadeStep fadeStep;
 };
-}

@@ -1,8 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "CharacterScreen.h"
 
-namespace Core
-{
 CharacterScreen::CharacterScreen( Context* context ) : Screen( context )
 {
 }
@@ -35,5 +33,4 @@ void CharacterScreen::SetupViewport()
 
 void CharacterScreen::BuildWindow()
 {
-}
 }

@@ -3,8 +3,8 @@
 
 Server::Server( Context* context ) : Application( context )
 {
-    Manager::Server::RegisterLibrary( context );
-    Handler::Server::RegisterLibrary( context );
+    ServerManager::RegisterLibrary( context );
+    ServerHandler::RegisterLibrary( context );
 }
 
 void Server::Setup()

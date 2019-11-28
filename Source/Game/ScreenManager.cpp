@@ -1,42 +1,40 @@
 #include "PrecompiledHeader.h"
 #include "ScreenManager.h"
 
-namespace Manager
+ScreenManager::ScreenManager( Context* context ) : ManagerImpl( context )
 {
-Screen::Screen( Context* context ) : Impl( context )
-{
-    context->RegisterFactory<Core::LoginScreen>( "Screen" );
-    context->RegisterFactory<Core::CharacterScreen>( "Screen" );
-    context->RegisterFactory<Core::TestScreen>( "Screen" );
-    context->RegisterFactory<Core::WorldScreen>( "Screen" );
+    context->RegisterFactory<LoginScreen>( "Screen" );
+    context->RegisterFactory<CharacterScreen>( "Screen" );
+    context->RegisterFactory<TestScreen>( "Screen" );
+    context->RegisterFactory<WorldScreen>( "Screen" );
 
-    SubscribeToEvent( Core::E_SET_SCREEN, URHO3D_HANDLER( Screen, HandleSetLevelQueue ) );
-    SubscribeToEvent( E_SCREENMODE, URHO3D_HANDLER( Screen, HandleResolutionChange ) );
-    SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( Screen, HandleUpdate ) );
+    SubscribeToEvent( E_SET_SCREEN, URHO3D_HANDLER( ScreenManager, HandleSetLevelQueue ) );
+    SubscribeToEvent( E_SCREENMODE, URHO3D_HANDLER( ScreenManager, HandleResolutionChange ) );
+    SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( ScreenManager, HandleUpdate ) );
 }
 
-Screen::~Screen()
+ScreenManager::~ScreenManager()
 {
 }
 
-bool Screen::Init()
+bool ScreenManager::Init()
 {
-    SetActiveScreen( Core::ScreenType::Login );
+    SetActiveScreen( ScreenType::Login );
     return true;
 }
 
-void Screen::UnInit()
+void ScreenManager::UnInit()
 {
 }
 
-void Screen::SetActiveScreen( const Core::ScreenType& screen )
+void ScreenManager::SetActiveScreen( const ScreenType& screen )
 {
     VariantMap& eventData = GetEventDataMap();
-    eventData[Core::E_SET_SCREEN] = (int)screen;
-    SendEvent( Core::E_SET_SCREEN, eventData );
+    eventData[E_SET_SCREEN] = (int)screen;
+    SendEvent( E_SET_SCREEN, eventData );
 }
 
-void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
+void ScreenManager::HandleUpdate( StringHash eventType, VariantMap& eventData )
 {
     //Recover the current time step
     float time = eventData[Update::P_TIMESTEP].GetFloat();
@@ -57,7 +55,7 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
             if( window )
                 window->SetOpacity( 0.0f );
 
-            fadeTime = Core::MAX_FADE_TIME;
+            fadeTime = MAX_FADE_TIME;
             fadeStep = FadeStep::Out;
         }
     }
@@ -68,7 +66,7 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
             fadeStep = FadeStep::ReleaseScreen;
         else
         {
-            window->SetOpacity( 1.0f - fadeTime / Core::MAX_FADE_TIME );
+            window->SetOpacity( 1.0f - fadeTime / MAX_FADE_TIME );
 
             //Fade time its over? So go to the next step
             if( fadeTime <= 0.0f )
@@ -83,7 +81,7 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
         else
         {
             //We can not create new screen here, or it may cause errors, we have to create it at the next update point
-            activeScreen = SharedPtr<Core::Screen>();
+            activeScreen = SharedPtr<Screen>();
             fadeStep = FadeStep::CreateScreen;
         }
     }
@@ -92,17 +90,17 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
         //Create new Screen
         switch( screenQueue.Front() )
         {
-            case Core::ScreenType::World:
-                activeScreen = new Core::WorldScreen( context_ );
+            case ScreenType::World:
+                activeScreen = new WorldScreen( context_ );
                 break;
-            case Core::ScreenType::Test:
-                activeScreen = new Core::TestScreen( context_ );
+            case ScreenType::Test:
+                activeScreen = new TestScreen( context_ );
                 break;
-            case Core::ScreenType::Login:
-                activeScreen = new Core::LoginScreen( context_ );
+            case ScreenType::Login:
+                activeScreen = new LoginScreen( context_ );
                 break;
-            case Core::ScreenType::Character:
-                activeScreen = new Core::CharacterScreen( context_ );
+            case ScreenType::Character:
+                activeScreen = new CharacterScreen( context_ );
                 break;
         }
 
@@ -119,13 +117,13 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
         if( window )
             window->SetOpacity( 1.0f );
 
-        fadeTime = Core::MAX_FADE_TIME;
+        fadeTime = MAX_FADE_TIME;
         fadeStep = FadeStep::In;
     }
     else if( fadeStep == FadeStep::In )
     {
         if( window )
-            window->SetOpacity( fadeTime / Core::MAX_FADE_TIME );
+            window->SetOpacity( fadeTime / MAX_FADE_TIME );
 
         //Fade time its over? So go to the next step
         if( fadeTime <= 0.0f )
@@ -151,24 +149,24 @@ void Screen::HandleUpdate( StringHash eventType, VariantMap& eventData )
     }
 }
 
-void Screen::HandleSetLevelQueue( StringHash eventType, VariantMap& eventData )
+void ScreenManager::HandleSetLevelQueue( StringHash eventType, VariantMap& eventData )
 {
     //Busy now
     if( screenQueue.Size() )
         return;
 
     //Push to queue
-    screenQueue.Push( (Core::ScreenType)eventData[Core::E_SET_SCREEN].GetInt() );
+    screenQueue.Push( (ScreenType)eventData[E_SET_SCREEN].GetInt() );
 
     //Init fade status
     fadeStep = FadeStep::Prepare;
 }
 
-void Screen::HandleResolutionChange( StringHash eventType, VariantMap& eventData )
+void ScreenManager::HandleResolutionChange( StringHash eventType, VariantMap& eventData )
 {
 }
 
-void Screen::BuildWindow()
+void ScreenManager::BuildWindow()
 {
     window = new Window( context_ );
 
@@ -179,5 +177,4 @@ void Screen::BuildWindow()
     window->SetAlignment( HA_CENTER, VA_CENTER );
     window->SetColor( Color( 0.0f, 0.0f, 0.0f, 1.0f ) );
     window->BringToFront();
-}
 }

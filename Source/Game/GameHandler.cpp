@@ -1,26 +1,24 @@
 #include "PrecompiledHeader.h"
 #include "GameHandler.h"
 
-namespace Handler
+void GameHandler::RegisterLibrary( Context* context )
 {
-void Game::RegisterLibrary( Context* context )
-{
-    context->RegisterSubsystem( new Game( context ) );
+    context->RegisterSubsystem( new GameHandler( context ) );
 }
 
-Game::Game( Context* context ) :
-    Impl( context )
+GameHandler::GameHandler( Context* context ) :
+    HandlerImpl( context )
 {
-    IMPL_HANDLER( Login );
-    IMPL_HANDLER( Network );
+    IMPL_HANDLER( LoginHandler );
+    IMPL_HANDLER( NetworkHandler );
 }
 
-Game::~Game()
+GameHandler::~GameHandler()
 {
     handlers.Clear();
 }
 
-bool Game::Init()
+bool GameHandler::Init()
 {
     for( const auto& m : handlers )
         m.second_->Init();
@@ -28,9 +26,8 @@ bool Game::Init()
     return true;
 }
 
-void Game::UnInit()
+void GameHandler::UnInit()
 {
     for( const auto& m : handlers )
         m.second_->UnInit();
-}
 }

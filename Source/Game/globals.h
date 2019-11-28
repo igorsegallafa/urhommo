@@ -1,7 +1,7 @@
 #pragma once
 
-#define GAMEMANAGER         GetSubsystem<Manager::Game>()
-#define GAMEHANDLER         GetSubsystem<Handler::Game>()
+#define GAMEMANAGER         GetSubsystem<GameManager>()
+#define GAMEHANDLER         GetSubsystem<GameHandler>()
 #define INPUT               GetSubsystem<Input>()
 #define USERINTERFACE       GetSubsystem<UI>()
 #define RESOURCECACHE       GetSubsystem<ResourceCache>()

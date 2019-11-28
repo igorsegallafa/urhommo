@@ -1,8 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "Screen.h"
 
-namespace Core
-{
 void Screen::Init()
 {
     //Create the Scene
@@ -31,5 +29,4 @@ void Screen::Dispose()
 
     if( USERINTERFACE )
         USERINTERFACE->GetRoot()->RemoveAllChildren();
-}
 }
