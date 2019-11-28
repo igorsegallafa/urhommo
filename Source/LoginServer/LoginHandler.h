@@ -17,6 +17,8 @@ public:
     //! Initialize Object.
     bool Init() override;
 private:
+    void ProcessLogin( Core::User* user );
+
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 };
 }

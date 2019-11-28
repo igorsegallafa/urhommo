@@ -14,7 +14,7 @@ public:
     
     //! Getters.
     const String& GetAccountName() const{ return accountName; }
-    const Connection* GetConnection() const{ return connection; }
+    Connection* GetConnection() const{ return connection; }
 private:
     String accountName; //!< Account Name.
     Connection* connection; //!< Connection pointer.

@@ -2,6 +2,8 @@
 
 #define MESSAGEHANDLER  (NETWORKHANDLER->GetMessageHandler())
 
+#define HANDLE_MESSAGE(function,ptr)   std::bind( function, ptr, std::placeholders::_1, std::placeholders::_2 )
+
 namespace Handler
 {
 class Network : public Impl

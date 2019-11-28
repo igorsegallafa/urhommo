@@ -1,8 +1,5 @@
 #include "PrecompiledHeader.h"
 #include "Server.h"
-#include "ServerManager.h"
-
-#include "User.h"
 
 Server::Server( Context* context ) : Application( context )
 {

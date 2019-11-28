@@ -25,6 +25,9 @@ bool Network::Init()
     SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( Network, HandleClientDisconnected ) );
     SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( Network, HandleMessage ) );
 
+    //Handlers
+    messageHandler->Handle( Shared::Network::MSGID_LoginData ).Process( HANDLE_MESSAGE( &Handler::Login::HandleLoginData, LOGINHANDLER ) );
+
     return true;
 }
 

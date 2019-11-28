@@ -56,6 +56,10 @@ public:
     //! Connect with all Servers loaded.
     bool ConnectAll();
 
+    //! Get Connections.
+    const Urho3D::Vector<NetConnection>& GetConnections() const{ return connections; }
+
+    //! Get a specific connection by Server Type.
     NetConnection* GetConnection( ServerType serverType, int index = 0 ) const;
 
     //! Handle Client Connection Identity.
