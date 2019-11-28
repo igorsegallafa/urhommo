@@ -44,7 +44,7 @@ public:
     const ScreenType& GetActiveScreenType() const{ return activeScreenType; }
     
     //! Setters.
-    void SetActiveScreen( const ScreenType& screen );
+    void ChangeScreen( const ScreenType& screen );
 private:
     //! Scene Handlers.
     void HandleSetLevelQueue( StringHash eventType, VariantMap& eventData );

@@ -23,6 +23,6 @@ void LoginHandler::ProcessLogin( const String& account, const String& password )
 
 bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& message )
 {
-    Beep( 300, 300 );
+    SCREENMANAGER->ChangeScreen( ScreenType::Character );
     return true;
 }

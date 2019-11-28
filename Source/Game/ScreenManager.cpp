@@ -19,7 +19,7 @@ ScreenManager::~ScreenManager()
 
 bool ScreenManager::Init()
 {
-    SetActiveScreen( ScreenType::Login );
+    ChangeScreen( ScreenType::Login );
     return true;
 }
 
@@ -27,7 +27,7 @@ void ScreenManager::UnInit()
 {
 }
 
-void ScreenManager::SetActiveScreen( const ScreenType& screen )
+void ScreenManager::ChangeScreen( const ScreenType& screen )
 {
     VariantMap& eventData = GetEventDataMap();
     eventData[E_SET_SCREEN] = (int)screen;
@@ -137,9 +137,6 @@ void ScreenManager::HandleUpdate( StringHash eventType, VariantMap& eventData )
             window->Remove();
             window = SharedPtr<Window>();
         }
-
-        //Unsubscribe update event
-        UnsubscribeFromEvent( E_UPDATE );
 
         //Remove the task
         screenQueue.PopFront();
