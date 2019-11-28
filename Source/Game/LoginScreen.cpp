@@ -3,7 +3,8 @@
 
 LoginScreen::LoginScreen( Context* context ) : 
     Screen( context ),
-    window( nullptr )
+    loginWindow( nullptr ),
+    gameServerWindow( nullptr )
 {
 }
 
@@ -54,19 +55,73 @@ void LoginScreen::BuildWindow()
     auto style = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
 
     //Load Layout from XML
-    window = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/Login.xml" ), style );
+    loginWindow = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/Login.xml" ), style );
+    gameServerWindow = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/LoginGameServer.xml" ), style );
+
+    //Load Window
+    loginWindow->SetVisible( true );
+    gameServerWindow->SetVisible( false );
 
     //Subscribe Events
-    SubscribeToEvent( window->GetChild( "ButtonLogin", true ), E_RELEASED, URHO3D_HANDLER( LoginScreen, HandleLoginButtonPressed ) );
+    SubscribeToEvent( loginWindow->GetChild( "ButtonLogin", true ), E_RELEASED, URHO3D_HANDLER( LoginScreen, HandleLoginButtonPressed ) );
 
     //Add Window for UI
-    USERINTERFACE->GetRoot()->AddChild( window );
+    USERINTERFACE->GetRoot()->AddChild( loginWindow );
+    USERINTERFACE->GetRoot()->AddChild( gameServerWindow );
+}
+
+void LoginScreen::SetGameServerList( const Vector<String>& gameServerList )
+{
+    if( gameServerWindow && loginWindow )
+    {
+        gameServerWindow->RemoveAllChildren();
+
+        Text* pSelectServerText = new Text( context_ );
+        pSelectServerText->SetText( "Selecione um Servidor" );
+        pSelectServerText->SetFont( RESOURCECACHE->GetResource<Font>( "Fonts/Anonymous Pro.ttf" ), 12 );
+        pSelectServerText->SetColor( Color::WHITE );
+        pSelectServerText->SetPosition( 0, 0 );
+        pSelectServerText->SetTextEffect( TextEffect::TE_STROKE );
+        pSelectServerText->SetAlignment( HA_CENTER, VA_TOP );
+        gameServerWindow->AddChild( pSelectServerText );
+
+        int totalServers = 0;
+        for( const auto pServerName : gameServerList )
+        {
+            Button* textButton = new Button( context_ );
+            textButton->SetAlignment( HA_CENTER, VA_TOP );
+            textButton->SetSize( 150, 20 );
+            textButton->SetPosition( 0, 50 + (30 * totalServers) );
+            textButton->SetStyleAuto();
+            gameServerWindow->AddChild( textButton );
+            SubscribeToEvent( textButton, E_PRESSED, std::bind( &LoginScreen::HandleGameServerPressed, this, totalServers ) );
+
+            Text* serverText = new Text( context_ );
+            serverText->SetText( pServerName );
+            serverText->SetFont( RESOURCECACHE->GetResource<Font>( "Fonts/Anonymous Pro.ttf" ), 12 );
+            serverText->SetColor( Color::WHITE );
+            serverText->SetPosition( 0, 50 + (30 * totalServers) );
+            serverText->SetTextEffect( TextEffect::TE_SHADOW );
+            serverText->SetAlignment( HA_CENTER, VA_TOP );
+            gameServerWindow->AddChild( serverText );
+
+            totalServers++;
+        }
+
+        loginWindow->SetVisible( false );
+        gameServerWindow->SetVisible( true );
+    }
+}
+
+void LoginScreen::HandleGameServerPressed( int serverIndex )
+{
+    LOGINHANDLER->ProcessGameServer( serverIndex );
 }
 
 void LoginScreen::HandleLoginButtonPressed( StringHash eventType, VariantMap& eventData )
 {
-    auto lineEditAccount = window->GetChildStaticCast<LineEdit>( "Account", true );
-    auto lineEditPassword = window->GetChildStaticCast<LineEdit>( "Password", true );
+    auto lineEditAccount = loginWindow->GetChildStaticCast<LineEdit>( "Account", true );
+    auto lineEditPassword = loginWindow->GetChildStaticCast<LineEdit>( "Password", true );
 
     LOGINHANDLER->ProcessLogin( lineEditAccount->GetText(), lineEditPassword->GetText() );
 }

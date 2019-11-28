@@ -1,7 +1,11 @@
 #include "PrecompiledHeader.h"
 #include "ScreenManager.h"
 
-ScreenManager::ScreenManager( Context* context ) : ManagerImpl( context )
+ScreenManager::ScreenManager( Context* context ) : 
+    ManagerImpl( context ),
+    activeScreenType( ScreenType::Login ),
+    fadeStep( FadeStep::Prepare ),
+    fadeTime( 0.f )
 {
     context->RegisterFactory<LoginScreen>( "Screen" );
     context->RegisterFactory<CharacterScreen>( "Screen" );

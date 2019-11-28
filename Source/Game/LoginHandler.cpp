@@ -2,7 +2,8 @@
 #include "LoginHandler.h"
 
 LoginHandler::LoginHandler( Context* context ) :
-    HandlerImpl( context )
+    HandlerImpl( context ),
+    gameServerList{}
 {
 }
 
@@ -21,8 +22,38 @@ void LoginHandler::ProcessLogin( const String& account, const String& password )
     }
 }
 
+void LoginHandler::ProcessGameServer( int serverIndex )
+{
+    if( serverIndex >= 0 && serverIndex < gameServerList.Size() )
+    {
+        auto gameServer = gameServerList[serverIndex];
+
+        VariantMap identity;
+        NETWORKHANDLER->ConnectGameServer( gameServer.ip, gameServer.port, identity );
+    }
+}
+
 bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& message )
 {
-    SCREENMANAGER->ChangeScreen( ScreenType::Character );
+    if( SCREEN_TYPE == ScreenType::Login )
+    {
+        StringVector gameServerNameList;
+        gameServerList.Clear();
+
+        int totalServers = message.ReadInt();
+        for( int i = 0; i < totalServers; i++ )
+        {
+            GameServerInfo gameserver;
+            gameserver.name = message.ReadString();
+            gameserver.ip = message.ReadString();
+            gameserver.port = message.ReadInt();
+            gameServerList.Push( gameserver );
+
+            gameServerNameList.Push( gameserver.name );
+        }
+
+        LOGINSCREEN->SetGameServerList( gameServerNameList );
+    }
+
     return true;
 }

@@ -9,6 +9,13 @@
 
 #define ACTIVESCREEN			(SCREENMANAGER->GetActiveScreen())
 
+#define SCREEN_TYPE             (SCREENMANAGER->GetActiveScreenType())
+
+#define LOGINSCREEN             ((LoginScreen*)SCREENMANAGER->GetActiveScreen())
+#define CHARACTERSCREEN         ((CharacterScreen*)SCREENMANAGER->GetActiveScreen())
+#define WORLDSCREEN             ((WorldScreen*)SCREENMANAGER->GetActiveScreen())
+#define TESTSCREEN              ((TestScreen*)SCREENMANAGER->GetActiveScreen())
+
 class ScreenManager : public ManagerImpl
 {
     URHO3D_OBJECT( ScreenManager, ManagerImpl );
