@@ -169,7 +169,6 @@ NetConnection* Server::GetConnection( ServerType serverType, int index ) const
         //Found!
         if( connection.serverType == serverType && i == index )
             return &connection;
-
         i++;
     }
 
