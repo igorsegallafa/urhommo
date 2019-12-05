@@ -1,6 +1,20 @@
 #include "PrecompiledHeader.h"
 #include "Server.h"
 
+#if defined(_WIN32) || defined(WIN32)
+Server* serverInstance = nullptr;
+
+BOOL ConsoleHandler( DWORD event )
+{
+    if( event == CTRL_CLOSE_EVENT )
+    {
+        serverInstance->ErrorExit();
+        return TRUE;
+    }
+    return FALSE;
+}
+#endif
+
 Server::Server( Context* context ) : Application( context )
 {
     ServerManager::RegisterLibrary( context );
@@ -22,7 +36,11 @@ void Server::Setup()
 
 void Server::Start()
 {
-    OpenConsoleWindow();
+#if defined(_WIN32) || defined(WIN32)
+    serverInstance = this;
+    SetConsoleCtrlHandler( (PHANDLER_ROUTINE)(ConsoleHandler), TRUE );
+#endif
+
     PrintSignature();
 
     SERVERMANAGER->Init();
@@ -37,7 +55,7 @@ void Server::Stop()
 
 void Server::PrintSignature()
 {
-    printf( "Version Compiled on %s %s\n", __DATE__, __TIME__ );
+    printf( "\nVersion Compiled on %s %s\n", __DATE__, __TIME__ );
     printf( "(C) 2019 - 2020\n" );
     printf( "\nMP\"\"\"\"\"\"`MM M\"\"MMMMM\"\"M\n" );
     printf( "M  mmmmm..M M  MMMMM  M\n" );

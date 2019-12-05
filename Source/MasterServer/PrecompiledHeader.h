@@ -5,6 +5,11 @@
 #include <sstream>
 #include <iostream>
 
+//Windows:
+#if defined(_WIN32) || defined(WIN32)
+#include <Windows.h>
+#endif
+
 //Urho3D:
 #include <Urho3D/Urho3DAll.h>
 
