@@ -58,6 +58,12 @@
     <Filter Include="Header Files\Handler\Login">
       <UniqueIdentifier>{8976c213-5fa4-42f3-ba85-577748d506ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Config">
+      <UniqueIdentifier>{8826433b-83db-4f9c-9da8-f42fc8fb6e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Config">
+      <UniqueIdentifier>{62dd2f87-a2ef-49ad-b663-4c3066e8f3b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -83,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="LoginHandler.cpp">
       <Filter>Source Files\Handler\Login</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>Source Files\Manager\Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="LoginHandler.h">
       <Filter>Header Files\Handler\Login</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>Header Files\Manager\Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,12 +18,22 @@ const char* ServerTypeToString( const ServerType& serverType )
     return "unknown";
 }
 
+ServerType ServerTypeFromString( const String& str )
+{
+    if( str.Compare( "masterserver", false ) == 0 )
+        return ServerType::Master;
+    else if( str.Compare( "loginserver", false ) == 0 )
+        return ServerType::Login;
+    else if( str.Compare( "gameserver", false ) == 0 )
+        return ServerType::Game;
+
+    return ServerType::Undefined;
+}
+
 Server::Server( Context* context ) :
     Object( context ),
-    id( 0 ), 
-    type( ServerType::Undefined ),
     serverConnection( nullptr ),
-    connections{}
+    netConnections{}
 {
 }
 
@@ -45,99 +55,32 @@ bool Server::Init()
 void Server::UnInit()
 {
     //Disconnect Net Connections
-    for( const auto& connection : connections )
-        if( connection.connection )
-            connection.connection->Disconnect();
+    for( const auto& connection : netConnections )
+        if( connection->connection )
+            connection->connection->Disconnect();
 
     //Close Server
     GetSubsystem<Network>()->Disconnect();
     GetSubsystem<Network>()->StopServer();
 }
 
-bool Server::Start( ServerType serverType, int index )
+bool Server::Start( NetConnection* netConnection )
 {
-    auto serverConfig = GetSubsystem<ResourceCache>()->GetResource<JSONFile>( "netserver.json" );
-
-    if( serverConfig )
+    if( netConnection )
     {
-        auto root = serverConfig->GetRoot();
-        auto data = root[ServerTypeToString( serverType )];
-        int serverPort = 52010; //Default Port
-        int maxConnections = 128;   //Default Max Connections
-
-        //Game Server has many servers, read each one
-        if( serverType == ServerType::Game )
-        {
-            int i = 0;
-            auto servers = data.GetArray();
-            for( const auto& value : servers )
-            {
-                if( i == index )
-                {
-                    serverPort = value["port"].GetInt();
-                    maxConnections = value["maxConnections"].GetInt();
-                    id = index;
-                    break;
-                }
-
-                i++;
-            }
-        }
-        else
-        {
-            serverPort = data["port"].GetInt();
-            maxConnections = data["maxConnections"].GetInt();
-        }
-
-        //Curent Server Type
-        type = serverType;
+        currentNetConnection = netConnection;
 
         //Start Server
-        return GetSubsystem<Network>()->StartServer( serverPort, maxConnections );
+        return GetSubsystem<Network>()->StartServer( currentNetConnection->port, currentNetConnection->maxConnections );
     }
 
     return false;
 }
 
-bool Server::Load( ServerType serverType )
+bool Server::Load( NetConnection* netConnection )
 {
-    auto serverConfig = GetSubsystem<ResourceCache>()->GetResource<JSONFile>( "netserver.json" );
-
-    if( serverConfig )
-    {
-        auto root = serverConfig->GetRoot();
-        auto data = root[ServerTypeToString(serverType)];
-
-        //Game Server has many servers, read each one
-        if( serverType == ServerType::Game )
-        {
-            auto servers = data.GetArray();
-            for( const auto& value: servers )
-            {
-                NetConnection netConnection;
-                netConnection.connection = nullptr;
-                netConnection.name = value["name"].GetString();
-                netConnection.ip = value["ip"].GetString();
-                netConnection.port = value["port"].GetInt();
-                netConnection.serverType = serverType;
-                connections.Push( netConnection );
-            }
-        }
-        else
-        {
-            NetConnection netConnection;
-            netConnection.connection = nullptr;
-            netConnection.name = data["name"].GetString();
-            netConnection.ip = data["ip"].GetString();
-            netConnection.port = data["port"].GetInt();
-            netConnection.serverType = serverType;
-            connections.Push( netConnection );
-        }
-    
-        return true;
-    }
-
-    return false;
+    netConnections.Push( netConnection );
+    return true;
 }
 
 bool Server::ConnectAll()
@@ -146,15 +89,15 @@ bool Server::ConnectAll()
     if( serverConnection )
         return false;
 
-    for( const auto& connectionInfo : connections )
+    for( const auto& connectionInfo : netConnections )
     {
         //Prepare Variant Map of identity for Connection
         VariantMap identity;
-        identity[P_SERVERTYPE] = (int)type;
-        identity[P_SERVERID] = id;
+        identity[P_SERVERTYPE] = (int)currentNetConnection->serverType;
+        identity[P_SERVERID] = currentNetConnection->id;
 
         //Make server connection
-        if( GetSubsystem<Network>()->Connect( connectionInfo.ip, connectionInfo.port, nullptr, identity ) )
+        if( GetSubsystem<Network>()->Connect( connectionInfo->ip, connectionInfo->port, nullptr, identity ) )
             return true;
     }
 
@@ -164,11 +107,12 @@ bool Server::ConnectAll()
 NetConnection* Server::GetConnection( ServerType serverType, int index ) const
 {
     int i = 0;
-    for( auto connection : connections )
+    for( auto connection : netConnections )
     {
         //Found!
-        if( connection.serverType == serverType && i == index )
-            return &connection;
+        if( connection->serverType == serverType && i == index )
+            return connection;
+
         i++;
     }
 
@@ -184,12 +128,12 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
             eventData[ClientIdentity::P_ALLOW] = false;
         else
         {
-            NetConnection netConnection;
-            netConnection.connection = nullptr;
-            netConnection.id = outServerID.GetInt();
-            netConnection.serverType = (ServerType)outServerType.GetInt();
-            netConnection.connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
-            connections.Push( netConnection );
+            NetConnection* netConnection = new NetConnection();
+            netConnection->connection = nullptr;
+            netConnection->id = outServerID.GetInt();
+            netConnection->serverType = (ServerType)outServerType.GetInt();
+            netConnection->connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+            netConnections.Push( netConnection );
 
             //TODO: Validate the connection with specific password
         }

@@ -57,3 +57,9 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
 
     return true;
 }
+
+bool LoginHandler::HandleGameServerConnected( Connection* connection, MemoryBuffer& message )
+{
+    SCREENMANAGER->ChangeScreen( ScreenType::Character );
+    return true;
+}

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "UserManager.h"
+#include "ConfigManager.h"
 
 #define USERMANAGER      (SERVERMANAGER->Get<UserManager>())
+#define CONFIGMANAGER    (SERVERMANAGER->Get<ConfigManager>())
 
 #define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
 

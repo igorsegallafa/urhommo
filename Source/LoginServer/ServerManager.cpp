@@ -10,6 +10,7 @@ ServerManager::ServerManager( Context* context ) :
     ManagerImpl( context )
 {
     IMPL_MANAGER( UserManager );
+    IMPL_MANAGER( ConfigManager );
 }
 
 ServerManager::~ServerManager()

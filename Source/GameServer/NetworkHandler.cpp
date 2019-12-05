@@ -18,8 +18,8 @@ bool NetworkHandler::Init()
 {
     //Initialize Net Server
     netServer->Init();
-    netServer->Start( Net::ServerType::Game );
-    netServer->Load( Net::ServerType::Master );
+    netServer->Start( CONFIGMANAGER->GetNetConnection() );
+    netServer->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::Master ) );
     netServer->ConnectAll();
 
     //Subscribe Events
@@ -38,6 +38,10 @@ void NetworkHandler::UnInit()
 
 void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
+    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+
+    if( connection )
+        connection->Send( MSGID_GameServerConnected, true, true, VectorBuffer() );
 }
 
 void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )

@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="NetworkHandler.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -162,6 +163,7 @@
     <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="NetworkHandler.h" />
     <ClInclude Include="Server.h" />

@@ -26,10 +26,12 @@ struct NetConnection
     String ip;  //!< Server IP
     int port;   //!< Server Port
     ServerType serverType;  //!< Server Type
+    int maxConnections; //!< Max Connections
     Connection* connection;   //!< Connection Pointer
 };
 
 const char* ServerTypeToString( const ServerType& serverType );
+ServerType ServerTypeFromString( const String& str );
 
 class Server : public Object
 {
@@ -48,16 +50,13 @@ public:
     void UnInit();
 
     //! Start Server.
-    bool Start( ServerType serverType, int index = 0 );
+    bool Start( NetConnection* netConnection );
 
     //! Load Server Configuration.
-    bool Load( ServerType serverType );
+    bool Load( NetConnection* netConnection );
 
     //! Connect with all Servers loaded.
     bool ConnectAll();
-
-    //! Get Connections.
-    const Urho3D::Vector<NetConnection>& GetConnections() const{ return connections; }
 
     //! Get a specific connection by Server Type.
     NetConnection* GetConnection( ServerType serverType, int index = 0 ) const;
@@ -68,10 +67,8 @@ public:
     //! Handle Server Connection Status.
     void HandleConnectionStatus( StringHash eventType, VariantMap& eventData );
 private:
-    int id;   //!< Current Server ID.
-    ServerType type;  //!< Current Server Type.
-
     Connection* serverConnection;  //!< Server Connection.
-    Urho3D::Vector<NetConnection> connections;  //!< Net Connections Opened.
+    NetConnection* currentNetConnection;    //!< Current net Connection.
+    Vector<NetConnection*> netConnections;  //!< Net Connections.
 };
 }

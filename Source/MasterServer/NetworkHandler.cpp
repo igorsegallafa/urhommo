@@ -18,7 +18,7 @@ bool NetworkHandler::Init()
 {
     //Initialize Net Server
     netServer->Init();
-    netServer->Start( Net::ServerType::Master );
+    netServer->Start( CONFIGMANAGER->GetNetConnection() );
     netServer->ConnectAll();
 
     //Subscribe Events

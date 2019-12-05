@@ -21,16 +21,23 @@ bool LoginHandler::Init()
 void LoginHandler::ProcessLogin( Core::User* user )
 {
     VectorBuffer message;
+    unsigned int totalGameServers = 0;
+
+    //Get Total Game Servers
+    for( const auto& gameServer : CONFIGMANAGER->GetNetConnections() )
+        if( gameServer->serverType == Net::ServerType::Game )
+            totalGameServers++;
 
     //Write Total of Game Servers
-    message.WriteInt( 1 );
+    message.WriteInt( totalGameServers );
 
     //Write Game Servers Info
-    for( int i = 0; i < 1; i++ )
+    for( int i = 0; i < totalGameServers; i++ )
     {
-        message.WriteString( "Beta" );
-        message.WriteString( "127.0.0.1" );
-        message.WriteInt( 52012 );
+        auto serverConfig = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, i );
+        message.WriteString( serverConfig->name );
+        message.WriteString( serverConfig->ip );
+        message.WriteInt( serverConfig->port );
     }
 
     //Write Character List

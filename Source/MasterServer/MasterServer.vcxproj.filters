@@ -52,6 +52,12 @@
     <Filter Include="Header Files\Manager\User">
       <UniqueIdentifier>{0764c388-08a2-4f62-b11d-ba6cf195e4af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Config">
+      <UniqueIdentifier>{ec557251-2d05-4d63-8f40-3c2c373aeb89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Config">
+      <UniqueIdentifier>{92397792-927c-4945-a49a-1efc78e183be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -74,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="UserManager.cpp">
       <Filter>Source Files\Manager\User</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>Source Files\Manager\Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="UserManager.h">
       <Filter>Header Files\Manager\User</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>Header Files\Manager\Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

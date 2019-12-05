@@ -32,6 +32,9 @@ public:
 
     //! Handle Login Data Message.
     bool HandleLoginData( Connection* connection, MemoryBuffer& message );
+
+    //! Handle Game Server Connected.
+    bool HandleGameServerConnected( Connection* connection, MemoryBuffer& message );
 private:
     Vector<GameServerInfo> gameServerList;
 };
