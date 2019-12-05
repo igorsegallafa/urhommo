@@ -2,7 +2,7 @@
 
 #include "NetworkHandler.h"
 
-#define NETWORKHANDLER      (SERVERHANDLER->Get<Handler::Network>())
+#define NETWORKHANDLER      (SERVERHANDLER->Get<NetworkHandler>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 

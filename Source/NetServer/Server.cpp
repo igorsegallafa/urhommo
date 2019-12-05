@@ -99,7 +99,11 @@ bool Server::ConnectAll()
 
         //Make server connection
         if( connectionInfo->connection = GetSubsystem<Network>()->Connect( connectionInfo->ip, connectionInfo->port, nullptr, identity ) )
+        {
+            //Set as net connection
+            connectionInfo->connection->SetIsNetConnection( true );
             return true;
+        }
     }
 
     return false;
@@ -130,11 +134,13 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
         else
         {
             NetConnection* netConnection = new NetConnection();
-            netConnection->connection = nullptr;
             netConnection->id = outServerID.GetInt();
             netConnection->serverType = (ServerType)outServerType.GetInt();
             netConnection->connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
             netConnections.Push( netConnection );
+
+            //Set as net connection
+            netConnection->connection->SetIsNetConnection( true );
 
             //TODO: Validate the connection with specific password
         }

@@ -27,6 +27,9 @@ bool NetworkHandler::Init()
     SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
     SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
 
+    //Global Validation
+    messageHandler->AddValidation( std::bind( &NetworkHandler::CanProcessMessage, this, std::placeholders::_1, std::placeholders::_2 ) );
+
     return true;
 }
 
@@ -35,8 +38,24 @@ void NetworkHandler::UnInit()
     netServer->UnInit();
 }
 
+bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
+{
+    //Receiving Net Message from non net connection? Doesn't accept it!
+    if( messageID > Net::MessageID::MSGID_None && !connection->IsNetConnection() )
+        return false;
+
+    return true;
+}
+
 void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
+    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+
+    if( connection )
+    {
+        //Add User to Server Memory
+        auto user = USERMANAGER->AddUser( connection );
+    }
 }
 
 void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
@@ -45,6 +64,13 @@ void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& ev
 
 void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
 {
+    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+
+    if( connection )
+    {
+        //Remove User from Server Memory
+        USERMANAGER->DelUser( connection );
+    }
 }
 
 void NetworkHandler::HandleMessage( StringHash eventType, VariantMap& eventData )

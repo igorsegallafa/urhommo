@@ -32,7 +32,7 @@ void LoginHandler::ProcessLogin( Core::User* user )
     message.WriteInt( totalGameServers );
 
     //Write Game Servers Info
-    for( int i = 0; i < totalGameServers; i++ )
+    for( unsigned int i = 0; i < totalGameServers; i++ )
     {
         auto serverConfig = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, i );
         message.WriteString( serverConfig->name );
@@ -55,7 +55,7 @@ void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& event
     {
         auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
 
-        //Process Account Login
+        //TODO: Process Account Login
         //eventData[ClientIdentity::P_ALLOW] = false;
 
         //Add User to Server Memory
@@ -64,6 +64,9 @@ void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& event
         //User Allocated?
         if( user )
         {
+            //Set AccountName
+            user->SetAccountName( outAccountName.GetString() );
+
             //Process Login of User
             ProcessLogin( user );
         }

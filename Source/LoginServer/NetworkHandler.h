@@ -23,6 +23,9 @@ public:
     Net::Server* GetNetServer() const{ return netServer; }
     Handler::Message* GetMessageHandler() const{ return messageHandler; }
 private:
+    //! Validate Message.
+    bool CanProcessMessage( int messageID, Connection* connection );
+
     //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 

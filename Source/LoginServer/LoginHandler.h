@@ -14,8 +14,8 @@ public:
 
     //! Initialize Object.
     bool Init() override;
-private:
-    void ProcessLogin( Core::User* user );
 
+    void ProcessLogin( Core::User* user );
+private:
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 };

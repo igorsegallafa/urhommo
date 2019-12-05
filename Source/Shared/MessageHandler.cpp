@@ -54,11 +54,12 @@ void Message::HandleMessage( StringHash eventType, VariantMap& eventData )
     //Check if message has any handler
     if( auto it = handlers.Find( eventData[P_MESSAGEID].GetInt() ); it != handlers.End() )
     {
+        auto messageID = eventData[P_MESSAGEID].GetInt();
         auto message = it->second_;
 
         //Validate Message with Global Validations before
         for( const auto& handler : validations )
-            if( !handler( sender ) )
+            if( !handler( messageID, sender ) )
                 return;
 
         //Validate Message Authorization
@@ -71,7 +72,7 @@ void Message::HandleMessage( StringHash eventType, VariantMap& eventData )
 
         //Process Message with Global Processing Handlers before
         for( const auto& handler : processing )
-            if( !handler( sender, buffer ) )
+            if( !handler( messageID, sender, buffer ) )
                 return;
 
         //Process Message

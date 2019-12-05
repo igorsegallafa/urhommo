@@ -10,12 +10,6 @@ public:
     //! Deconstructor.
     ~UserManager();
 
-    //! Initialize Object.
-    bool Init();
-
-    //! UnInitialize Object.
-    void UnInit();
-
     //! Get User by Connection.
     Core::User* GetUser( Connection* connection ){ return users[connection]; }
 
