@@ -1,7 +1,9 @@
 #include "PrecompiledHeader.h"
 #include "CharacterScreen.h"
 
-CharacterScreen::CharacterScreen( Context* context ) : Screen( context )
+CharacterScreen::CharacterScreen( Context* context ) : 
+    Screen( context ),
+    window( nullptr )
 {
 }
 
@@ -40,4 +42,15 @@ void CharacterScreen::SetupViewport()
 
 void CharacterScreen::BuildWindow()
 {
+    //Load UI Style
+    auto style = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
+
+    //Load Layout from XML
+    window = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/CharacterSelect.xml" ), style );
+
+    //Load Window
+    window->SetVisible( true );
+
+    //Add Window for UI
+    USERINTERFACE->GetRoot()->AddChild( window );
 }

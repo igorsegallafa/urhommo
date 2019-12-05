@@ -8,7 +8,7 @@ BOOL ConsoleHandler( DWORD event )
 {
     if( event == CTRL_CLOSE_EVENT )
     {
-        serverInstance->ErrorExit();
+        serverInstance->Stop();
         return TRUE;
     }
     return FALSE;
