@@ -64,6 +64,9 @@ public:
     //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 
+    //! hANDLE Client Disconnection.
+    void HandleClientDisconnect( StringHash eventType, VariantMap& eventData );
+
     //! Handle Server Connection Status.
     void HandleConnectionStatus( StringHash eventType, VariantMap& eventData );
 private:

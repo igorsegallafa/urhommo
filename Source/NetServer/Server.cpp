@@ -45,6 +45,7 @@ bool Server::Init()
 {
     //Subscribe Events
     SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Server, HandleClientIdentity ) );
+    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( Server, HandleClientDisconnect ) );
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
     SubscribeToEvent( E_SERVERDISCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
     SubscribeToEvent( E_CONNECTFAILED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
@@ -97,7 +98,7 @@ bool Server::ConnectAll()
         identity[P_SERVERID] = currentNetConnection->id;
 
         //Make server connection
-        if( GetSubsystem<Network>()->Connect( connectionInfo->ip, connectionInfo->port, nullptr, identity ) )
+        if( connectionInfo->connection = GetSubsystem<Network>()->Connect( connectionInfo->ip, connectionInfo->port, nullptr, identity ) )
             return true;
     }
 
@@ -140,6 +141,20 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
     }
 }
 
+void Server::HandleClientDisconnect( StringHash eventType, VariantMap& eventData )
+{
+    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+
+    for( auto it = netConnections.Begin(); it != netConnections.End(); ++it )
+    {
+        if( (*it)->connection == connection )
+        {
+            netConnections.Erase( it );
+            break;
+        }
+    }
+}
+
 void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData )
 {
     //Server Connected
@@ -149,7 +164,6 @@ void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData
     //Server Disconnected
     else if( eventType == E_SERVERDISCONNECTED )
     {
-        serverConnection = nullptr;
     }
     //Server Connect Failed
     else if( eventType == E_CONNECTFAILED )
