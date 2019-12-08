@@ -60,8 +60,13 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
 
 bool LoginHandler::HandleGameServerConnected( Connection* connection, MemoryBuffer& message )
 {
+    //We are already on Game Server, so we don't need Login Server anymore
+    NETWORKHANDLER->CloseLoginServer();
+
     //TODO: Set Character List
 
+    //Change Screen for Character Select
     SCREENMANAGER->ChangeScreen( ScreenType::Character );
+
     return true;
 }
