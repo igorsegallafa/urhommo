@@ -53,10 +53,6 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
         }
 
         LOGINSCREEN->SetGameServerList( gameServerNameList );
-
-        VectorBuffer teste;
-        teste.WriteBool( false );
-        connection->Send( 501, true, true, teste );
     }
 
     return true;
