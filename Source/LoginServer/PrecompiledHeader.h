@@ -3,6 +3,7 @@
 //STD:
 #include <string>
 #include <sstream>
+#include <functional>
 
 //Windows:
 #if defined(_WIN32) || defined(WIN32)

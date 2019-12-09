@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <unordered_map>
+#include <functional>
 
 //Urho3D:
 #include <Urho3D/Urho3DAll.h>

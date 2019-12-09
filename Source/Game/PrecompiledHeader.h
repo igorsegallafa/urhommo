@@ -3,6 +3,7 @@
 //STD:
 #include <string>
 #include <sstream>
+#include <functional>
 
 //Urho3D:
 #include <Urho3D/Urho3DAll.h>
