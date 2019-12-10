@@ -1,6 +1,6 @@
 #pragma once
 
-struct GameServerInfo
+struct ServerInfo
 {
     String name;
     String ip;
@@ -30,11 +30,17 @@ public:
      */
     void ProcessGameServer( int serverIndex = 0 );
 
+    /**
+     * Process Account Login into Master Server
+     */
+    void ProcessMasterServer();
+
     //! Handle Login Data Message.
     bool HandleLoginData( Connection* connection, MemoryBuffer& message );
 
     //! Handle Game Server Connected.
     bool HandleGameServerConnected( Connection* connection, MemoryBuffer& message );
 private:
-    Vector<GameServerInfo> gameServerList;
+    Vector<ServerInfo> gameServerList;
+    ServerInfo masterServerInfo;
 };

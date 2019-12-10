@@ -20,12 +20,12 @@ bool LoginHandler::Init()
 
 void LoginHandler::ProcessLogin( Core::User* user )
 {
-    VectorBuffer message;
+    VectorBuffer loginDataMsg;
     Core::LoginStatus loginStatus = Core::LoginStatus::Successful;
     unsigned int totalGameServers = 0;
 
     //Write Login Response Status
-    message.WriteInt( (int)loginStatus );
+    loginDataMsg.WriteInt( (int)loginStatus );
 
     //Successful Login
     if( loginStatus == Core::LoginStatus::Successful )
@@ -36,24 +36,29 @@ void LoginHandler::ProcessLogin( Core::User* user )
                 totalGameServers++;
 
         //Write Total of Game Servers
-        message.WriteInt( totalGameServers );
+        loginDataMsg.WriteInt( totalGameServers );
 
         //Write Game Servers Info
         for( unsigned int i = 0; i < totalGameServers; i++ )
         {
             auto serverConfig = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, i );
-            message.WriteString( serverConfig->name );
-            message.WriteString( serverConfig->ip );
-            message.WriteInt( serverConfig->port );
+            loginDataMsg.WriteString( serverConfig->name );
+            loginDataMsg.WriteString( serverConfig->ip );
+            loginDataMsg.WriteInt( serverConfig->port );
         }
 
         //Write Character List
         {
         }
+
+        //Write Master Server Info
+        auto masterServerInfo = CONFIGMANAGER->GetNetConfig( Net::ServerType::Master );
+        loginDataMsg.WriteString( masterServerInfo->ip );
+        loginDataMsg.WriteInt( masterServerInfo->port );
     }
 
     //Send Message
-    user->GetConnection()->Send( MSGID_LoginData, true, true, message );
+    user->GetConnection()->Send( MSGID_LoginData, true, true, loginDataMsg );
 
     //Disconnect if login has been failed
     if( loginStatus != Core::LoginStatus::Successful )

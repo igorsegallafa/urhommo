@@ -31,6 +31,9 @@ bool NetworkHandler::Init()
     //Global Validation
     messageHandler->AddValidation( std::bind( &NetworkHandler::CanProcessMessage, this, std::placeholders::_1, std::placeholders::_2 ) );
 
+    //Handlers
+    messageHandler->Handle( MSGID_CreateCharacter ).Process( HANDLE_MESSAGE( &AccountHandler::HandleCreateCharacter, ACCOUNTHANDLER ) );
+
     return true;
 }
 
@@ -44,7 +47,7 @@ bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
     //Receiving Net Message from non net connection? Doesn't accept it!
     if( messageID > Net::MessageID::MSGID_None && !connection->IsNetConnection() )
     {
-        Beep( 300, 300 );
+        URHO3D_LOGERROR( "Connection " + connection->ToString() + " tried to send a packet as Net Server!" );
         return false;
     }
 

@@ -51,6 +51,16 @@ void CharacterScreen::BuildWindow()
     //Load Window
     window->SetVisible( true );
 
+    //Subscribe Events
+    SubscribeToEvent( window->GetChild( "CreateCharacter", true ), E_RELEASED, URHO3D_HANDLER( CharacterScreen, HandleCreateCharacterButtonPressed ) );
+
     //Add Window for UI
     USERINTERFACE->GetRoot()->AddChild( window );
+}
+
+void CharacterScreen::HandleCreateCharacterButtonPressed( StringHash eventType, VariantMap& eventData )
+{
+    auto lineEditCharacterName = window->GetChildStaticCast<LineEdit>( "CharacterName", true );
+
+    ACCOUNTHANDLER->CreateCharacter( lineEditCharacterName->GetText(), Core::CharacterClass::Pikeman );
 }

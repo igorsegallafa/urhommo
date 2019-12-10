@@ -14,9 +14,22 @@ void AccountHandler::CreateCharacter( const String& characterName, const Core::C
 {
     if( SCREEN_TYPE == ScreenType::Character )
     {
-        VectorBuffer message;
-        message.WriteString( characterName );
-        message.WriteInt( (int)characterClass );
-        CONNECTIONL->Send( MSGID_CreateCharacter, true, true, message );
+        VectorBuffer createCharacterMsg;
+        createCharacterMsg.WriteString( characterName );
+        createCharacterMsg.WriteInt( (int)characterClass );
+        CONNECTIONL->Send( MSGID_CreateCharacter, true, true, createCharacterMsg );
     }
+}
+
+bool AccountHandler::HandleWorldData( Connection* connection, MemoryBuffer& message )
+{
+    //TODO: Process Message Data
+
+    //Connect to Master Server
+    LOGINHANDLER->ProcessMasterServer();
+
+    //Change Screen to World Server
+    SCREENMANAGER->ChangeScreen( ScreenType::World );
+
+    return true;
 }

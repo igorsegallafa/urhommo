@@ -24,5 +24,8 @@ private:
     //! Build Window.
     void BuildWindow();
 private:
+    //! Create Character Button Handler.
+    void HandleCreateCharacterButtonPressed( StringHash eventType, VariantMap& eventData );
+private:
     SharedPtr<UIElement> window;
 };

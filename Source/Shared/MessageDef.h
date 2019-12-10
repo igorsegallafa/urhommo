@@ -6,4 +6,5 @@ enum MessageID
     MSGID_LoginData,
     MSGID_GameServerConnected,
     MSGID_CreateCharacter,
+    MSGID_WorldData,
 };

@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AccountHandler.cpp" />
     <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="LoginHandler.cpp" />
     <ClCompile Include="NetworkHandler.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccountHandler.h" />
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="LoginHandler.h" />

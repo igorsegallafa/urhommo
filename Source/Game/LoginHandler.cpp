@@ -33,6 +33,12 @@ void LoginHandler::ProcessGameServer( int serverIndex )
     }
 }
 
+void LoginHandler::ProcessMasterServer()
+{
+    VariantMap identity;
+    NETWORKHANDLER->ConnectMasterServer( masterServerInfo.ip, masterServerInfo.port, identity );
+}
+
 bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& message )
 {
     if( SCREEN_TYPE == ScreenType::Login )
@@ -46,10 +52,11 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
         //Successful Login
         if( loginStatus == Core::LoginStatus::Successful )
         {
+            //Read Game Servers
             int totalServers = message.ReadInt();
             for( int i = 0; i < totalServers; i++ )
             {
-                GameServerInfo gameserver;
+                ServerInfo gameserver;
                 gameserver.name = message.ReadString();
                 gameserver.ip = message.ReadString();
                 gameserver.port = message.ReadInt();
@@ -58,10 +65,14 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
                 gameServerNameList.Push( gameserver.name );
             }
 
+            //Set Game Server List
             LOGINSCREEN->SetGameServerList( gameServerNameList );
+
+            //Read Master Server Info
+            masterServerInfo.name = "MasterServer";
+            masterServerInfo.ip = message.ReadString();
+            masterServerInfo.port = message.ReadInt();
         }
-        else
-            Beep( 300, 300 );
     }
 
     return true;
