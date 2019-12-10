@@ -11,6 +11,7 @@ ServerHandler::ServerHandler( Context* context ) :
 {
     IMPL_HANDLER( NetworkHandler );
     IMPL_HANDLER( LoginHandler );
+    IMPL_HANDLER( AccountHandler );
 }
 
 ServerHandler::~ServerHandler()

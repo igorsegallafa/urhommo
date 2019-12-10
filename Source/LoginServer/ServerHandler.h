@@ -2,9 +2,11 @@
 
 #include "NetworkHandler.h"
 #include "LoginHandler.h"
+#include "AccountHandler.h"
 
 #define NETWORKHANDLER      (SERVERHANDLER->Get<NetworkHandler>())
 #define LOGINHANDLER        (SERVERHANDLER->Get<LoginHandler>())
+#define ACCOUNTHANDLER      (SERVERHANDLER->Get<AccountHandler>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 
