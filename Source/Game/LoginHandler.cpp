@@ -40,19 +40,28 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
         StringVector gameServerNameList;
         gameServerList.Clear();
 
-        int totalServers = message.ReadInt();
-        for( int i = 0; i < totalServers; i++ )
+        //Get Login Status
+        Core::LoginStatus loginStatus = (Core::LoginStatus)message.ReadInt();
+
+        //Successful Login
+        if( loginStatus == Core::LoginStatus::Successful )
         {
-            GameServerInfo gameserver;
-            gameserver.name = message.ReadString();
-            gameserver.ip = message.ReadString();
-            gameserver.port = message.ReadInt();
-            gameServerList.Push( gameserver );
+            int totalServers = message.ReadInt();
+            for( int i = 0; i < totalServers; i++ )
+            {
+                GameServerInfo gameserver;
+                gameserver.name = message.ReadString();
+                gameserver.ip = message.ReadString();
+                gameserver.port = message.ReadInt();
+                gameServerList.Push( gameserver );
 
-            gameServerNameList.Push( gameserver.name );
+                gameServerNameList.Push( gameserver.name );
+            }
+
+            LOGINSCREEN->SetGameServerList( gameServerNameList );
         }
-
-        LOGINSCREEN->SetGameServerList( gameServerNameList );
+        else
+            Beep( 300, 300 );
     }
 
     return true;
@@ -60,9 +69,6 @@ bool LoginHandler::HandleLoginData( Connection* connection, MemoryBuffer& messag
 
 bool LoginHandler::HandleGameServerConnected( Connection* connection, MemoryBuffer& message )
 {
-    //We are already on Game Server, so we don't need Login Server anymore
-    NETWORKHANDLER->CloseLoginServer();
-
     //TODO: Set Character List
 
     //Change Screen for Character Select

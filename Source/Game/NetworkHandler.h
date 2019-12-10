@@ -1,5 +1,9 @@
 #pragma once
 
+#define CONNECTIONL     (NETWORKHANDLER->GetLoginServerConnection())
+#define CONNECTIONG     (NETWORKHANDLER->GetGameServerConnection())
+#define CONNECTIONM     (NETWORKHANDLER->GetMasterServerConnection())
+
 #define MESSAGEHANDLER  (NETWORKHANDLER->GetMessageHandler())
 
 #define HANDLE_MESSAGE(function,ptr)   std::bind( function, ptr, std::placeholders::_1, std::placeholders::_2 )
@@ -43,6 +47,9 @@ public:
 
     //! Getters.
     Handler::Message* GetMessageHandler() const{ return messageHandler; }
+    Connection* GetLoginServerConnection() const { return loginServerConnection; }
+    Connection* GetGameServerConnection() const { return gameServerConnection; }
+    Connection* GetMasterServerConnection() const { return masterServerConnection; }
 private:
     Connection* Connect( const String& ip, unsigned int port, VariantMap& identity );
 

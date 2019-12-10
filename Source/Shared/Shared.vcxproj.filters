@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Definitions">
       <UniqueIdentifier>{1e5dcadd-6dcd-4292-9bc2-1c37451280cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core\Character">
+      <UniqueIdentifier>{be04209d-1539-49d0-9aa4-1c0ced5a4dca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Character">
+      <UniqueIdentifier>{a5b5d978-651a-4929-aa55-a80d60494d88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="LoginDef.cpp">
       <Filter>Source Files\Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\Core\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="LoginDef.h">
       <Filter>Header Files\Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\Core\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

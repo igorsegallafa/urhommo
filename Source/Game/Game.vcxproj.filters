@@ -88,6 +88,12 @@
     <Filter Include="Source Files\Handler\Network">
       <UniqueIdentifier>{34ff118b-37b6-4a7f-9f42-f88b6b2624f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\Account">
+      <UniqueIdentifier>{77bb4efa-fc7b-4091-ad92-40f18f6f143a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Account">
+      <UniqueIdentifier>{f69437aa-ae09-4ea7-8f57-99aa99633de4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -128,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="NetworkHandler.cpp">
       <Filter>Source Files\Handler\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountHandler.cpp">
+      <Filter>Source Files\Handler\Account</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="NetworkHandler.h">
       <Filter>Header Files\Handler\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountHandler.h">
+      <Filter>Header Files\Handler\Account</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

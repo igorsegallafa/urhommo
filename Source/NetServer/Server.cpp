@@ -139,6 +139,8 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
             netConnection->connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
             netConnections.Push( netConnection );
 
+            URHO3D_LOGINFOF( "[Net Server] New connection established from '%s'", ServerTypeToString( (ServerType)outServerType.GetInt() ) );
+
             //Set as net connection
             netConnection->connection->SetIsNetConnection( true );
 

@@ -2,6 +2,16 @@
 
 namespace Core
 {
+enum class LoginStatus
+{
+    Undefined,
+
+    Successful,
+    Banned,
+    WrongAccount,
+    WrongPassword,
+};
+
 class User : public Object
 {
     URHO3D_OBJECT( User, Object );

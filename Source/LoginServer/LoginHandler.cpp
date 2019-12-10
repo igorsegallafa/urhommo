@@ -21,32 +21,43 @@ bool LoginHandler::Init()
 void LoginHandler::ProcessLogin( Core::User* user )
 {
     VectorBuffer message;
+    Core::LoginStatus loginStatus = Core::LoginStatus::Successful;
     unsigned int totalGameServers = 0;
 
-    //Get Total Game Servers
-    for( const auto& gameServer : CONFIGMANAGER->GetNetConnections() )
-        if( gameServer->serverType == Net::ServerType::Game )
-            totalGameServers++;
+    //Write Login Response Status
+    message.WriteInt( (int)loginStatus );
 
-    //Write Total of Game Servers
-    message.WriteInt( totalGameServers );
-
-    //Write Game Servers Info
-    for( unsigned int i = 0; i < totalGameServers; i++ )
+    //Successful Login
+    if( loginStatus == Core::LoginStatus::Successful )
     {
-        auto serverConfig = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, i );
-        message.WriteString( serverConfig->name );
-        message.WriteString( serverConfig->ip );
-        message.WriteInt( serverConfig->port );
-    }
+        //Get Total Game Servers
+        for( const auto& gameServer : CONFIGMANAGER->GetNetConnections() )
+            if( gameServer->serverType == Net::ServerType::Game )
+                totalGameServers++;
 
-    //Write Character List
-    {
+        //Write Total of Game Servers
+        message.WriteInt( totalGameServers );
 
+        //Write Game Servers Info
+        for( unsigned int i = 0; i < totalGameServers; i++ )
+        {
+            auto serverConfig = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, i );
+            message.WriteString( serverConfig->name );
+            message.WriteString( serverConfig->ip );
+            message.WriteInt( serverConfig->port );
+        }
+
+        //Write Character List
+        {
+        }
     }
 
     //Send Message
     user->GetConnection()->Send( MSGID_LoginData, true, true, message );
+
+    //Disconnect if login has been failed
+    if( loginStatus != Core::LoginStatus::Successful )
+        user->GetConnection()->Disconnect( 50 );
 }
 
 void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )

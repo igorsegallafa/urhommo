@@ -11,6 +11,7 @@ GameHandler::GameHandler( Context* context ) :
 {
     IMPL_HANDLER( LoginHandler );
     IMPL_HANDLER( NetworkHandler );
+    IMPL_HANDLER( AccountHandler );
 }
 
 GameHandler::~GameHandler()
