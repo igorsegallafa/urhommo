@@ -115,7 +115,11 @@ void LoginScreen::SetGameServerList( const Vector<String>& gameServerList )
 
 void LoginScreen::HandleGameServerPressed( int serverIndex )
 {
+    //We must to connect to all servers before to send/receive any message
     LOGINHANDLER->ProcessGameServer( serverIndex );
+    LOGINHANDLER->ProcessMasterServer();
+
+    //TODO: Connect Chat Server?
 }
 
 void LoginScreen::HandleLoginButtonPressed( StringHash eventType, VariantMap& eventData )

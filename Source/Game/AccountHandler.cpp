@@ -23,10 +23,10 @@ void AccountHandler::CreateCharacter( const String& characterName, const Core::C
 
 bool AccountHandler::HandleWorldData( Connection* connection, MemoryBuffer& message )
 {
-    //TODO: Process Message Data
+    //We are already on Master and Game Server, we don't need Login Server anymore
+    NETWORKHANDLER->CloseLoginServer();
 
-    //Connect to Master Server
-    LOGINHANDLER->ProcessMasterServer();
+    //TODO: Process Message Data
 
     //Change Screen to World Server
     SCREENMANAGER->ChangeScreen( ScreenType::World );
