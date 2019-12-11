@@ -3,7 +3,7 @@
 
 CameraManager::CameraManager( Context* context ) :
     ManagerImpl( context ),
-    cameraDistance( 100.f ),
+    cameraDistance( 6.f ),
     cameraPitch( 0.f ),
     cameraYaw( 0.f ),
     mouseYaw( 0.f ),
@@ -16,6 +16,14 @@ CameraManager::CameraManager( Context* context ) :
 
 CameraManager::~CameraManager()
 {
+}
+
+bool CameraManager::Init()
+{
+    //Subscribe Events
+    SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( CameraManager, HandlePostUpdate ) );
+
+    return true;
 }
 
 void CameraManager::SetCameraPosition( const Vector3& position, const Quaternion& rotation )
@@ -33,7 +41,7 @@ void CameraManager::UpdateCameraBase()
         auto headNode = targetNode->GetChild( "Bip01 Head", true );
 
         if( headNode )
-            lookAtBase = headNode->GetPosition().UP + Vector3( 0.0f, 0.8f, 0.0f );
+            lookAtBase = headNode->GetPosition().UP + Vector3( 0.0f, 0.0f, 0.0f );
     }
 }
 

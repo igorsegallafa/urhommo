@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Entity.h"
+
 namespace Core
 {
-
 enum class CharacterClass
 {
     Undefined,
@@ -16,6 +17,17 @@ enum class CharacterClass
     Atalanta,
     Magician,
     Priestess,
+};
+
+class Character : public Entity
+{
+    URHO3D_OBJECT( Character, Entity );
+public:
+    //! Default Constructor.
+    Character( Context* context );
+
+    //! Deconstructor.
+    ~Character();
 };
 
 };

@@ -28,6 +28,9 @@ public:
     //! Deconstructor.
     ~CameraManager();
 
+    //! Initialize Camera Manager.
+    bool Init();
+
     /**
      * Set Camera Type and your target if needed
      * @param cameraType Type desired for camera

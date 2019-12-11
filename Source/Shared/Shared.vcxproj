@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="LoginDef.cpp" />
     <ClCompile Include="MessageDef.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
@@ -186,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="HandlerImpl.h" />
     <ClInclude Include="IShared.h" />
     <ClInclude Include="LoginDef.h" />

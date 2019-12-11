@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Core\Character">
       <UniqueIdentifier>{a5b5d978-651a-4929-aa55-a80d60494d88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Entity">
+      <UniqueIdentifier>{5efea1ba-08e4-4dcc-ab08-c341549a23bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Entity">
+      <UniqueIdentifier>{0e9437d9-ec33-45b9-8fd4-17f5947433ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -68,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Source Files\Core\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Core\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Header Files\Core\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Core\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
