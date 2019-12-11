@@ -14,6 +14,8 @@ Entity::Entity( Context* context ) :
 
 Entity::~Entity()
 {
+    if( node_ )
+        node_->Remove();
 }
 
 };

@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="AccountHandler.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="CharacterHandler.cpp" />
     <ClCompile Include="CharacterScreen.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -185,6 +186,7 @@
   <ItemGroup>
     <ClInclude Include="AccountHandler.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="CharacterHandler.h" />
     <ClInclude Include="CharacterScreen.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="GameManager.h" />

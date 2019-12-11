@@ -94,6 +94,12 @@
     <Filter Include="Header Files\Handler\Account">
       <UniqueIdentifier>{f69437aa-ae09-4ea7-8f57-99aa99633de4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\Character">
+      <UniqueIdentifier>{2fcb48f3-8605-4306-811f-3be97d3bae26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Character">
+      <UniqueIdentifier>{3fa207d4-42d7-49e6-9a1e-18296312240f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -137,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="AccountHandler.cpp">
       <Filter>Source Files\Handler\Account</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterHandler.cpp">
+      <Filter>Source Files\Handler\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="AccountHandler.h">
       <Filter>Header Files\Handler\Account</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterHandler.h">
+      <Filter>Header Files\Handler\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
