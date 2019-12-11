@@ -28,7 +28,7 @@ public:
      * Process Account Login into Game Server
      * @param serverIndex Index of Game Server Selected
      */
-    void ProcessGameServer( int serverIndex = 0 );
+    void ProcessGameServer( unsigned int serverIndex = 0 );
 
     /**
      * Process Account Login into Master Server

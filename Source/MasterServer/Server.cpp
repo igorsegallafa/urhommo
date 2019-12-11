@@ -19,6 +19,7 @@ Server::Server( Context* context ) : Application( context )
 {
     ServerManager::RegisterLibrary( context );
     ServerHandler::RegisterLibrary( context );
+    Shared::RegisterLibrary( context );
 }
 
 void Server::Setup()

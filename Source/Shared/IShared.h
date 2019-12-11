@@ -5,6 +5,7 @@
 #include "ManagerImpl.h"
 
 //Core
+#include "Entity.h"
 #include "User.h"
 #include "Character.h"
 
@@ -13,3 +14,12 @@
 #include "LoginDef.h"
 
 #include "MessageHandler.h"
+
+namespace Shared
+{
+static void RegisterLibrary( Context* context )
+{
+    context->RegisterFactory<Core::Entity>();
+    context->RegisterFactory<Core::Character>();
+}
+};

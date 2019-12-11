@@ -201,6 +201,9 @@
     <ClInclude Include="TestScreen.h" />
     <ClInclude Include="WorldScreen.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\Urho3D.natvis" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

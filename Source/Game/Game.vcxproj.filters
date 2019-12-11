@@ -198,4 +198,7 @@
       <Filter>Header Files\Handler\Character</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\Urho3D.natvis" />
+  </ItemGroup>
 </Project>

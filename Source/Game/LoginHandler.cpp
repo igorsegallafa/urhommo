@@ -22,7 +22,7 @@ void LoginHandler::ProcessLogin( const String& account, const String& password )
     }
 }
 
-void LoginHandler::ProcessGameServer( int serverIndex )
+void LoginHandler::ProcessGameServer( unsigned int serverIndex )
 {
     if( serverIndex >= 0 && serverIndex < gameServerList.Size() )
     {
