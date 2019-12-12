@@ -11,6 +11,7 @@ ServerManager::ServerManager( Context* context ) :
 {
     IMPL_MANAGER( UserManager );
     IMPL_MANAGER( ConfigManager );
+    IMPL_MANAGER( MapManager );
 }
 
 ServerManager::~ServerManager()

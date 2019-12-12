@@ -78,6 +78,9 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Core\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="MapDef.cpp">
+      <Filter>Source Files\Definitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Core\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDef.h">
+      <Filter>Header Files\Definitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

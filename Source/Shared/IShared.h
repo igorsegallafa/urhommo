@@ -12,6 +12,7 @@
 //Definitions
 #include "MessageDef.h"
 #include "LoginDef.h"
+#include "MapDef.h"
 
 #include "MessageHandler.h"
 

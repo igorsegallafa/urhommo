@@ -2,9 +2,11 @@
 
 #include "UserManager.h"
 #include "ConfigManager.h"
+#include "MapManager.h"
 
-#define USERMANAGER      (SERVERMANAGER->Get<UserManager>())
-#define CONFIGMANAGER    (SERVERMANAGER->Get<ConfigManager>())
+#define USERMANAGER         (SERVERMANAGER->Get<UserManager>())
+#define CONFIGMANAGER       (SERVERMANAGER->Get<ConfigManager>())
+#define MAPMANAGER          (SERVERMANAGER->Get<MapManager>())
 
 #define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
 

@@ -58,6 +58,12 @@
     <Filter Include="Header Files\Manager\Config">
       <UniqueIdentifier>{9e28fb82-50bb-4627-b28a-80e592f56463}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Map">
+      <UniqueIdentifier>{6e669b0f-5127-4440-bbab-6e7a028fa1f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Map">
+      <UniqueIdentifier>{6e5db2a2-2a90-476f-add2-1dc565f47e78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -83,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="ConfigManager.cpp">
       <Filter>Source Files\Manager\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Source Files\Manager\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="ConfigManager.h">
       <Filter>Header Files\Manager\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Header Files\Manager\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
