@@ -2,6 +2,7 @@
 
 #define SERVERMANAGER       GetSubsystem<ServerManager>()
 #define SERVERHANDLER       GetSubsystem<ServerHandler>()
+#define NETWORK             GetSubsystem<Network>()
 
 //Shared:
 #include "../Shared/IShared.h"

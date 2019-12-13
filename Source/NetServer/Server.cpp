@@ -124,6 +124,13 @@ NetConnection* Server::GetConnection( ServerType serverType, int index ) const
     return nullptr;
 }
 
+void Server::Send( ServerType serverType, int msgID, bool reliable, bool inOrder, const VectorBuffer& msg )
+{
+    for( const auto& connection : netConnections )
+        if( connection->connection && connection->serverType == serverType )
+            connection->connection->Send( msgID, reliable, inOrder, msg );
+}
+
 void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
     if( Variant outServerType, outServerID; eventData.TryGetValue( P_SERVERTYPE, outServerType ) && eventData.TryGetValue( P_SERVERID, outServerID ) )

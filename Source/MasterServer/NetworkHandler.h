@@ -3,6 +3,8 @@
 #define NETSERVER       (NETWORKHANDLER->GetNetServer())
 #define MESSAGEHANDLER  (NETWORKHANDLER->GetMessageHandler())
 
+#define HANDLE_MESSAGE(function,ptr)   std::bind( function, ptr, std::placeholders::_1, std::placeholders::_2 )
+
 class NetworkHandler : public HandlerImpl
 {
     URHO3D_OBJECT( NetworkHandler, HandlerImpl );

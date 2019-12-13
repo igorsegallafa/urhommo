@@ -28,12 +28,16 @@ void AccountHandler::ProcessWorldData( Connection* connection, const String& cha
 {
     //TODO: Input Validation
 
-    VectorBuffer worldDataMsg;
-    worldDataMsg.WriteString( characterName );
-    worldDataMsg.WriteInt( (int)characterClass );
-    worldDataMsg.WriteInt( characterLevel );
-    worldDataMsg.WriteVector3( position );
-
-    //Send Message
-    connection->Send( MSGID_WorldData, true, true, worldDataMsg );
+    if( auto user = USERMANAGER->GetUser( connection ); user )
+    {
+        VectorBuffer loadUserMsg;
+        loadUserMsg.WriteString( connection->GetAddress() );
+        loadUserMsg.WriteInt( connection->GetPort() );
+        loadUserMsg.WriteString( user->GetAccountName() );
+        loadUserMsg.WriteString( characterName );
+        loadUserMsg.WriteInt( (int)characterClass );
+        
+        NETSERVER->Send( Net::ServerType::Master, Net::MSGID_LoadUser, true, true, loadUserMsg );
+        NETSERVER->Send( Net::ServerType::Game, Net::MSGID_LoadUser, true, true, loadUserMsg );
+    }
 }

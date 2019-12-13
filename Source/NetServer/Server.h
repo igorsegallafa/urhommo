@@ -61,10 +61,13 @@ public:
     //! Get a specific connection by Server Type.
     NetConnection* GetConnection( ServerType serverType, int index = 0 ) const;
 
+    //! Send
+    void Send( ServerType serverType, int msgID, bool reliable, bool inOrder, const VectorBuffer& msg );
+
     //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
 
-    //! hANDLE Client Disconnection.
+    //! Handle Client Disconnection.
     void HandleClientDisconnect( StringHash eventType, VariantMap& eventData );
 
     //! Handle Server Connection Status.

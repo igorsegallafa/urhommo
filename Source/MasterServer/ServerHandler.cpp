@@ -10,6 +10,7 @@ ServerHandler::ServerHandler( Context* context ) :
     HandlerImpl( context )
 {
     IMPL_HANDLER( NetworkHandler );
+    IMPL_HANDLER( UserHandler );
 }
 
 ServerHandler::~ServerHandler()

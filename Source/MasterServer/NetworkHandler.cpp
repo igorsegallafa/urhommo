@@ -30,6 +30,9 @@ bool NetworkHandler::Init()
     //Global Validation
     messageHandler->AddValidation( std::bind( &NetworkHandler::CanProcessMessage, this, std::placeholders::_1, std::placeholders::_2 ) );
 
+    //Net Messages
+    messageHandler->Handle( Net::MSGID_LoadUser ).Process( HANDLE_MESSAGE( &UserHandler::HandleLoadUser, USERHANDLER ) );
+
     return true;
 }
 
