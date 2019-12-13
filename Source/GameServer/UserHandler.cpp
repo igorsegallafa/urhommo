@@ -19,7 +19,7 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
     for( const auto& clientConnection : NETWORK->GetClientConnections() )
     {
         //Found!
-        if( clientConnection->GetAddress() == address && clientConnection->GetPort() == port )
+        if( clientConnection->GetAddress().Compare( address ) == 0 && clientConnection->GetPort() == port )
         {
             auto user = USERMANAGER->GetUser( clientConnection );
             

@@ -175,6 +175,7 @@
     <ClCompile Include="ServerHandler.cpp" />
     <ClCompile Include="ServerManager.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserHandler.cpp" />
     <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="ServerHandler.h" />
     <ClInclude Include="ServerManager.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="UserHandler.h" />
     <ClInclude Include="UserManager.h" />
   </ItemGroup>
   <ItemGroup>

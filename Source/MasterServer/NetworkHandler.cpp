@@ -52,7 +52,11 @@ bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
 
 void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
-    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+}
+
+void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
+{
+    auto connection = static_cast<Connection*>(eventData[ClientConnected::P_CONNECTION].GetPtr());
 
     if( connection )
     {
@@ -61,13 +65,9 @@ void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eve
     }
 }
 
-void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
-{
-}
-
 void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
 {
-    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+    auto connection = static_cast<Connection*>(eventData[ClientDisconnected::P_CONNECTION].GetPtr());
 
     if( connection )
     {

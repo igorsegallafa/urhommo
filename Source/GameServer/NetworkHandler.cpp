@@ -31,6 +31,9 @@ bool NetworkHandler::Init()
     //Global Validation
     messageHandler->AddValidation( std::bind( &NetworkHandler::CanProcessMessage, this, std::placeholders::_1, std::placeholders::_2 ) );
 
+    //Net Messages
+    messageHandler->Handle( Net::MSGID_LoadUser ).Process( HANDLE_MESSAGE( &UserHandler::HandleLoadUser, USERHANDLER ) );
+
     return true;
 }
 
@@ -50,7 +53,11 @@ bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
 
 void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
 {
-    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+}
+
+void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
+{
+    auto connection = static_cast<Connection*>(eventData[ClientConnected::P_CONNECTION].GetPtr());
 
     if( connection )
     {
@@ -62,13 +69,9 @@ void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eve
     }
 }
 
-void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
-{
-}
-
 void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
 {
-    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+    auto connection = static_cast<Connection*>(eventData[ClientDisconnected::P_CONNECTION].GetPtr());
 
     if( connection )
     {

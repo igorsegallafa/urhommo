@@ -64,6 +64,9 @@ private:
 
     //! Handle Network Message.
     void HandleMessage( StringHash eventType, VariantMap& eventData );
+
+    //! Handle Server Connection.
+    void HandleServerConnected( StringHash eventType, VariantMap& eventData );
 private:
     SharedPtr<Handler::Message> messageHandler; //!< Pointer for the Message Handler.
 

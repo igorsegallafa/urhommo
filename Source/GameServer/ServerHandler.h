@@ -1,8 +1,10 @@
 #pragma once
 
 #include "NetworkHandler.h"
+#include "UserHandler.h"
 
 #define NETWORKHANDLER      (SERVERHANDLER->Get<NetworkHandler>())
+#define USERHANDLER         (SERVERHANDLER->Get<UserHandler>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 

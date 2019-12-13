@@ -22,11 +22,12 @@ bool NetworkHandler::Init()
     SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientConnected ) );
     SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
     SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
+    SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerConnected ) );
 
     //Handlers
     messageHandler->Handle( MSGID_LoginData ).Process( HANDLE_MESSAGE( &LoginHandler::HandleLoginData, LOGINHANDLER ) );
     messageHandler->Handle( MSGID_GameServerConnected ).Process( HANDLE_MESSAGE( &LoginHandler::HandleGameServerConnected, LOGINHANDLER ) );
-    messageHandler->Handle( MSGID_WorldData ).Process( HANDLE_MESSAGE( &AccountHandler::HandleWorldData, ACCOUNTHANDLER ) );
+    //messageHandler->Handle( MSGID_WorldData ).Process( HANDLE_MESSAGE( &AccountHandler::HandleWorldData, ACCOUNTHANDLER ) );
 
     return true;
 }
@@ -111,4 +112,11 @@ void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap&
 
 void NetworkHandler::HandleMessage( StringHash eventType, VariantMap& eventData )
 {
+}
+
+void NetworkHandler::HandleServerConnected( StringHash eventType, VariantMap& eventData )
+{
+    //Game Server Connected? Connect to Master Server
+    if( (gameServerConnection) && gameServerConnection->IsConnected() && !gameServerConnection->IsConnectPending() )
+        LOGINHANDLER->ProcessMasterServer();
 }

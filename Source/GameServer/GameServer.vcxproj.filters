@@ -64,6 +64,12 @@
     <Filter Include="Header Files\Manager\Map">
       <UniqueIdentifier>{6e5db2a2-2a90-476f-add2-1dc565f47e78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\User">
+      <UniqueIdentifier>{78686817-4916-46e2-af99-83e55304c866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\User">
+      <UniqueIdentifier>{782e3335-608c-443a-b852-155464131758}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -92,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>Source Files\Manager\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="UserHandler.cpp">
+      <Filter>Source Files\Handler\User</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>Header Files\Manager\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="UserHandler.h">
+      <Filter>Header Files\Handler\User</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

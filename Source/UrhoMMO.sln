@@ -4,16 +4,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{3CD824A1-F817-4F3B-BE0C-3C275F32BC50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E539BE52-F72F-4B02-A688-73154F0DBBE8} = {E539BE52-F72F-4B02-A688-73154F0DBBE8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetServer", "NetServer\NetServer.vcxproj", "{31B17D9F-A251-4A53-A284-D95C9CC3C071}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shared", "Shared\Shared.vcxproj", "{E539BE52-F72F-4B02-A688-73154F0DBBE8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginServer", "LoginServer\LoginServer.vcxproj", "{416D812D-834D-4804-8439-16B997346C8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E539BE52-F72F-4B02-A688-73154F0DBBE8} = {E539BE52-F72F-4B02-A688-73154F0DBBE8}
+		{31B17D9F-A251-4A53-A284-D95C9CC3C071} = {31B17D9F-A251-4A53-A284-D95C9CC3C071}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MasterServer", "MasterServer\MasterServer.vcxproj", "{D0E91534-6802-4B3B-A016-E2298EBB9726}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E539BE52-F72F-4B02-A688-73154F0DBBE8} = {E539BE52-F72F-4B02-A688-73154F0DBBE8}
+		{31B17D9F-A251-4A53-A284-D95C9CC3C071} = {31B17D9F-A251-4A53-A284-D95C9CC3C071}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{8B0EDAD8-998B-486F-B252-63E4B98965A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E539BE52-F72F-4B02-A688-73154F0DBBE8} = {E539BE52-F72F-4B02-A688-73154F0DBBE8}
+		{31B17D9F-A251-4A53-A284-D95C9CC3C071} = {31B17D9F-A251-4A53-A284-D95C9CC3C071}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
