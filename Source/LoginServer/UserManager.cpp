@@ -9,7 +9,7 @@ UserManager::~UserManager()
 {
 }
 
-SharedPtr<Core::User> UserManager::AddUser( Connection* connection )
+SharedPtr<User> UserManager::AddUser( Connection* connection )
 {
     //Doesn't add net connection as user
     if( connection->IsNetConnection() )
@@ -22,7 +22,7 @@ SharedPtr<Core::User> UserManager::AddUser( Connection* connection )
         return it->second_;
 
     //User Added
-    SharedPtr<Core::User> newUser( new Core::User( context_ ) );
+    SharedPtr<User> newUser( new User( context_ ) );
     newUser->SetConnection( connection );
     users[connection] = newUser;
 
