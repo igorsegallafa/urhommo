@@ -16,10 +16,10 @@ public:
     //! UnInitialize Object.
     void UnInit();
 
-    //! Scene Getter.
-    Scene* GetScene( const MapID& mapID );
+    //! Map Getter.
+    Map* GetScene( const MapID& mapID );
 private:
-    void Load( const MapID& mapID, const String& objectFile );
+    void Load();
 private:
-    HashMap<int, SharedPtr<Scene>> scenes;
+    HashMap<int, SharedPtr<Map>> maps;
 };

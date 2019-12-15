@@ -29,6 +29,7 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
                 auto accountName = message.ReadString();
                 auto characterName = message.ReadString();
 
+                //Set Account Name and Character Name for User
                 user->SetAccountName( accountName );
                 user->SetCharacterName( characterName );
             }

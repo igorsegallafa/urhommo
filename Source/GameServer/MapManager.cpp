@@ -3,7 +3,7 @@
 
 MapManager::MapManager( Context* context ) :
     ManagerImpl( context ),
-    scenes{}
+    maps{}
 {
 }
 
@@ -13,42 +13,52 @@ MapManager::~MapManager()
 
 bool MapManager::Init()
 {
-    Load( MapID::Ricarten, "Objects/s_v2/s_v2.xml" );
-    Load( MapID::GardenOfFreedom, "Objects/s_f/s_f_01.xml" );
+    Map* map = nullptr;
+
+    //Ricarten Town
+    map = maps[(MAP_ID)MapID::Ricarten] = new Map( context_ );
+    map->name = "Ricarten Town";
+    map->objectFile = "Objects/s_v2/s_v2.xml";
+
+    //Garden of Freedom
+    map = maps[(MAP_ID)MapID::GardenOfFreedom] = new Map( context_ );
+    map->name = "Garden of Freedom";
+    map->objectFile = "Objects/s_f/s_f_01.xml";
+
+    //Load Maps
+    Load();
 
     return true;
 }
 
 void MapManager::UnInit()
 {
-    scenes.Clear();
+    maps.Clear();
 }
 
-Scene* MapManager::GetScene( const MapID& mapID )
+Map* MapManager::GetScene( const MapID& mapID )
 {
-    auto it = scenes.Find( (int)mapID );
+    auto it = maps.Find( (int)mapID );
 
-    if( it != scenes.End() )
+    if( it != maps.End() )
         return it->second_;
 
     return nullptr;
 }
 
-void MapManager::Load( const MapID& mapID, const String& objectFile )
+void MapManager::Load()
 {
-    auto it = scenes.Find( (int)mapID );
-
-    if( it != scenes.End() )
+    for( auto& map : maps )
     {
-        URHO3D_LOGERRORF( "Already exists some scene with this MapID (%d)", (int)mapID );
-        return;
+        //Create Scene
+        SharedPtr<Scene> scene( new Scene( context_ ) );
+        scene->CreateComponent<Octree>( LOCAL );
+        scene->CreateComponent<PhysicsWorld>( LOCAL );
+
+        //Instantiate Map Object
+        scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( map.second_->objectFile )->GetRoot(), map.second_->centerPosition, Quaternion::IDENTITY, LOCAL );
+    
+        //Set Scene
+        map.second_->scene = scene;
     }
-
-    //Create Scene
-    SharedPtr<Scene> scene( new Scene( context_ ) );
-    scene->CreateComponent<Octree>( LOCAL );
-    scene->CreateComponent<PhysicsWorld>( LOCAL );
-
-    //Instantiate Map Object
-    scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( objectFile )->GetRoot(), Vector3::ZERO, Quaternion::IDENTITY, LOCAL );
 }

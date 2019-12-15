@@ -19,7 +19,8 @@ public:
      * @param characterName Character Name
      * @param characterClass Character Class
      * @param characterLevel Character Level
+     * @param mapID Map ID
      * @param position Spawn Position
      */
-    void ProcessWorldData( Connection* connection, const String&, const Core::CharacterClass&, int, const Vector3& );
+    void ProcessWorldData( Connection* connection, const String&, const Core::CharacterClass&, int, const MapID&, const Vector3& );
 };

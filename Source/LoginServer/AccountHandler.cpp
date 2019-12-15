@@ -18,13 +18,13 @@ bool AccountHandler::HandleCreateCharacter( Connection* connection, MemoryBuffer
     //TODO: Create Character into Database
 
     //Process World Data for Client
-    ProcessWorldData( connection, characterName, characterClass, 1, Vector3::ZERO );
+    ProcessWorldData( connection, characterName, characterClass, 1, MapID::Ricarten, Vector3::ZERO );
 
     return true;
 }
 
 void AccountHandler::ProcessWorldData( Connection* connection, const String& characterName, const Core::CharacterClass& characterClass,
-                                       int characterLevel, const Vector3& position )
+                                       int characterLevel, const MapID& mapID, const Vector3& position )
 {
     //TODO: Input Validation
 
@@ -36,6 +36,11 @@ void AccountHandler::ProcessWorldData( Connection* connection, const String& cha
         loadUserMsg.WriteString( user->GetAccountName() );
         loadUserMsg.WriteString( characterName );
         loadUserMsg.WriteInt( (int)characterClass );
+        loadUserMsg.WriteInt( (int)mapID );
+        loadUserMsg.WriteVector3( position );
+
+        //We can disconnect User from Login Server
+        connection->Disconnect(50);
         
         NETSERVER->Send( Net::ServerType::Master, Net::MSGID_LoadUser, true, true, loadUserMsg );
         NETSERVER->Send( Net::ServerType::Game, Net::MSGID_LoadUser, true, true, loadUserMsg );
