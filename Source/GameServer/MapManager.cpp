@@ -37,9 +37,9 @@ void MapManager::UnInit()
     maps.Clear();
 }
 
-Map* MapManager::GetScene( const MapID& mapID )
+Map* MapManager::GetMap( const MapID& mapID )
 {
-    auto it = maps.Find( (int)mapID );
+    auto it = maps.Find( (MAP_ID)mapID );
 
     if( it != maps.End() )
         return it->second_;

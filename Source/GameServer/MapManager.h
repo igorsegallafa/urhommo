@@ -17,7 +17,7 @@ public:
     void UnInit();
 
     //! Map Getter.
-    Map* GetScene( const MapID& mapID );
+    Map* GetMap( const MapID& mapID );
 private:
     void Load();
 private:
