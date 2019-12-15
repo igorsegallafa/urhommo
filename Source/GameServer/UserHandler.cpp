@@ -28,10 +28,18 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
             {
                 auto accountName = message.ReadString();
                 auto characterName = message.ReadString();
+                auto characterClass = message.ReadInt();
+                auto mapID = (MapID)message.ReadInt();
+                auto position = message.ReadVector3();
 
                 //Set Account Name and Character Name for User
                 user->SetAccountName( accountName );
                 user->SetCharacterName( characterName );
+
+                //Set User Scene
+                auto map = MAPMANAGER->GetMap( mapID );
+                if( map )
+                    clientConnection->SetScene( map->scene );
             }
 
             break;

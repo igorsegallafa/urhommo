@@ -17,9 +17,9 @@ public:
     void UnInit();
 
     //! Map Getter.
-    Map* GetMap( const MapID& mapID );
+    BaseMap* GetMap( const MapID& mapID );
 private:
     void Load();
 private:
-    HashMap<int, SharedPtr<Map>> maps;
+    HashMap<int, SharedPtr<BaseMap>> maps;
 };

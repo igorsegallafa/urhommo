@@ -10,18 +10,18 @@ enum class MapID
     GardenOfFreedom,
 };
 
-class Map : public Object
+class BaseMap : public Object
 {
-    URHO3D_OBJECT( Map, Object );
+    URHO3D_OBJECT( BaseMap, Object );
 public:
     //! Constructor.
-    Map( Context* context ) : Object( context ),
+    BaseMap( Context* context ) : Object( context ),
         mapID(MapID::Undefined),
         centerPosition(Vector3::ZERO),
         scene(nullptr){}
 
     //! Deconstructor.
-    ~Map(){}
+    ~BaseMap(){}
 public:
     MapID mapID;
     String name;
