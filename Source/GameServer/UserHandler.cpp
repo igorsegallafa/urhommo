@@ -33,8 +33,8 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
                 auto position = message.ReadVector3();
 
                 //Set Account Name and Character Name for User
-                user->SetAccountName( accountName );
-                user->SetCharacterName( characterName );
+                user->accountName = accountName;
+                user->characterName = characterName;
 
                 //Set User Scene
                 auto map = MAPMANAGER->GetMap( mapID );

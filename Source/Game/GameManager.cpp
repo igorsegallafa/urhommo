@@ -11,6 +11,7 @@ GameManager::GameManager( Context* context ) :
 {
     IMPL_MANAGER( ScreenManager );
     IMPL_MANAGER( CameraManager );
+    IMPL_MANAGER( MapManager );
 }
 
 GameManager::~GameManager()

@@ -33,7 +33,7 @@ void AccountHandler::ProcessWorldData( Connection* connection, const String& cha
         VectorBuffer loadUserMsg;
         loadUserMsg.WriteString( connection->GetAddress() );
         loadUserMsg.WriteInt( connection->GetPort() );
-        loadUserMsg.WriteString( user->GetAccountName() );
+        loadUserMsg.WriteString( user->accountName );
         loadUserMsg.WriteString( characterName );
         loadUserMsg.WriteInt( (int)characterClass );
         loadUserMsg.WriteInt( (int)mapID );

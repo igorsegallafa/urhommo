@@ -55,6 +55,12 @@
     <Filter Include="Header Files\Core\Entity">
       <UniqueIdentifier>{0e9437d9-ec33-45b9-8fd4-17f5947433ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{8e00fcb6-16d2-4b3a-84d5-a2926df8c4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{fdb0d04c-88e0-4ccf-adc6-af623bef847a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -79,7 +85,7 @@
       <Filter>Source Files\Core\Entity</Filter>
     </ClCompile>
     <ClCompile Include="MapDef.cpp">
-      <Filter>Source Files\Definitions</Filter>
+      <Filter>Source Files\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +120,7 @@
       <Filter>Header Files\Core\Entity</Filter>
     </ClInclude>
     <ClInclude Include="MapDef.h">
-      <Filter>Header Files\Definitions</Filter>
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

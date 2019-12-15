@@ -21,14 +21,7 @@ public:
 
     //! Deconstructor.
     ~User();
-    
-    //! Getters and Setters.
-    void SetAccountName( const String& accountName_ ) { accountName = accountName_; }
-    const String& GetAccountName() const{ return accountName; }
-
-    void SetConnection( Connection* connection_ ){ connection = connection_; }
-    Connection* GetConnection() const{ return connection; }
-private:
+public:
     String accountName; //!< Account Name.
     Connection* connection; //!< Connection pointer.
 };

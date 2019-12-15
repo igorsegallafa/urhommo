@@ -9,10 +9,6 @@ public:
 
     //! Deconstructor.
     ~User();
-
-    //! Gettters and Setters.
-    const String& GetCharacterName() const { return characterName; }
-    void SetCharacterName( const String& characterName_ ) { characterName = characterName_; }
-private:
+public:
     String characterName;   //!< Character Name.
 };

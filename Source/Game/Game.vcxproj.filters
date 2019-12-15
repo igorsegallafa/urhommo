@@ -100,6 +100,12 @@
     <Filter Include="Header Files\Handler\Character">
       <UniqueIdentifier>{3fa207d4-42d7-49e6-9a1e-18296312240f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Map">
+      <UniqueIdentifier>{a20117ab-318f-47aa-bec9-510c4fe8f142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Map">
+      <UniqueIdentifier>{ac5aabbb-4c43-4f28-899f-98fe15f5b129}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -146,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="CharacterHandler.cpp">
       <Filter>Source Files\Handler\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Source Files\Manager\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="CharacterHandler.h">
       <Filter>Header Files\Handler\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Header Files\Manager\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

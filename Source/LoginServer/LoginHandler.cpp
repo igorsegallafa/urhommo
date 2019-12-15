@@ -58,11 +58,11 @@ void LoginHandler::ProcessLogin( Core::User* user )
     }
 
     //Send Message
-    user->GetConnection()->Send( MSGID_LoginData, true, true, loginDataMsg );
+    user->connection->Send( MSGID_LoginData, true, true, loginDataMsg );
 
     //Disconnect if login has been failed
     if( loginStatus != Core::LoginStatus::Successful )
-        user->GetConnection()->Disconnect( 50 );
+        user->connection->Disconnect( 50 );
 }
 
 void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
@@ -81,7 +81,7 @@ void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& event
         if( user )
         {
             //Set AccountName
-            user->SetAccountName( outAccountName.GetString() );
+            user->accountName = outAccountName.GetString();
 
             //Process Login of User
             ProcessLogin( user );

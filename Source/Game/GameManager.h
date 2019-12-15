@@ -2,9 +2,11 @@
 
 #include "ScreenManager.h"
 #include "CameraManager.h"
+#include "MapManager.h"
 
 #define SCREENMANAGER       (GAMEMANAGER->Get<ScreenManager>())
 #define CAMERAMANAGER       (GAMEMANAGER->Get<CameraManager>())
+#define MAPMANAGER          (GAMEMANAGER->Get<MapManager>())
 
 #define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
 

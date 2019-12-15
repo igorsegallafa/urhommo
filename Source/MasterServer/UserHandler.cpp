@@ -29,8 +29,8 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
                 auto accountName = message.ReadString();
                 auto characterName = message.ReadString();
 
-                user->SetAccountName( accountName );
-                user->SetCharacterName( characterName );
+                user->accountName = accountName;
+                user->characterName = characterName;
             }
 
             break;
