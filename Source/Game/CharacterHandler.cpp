@@ -9,3 +9,8 @@ CharacterHandler::CharacterHandler( Context* context ) :
 CharacterHandler::~CharacterHandler()
 {
 }
+
+bool CharacterHandler::HandleWorldData( Connection* connection, MemoryBuffer& message )
+{
+    return true;
+}

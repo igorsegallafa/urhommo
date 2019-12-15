@@ -9,4 +9,7 @@ public:
 
     //! Deconstructor.
     ~CharacterHandler();
+
+    //! World Data Handler.
+    bool HandleWorldData( Connection* connection, MemoryBuffer& message );
 };

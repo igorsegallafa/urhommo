@@ -43,6 +43,5 @@ void AccountHandler::ProcessWorldData( Connection* connection, const String& cha
         connection->Disconnect(50);
         
         NETSERVER->Send( Net::ServerType::Master, Net::MSGID_LoadUser, true, true, loadUserMsg );
-        NETSERVER->Send( Net::ServerType::Game, Net::MSGID_LoadUser, true, true, loadUserMsg );
     }
 }

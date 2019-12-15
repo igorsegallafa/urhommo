@@ -40,11 +40,39 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
                 auto map = MAPMANAGER->GetMap( mapID );
                 if( map )
                     clientConnection->SetScene( map->scene );
+
+                //Load Character
+                return LoadCharacter( user, mapID, position );
             }
 
             break;
         }
     }
 
-    return true;
+    return false;
+}
+
+bool UserHandler::LoadCharacter( User* user, const MapID& mapID, const Vector3& position )
+{
+    auto map = MAPMANAGER->GetMap( mapID );
+
+    if( map && user )
+    {
+        auto xmlFile = RESOURCECACHE->GetResource<XMLFile>( "Objects/Character.xml" );
+        auto characterNode = map->scene->InstantiateXML( xmlFile->GetRoot(), position, Quaternion::IDENTITY );
+
+        //Set the Connection Owner
+        characterNode->SetOwner( user->connection );
+        characterNode->GetOrCreateComponent<Core::Character>();
+
+        //Send Character Node ID for Client
+        VectorBuffer worldDataMsg;
+        worldDataMsg.WriteInt( characterNode->GetID() );
+        worldDataMsg.WriteInt( (MAP_ID)mapID );
+        user->connection->Send( MSGID_WorldData, true, true, worldDataMsg );
+
+        return true;
+    }
+
+    return false;
 }

@@ -12,5 +12,7 @@ public:
 
     //! Load User Handler.
     bool HandleLoadUser( Connection* connection, MemoryBuffer& message );
+private:
+    bool LoadCharacter( User* user, const MapID& mapID, const Vector3& position );
 };
 

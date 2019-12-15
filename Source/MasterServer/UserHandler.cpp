@@ -31,6 +31,9 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
 
                 user->accountName = accountName;
                 user->characterName = characterName;
+
+                //Send message for Game Server
+                NETSERVER->Send( Net::ServerType::Game, Net::MSGID_LoadUser, true, true, VectorBuffer( message.GetData(), message.GetSize() ) );
             }
 
             break;
