@@ -9,6 +9,7 @@ MapManager::MapManager( Context* context ) :
 
 MapManager::~MapManager()
 {
+    maps.Clear();
 }
 
 bool MapManager::Init()

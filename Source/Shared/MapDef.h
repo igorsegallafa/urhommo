@@ -27,5 +27,5 @@ public:
     String name;
     String objectFile;
     Vector3 centerPosition;
-    SharedPtr<Scene> scene;
+    Scene* scene;
 };
