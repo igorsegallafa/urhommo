@@ -11,4 +11,5 @@ public:
     ~User();
 public:
     String characterName;   //!< Character Name.
+    MapID mapID;    //!< Map ID.
 };

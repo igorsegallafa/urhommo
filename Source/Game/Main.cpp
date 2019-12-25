@@ -9,6 +9,10 @@ Game::Game( Context* context ) : Application( context )
     Shared::RegisterLibrary( context );
 }
 
+Game::~Game()
+{
+}
+
 void Game::Setup()
 {
     engineParameters_[EP_WINDOW_TITLE] = "Game";

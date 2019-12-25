@@ -10,6 +10,23 @@ UserHandler::~UserHandler()
 {
 }
 
+bool UserHandler::HandleWorldData( Connection* connection, MemoryBuffer & message )
+{
+    auto user = USERMANAGER->GetUser( connection );
+    if( user )
+    {
+        //Set User Scene
+        auto map = MAPMANAGER->GetMap( user->mapID );
+
+        if( map )
+            connection->SetScene( map->scene );
+
+        return true;
+    }
+
+    return false;
+}
+
 bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message )
 {
     auto address = message.ReadString();
@@ -35,11 +52,7 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
                 //Set Account Name and Character Name for User
                 user->accountName = accountName;
                 user->characterName = characterName;
-
-                //Set User Scene
-                auto map = MAPMANAGER->GetMap( mapID );
-                if( map )
-                    clientConnection->SetScene( map->scene );
+                user->mapID = mapID;
 
                 //Load Character
                 return LoadCharacter( user, mapID, position );

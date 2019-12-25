@@ -57,9 +57,9 @@ void NetworkHandler::ConnectGameServer( const String& ip, unsigned int port, Var
 
 void NetworkHandler::CloseConnections()
 {
-    CloseLoginServer();
+    /*Deprecated CloseLoginServer();
     CloseMasterServer();
-    CloseGameServer();
+    CloseGameServer();*/
 }
 
 void NetworkHandler::CloseLoginServer()

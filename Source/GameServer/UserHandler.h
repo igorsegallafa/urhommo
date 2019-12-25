@@ -10,6 +10,9 @@ public:
     //! Deconstructor.
     ~UserHandler();
 
+    //! World Data Handler.
+    bool HandleWorldData( Connection* connection, MemoryBuffer& message );
+
     //! Load User Handler.
     bool HandleLoadUser( Connection* connection, MemoryBuffer& message );
 private:

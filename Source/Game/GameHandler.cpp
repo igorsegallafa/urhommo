@@ -17,6 +17,9 @@ GameHandler::GameHandler( Context* context ) :
 
 GameHandler::~GameHandler()
 {
+    for( auto& p : handlers )
+        delete p.second_;
+
     handlers.Clear();
 }
 

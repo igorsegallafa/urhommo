@@ -6,6 +6,9 @@ public:
     //! Constructor.
     Game( Context* context );
 
+    //! Deconstructor.
+    ~Game();
+
     void Setup();
 
     void Start();

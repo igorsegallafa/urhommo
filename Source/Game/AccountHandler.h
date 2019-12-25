@@ -16,7 +16,4 @@ public:
      * @param characterClass Class of character
      */
     void CreateCharacter( const String& characterName, const Core::CharacterClass& characterClass );
-
-    //! World Data Handler.
-    bool HandleWorldData( Connection* connection, MemoryBuffer& message );
 };
