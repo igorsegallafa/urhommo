@@ -54,14 +54,11 @@ void MapManager::Load()
     for( auto& map : maps )
     {
         //Create Scene
-        SharedPtr<Scene> scene( new Scene( context_ ) );
-        scene->CreateComponent<Octree>( LOCAL );
-        scene->CreateComponent<PhysicsWorld>( LOCAL );
+		map.second_->scene = new Scene( context_ );
+		map.second_->scene->CreateComponent<Octree>( LOCAL );
+		map.second_->scene->CreateComponent<PhysicsWorld>( LOCAL );
 
         //Instantiate Map Object
-        scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( map.second_->objectFile )->GetRoot(), map.second_->centerPosition, Quaternion::IDENTITY, LOCAL );
-    
-        //Set Scene
-        map.second_->scene = scene;
+		map.second_->scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( map.second_->objectFile )->GetRoot(), map.second_->centerPosition, Quaternion::IDENTITY, LOCAL );
     }
 }

@@ -32,6 +32,7 @@ SharedPtr<User> UserManager::AddUser( Connection* connection )
 
     //User Added
     SharedPtr<User> newUser( new User( context_ ) );
+	newUser->connection = connection;
     users[connection] = newUser;
 
     return newUser;
