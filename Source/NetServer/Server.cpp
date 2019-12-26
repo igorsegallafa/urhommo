@@ -179,6 +179,16 @@ void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData
     //Server Disconnected
     else if( eventType == E_SERVERDISCONNECTED )
     {
+        auto connection = static_cast<Connection*>(eventData[ServerDisconnected::P_CONNECTION].GetPtr());
+
+        for( auto it = netConnections.Begin(); it != netConnections.End(); ++it )
+        {
+            if( (*it)->connection == connection )
+            {
+                netConnections.Erase( it );
+                break;
+            }
+        }
     }
     //Server Connect Failed
     else if( eventType == E_CONNECTFAILED )
