@@ -16,6 +16,9 @@ ServerHandler::ServerHandler( Context* context ) :
 
 ServerHandler::~ServerHandler()
 {
+    for( auto& p : handlers )
+        delete p.second_;
+
     handlers.Clear();
 }
 

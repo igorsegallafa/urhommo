@@ -16,6 +16,9 @@ GameManager::GameManager( Context* context ) :
 
 GameManager::~GameManager()
 {
+    for( auto& p : managers )
+        delete p.second_;
+
     managers.Clear();
 }
 

@@ -16,6 +16,9 @@ ServerManager::ServerManager( Context* context ) :
 
 ServerManager::~ServerManager()
 {
+    for( auto& p : managers )
+        delete p.second_;
+
     managers.Clear();
 }
 
