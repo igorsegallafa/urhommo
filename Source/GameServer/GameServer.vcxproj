@@ -84,10 +84,10 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <EnableModules>true</EnableModules>
-      <PreprocessorDefinitions>URHO3D_LOGGING;URHO3D_PHYSICS=1;URHO3D_WIN32_CONSOLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>URHO3D_LOGGING;URHO3D_PHYSICS=1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(URHO3D_HOME)\lib\;..\Lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Shared_d.lib;NetServer_d.lib;Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -133,10 +133,10 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableModules>true</EnableModules>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <PreprocessorDefinitions>URHO3D_WIN32_CONSOLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(URHO3D_HOME)\lib\;..\Lib\</AdditionalLibraryDirectories>

@@ -2,6 +2,11 @@
 
 #define SERVERMANAGER       GetSubsystem<ServerManager>()
 #define SERVERHANDLER       GetSubsystem<ServerHandler>()
+#define INPUT               GetSubsystem<Input>()
+#define USERINTERFACE       GetSubsystem<UI>()
+#define RESOURCECACHE       GetSubsystem<ResourceCache>()
+#define RENDERER            GetSubsystem<Renderer>()
+#define GRAPHICS            GetSubsystem<Graphics>()
 #define NETWORK             GetSubsystem<Network>()
 
 //Shared:

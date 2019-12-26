@@ -1,20 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "Server.h"
 
-#if defined(_WIN32) || defined(WIN32)
-Server* serverInstance = nullptr;
-
-BOOL ConsoleHandler( DWORD event )
-{
-    if( event == CTRL_CLOSE_EVENT )
-    {
-        serverInstance->Stop();
-        return TRUE;
-    }
-    return FALSE;
-}
-#endif
-
 Server::Server( Context* context ) : Application( context )
 {
     ServerManager::RegisterLibrary( context );
@@ -26,21 +12,31 @@ void Server::Setup()
 {
     engineParameters_[EP_WINDOW_TITLE] = "Master Server";
     engineParameters_[EP_FULL_SCREEN] = false;
-    engineParameters_[EP_HEADLESS] = true;
+    //Deprecated engineParameters_[EP_HEADLESS] = true;
     engineParameters_[EP_SOUND] = false;
     engineParameters_[EP_WINDOW_RESIZABLE] = false;
     engineParameters_[EP_WINDOW_WIDTH] = 800;
-    engineParameters_[EP_WINDOW_HEIGHT] = 416;
+    engineParameters_[EP_WINDOW_HEIGHT] = 405;
     engineParameters_[EP_RESOURCE_PATHS] = "Data;ServerData;";
     engineParameters_[EP_LOG_NAME] = "Logs/" + engineParameters_[EP_WINDOW_TITLE].GetString() + ".log";
 }
 
 void Server::Start()
 {
-#if defined(_WIN32) || defined(WIN32)
-    serverInstance = this;
-    SetConsoleCtrlHandler( (PHANDLER_ROUTINE)(ConsoleHandler), TRUE );
-#endif
+    //Load Console Style
+    auto xmlFile = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
+
+    //Set Default Style
+    USERINTERFACE->GetRoot()->SetDefaultStyle( xmlFile );
+
+    //Create console
+    Console* console = engine_->CreateConsole();
+    console->SetDefaultStyle( xmlFile );
+    console->GetBackground()->SetOpacity( 0.8f );
+    console->SetVisible( true );
+    console->SetNumRows( 20 );
+    console->SetNumBufferedRows( 100 );
+    console->GetCloseButton()->SetVisible( false );
 
     PrintSignature();
 
