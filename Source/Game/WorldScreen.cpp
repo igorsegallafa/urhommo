@@ -25,28 +25,15 @@ void WorldScreen::Init()
 
 void WorldScreen::CreateScene()
 {
-    auto sceneFile = RESOURCECACHE->GetResource<XMLFile>( "Scenes/World.xml" );
+    //Set Game Server Connection Scene
+    CONNECTIONG->SetScene( scene );
 
-    if( sceneFile )
-    {
-        //Set Game Server Connection Scene
-        CONNECTIONG->SetScene( scene );
+    //Create Scene Components
+    scene->CreateComponent<Octree>( LOCAL );
+    scene->CreateComponent<PhysicsWorld>( LOCAL );
 
-        //Create Scene Components
-        scene->CreateComponent<Octree>( LOCAL );
-        scene->CreateComponent<PhysicsWorld>( LOCAL );
-
-        //Load Scene
-        //scene->LoadXML( sceneFile->GetRoot() );
-
-        //Game Server can Set Connection Scene
-        CONNECTIONG->Send( MSGID_WorldData, true, true, VectorBuffer() );
-    }
-
-    /*Depracated 
-    scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( "Objects/s_v2/s_v2.xml" )->GetRoot(), Vector3::ZERO, Quaternion::IDENTITY, LOCAL );
-    auto characterNode = scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( "Objects/char/player_m0.xml" )->GetRoot(), Vector3( -76.9475f, 5.0f, -22.1408f ), Quaternion::IDENTITY, LOCAL );
-    CAMERAMANAGER->SetCameraType( CameraType::Follow, characterNode );*/
+    //Game Server can Set Connection Scene
+    CONNECTIONG->Send( MSGID_WorldData, true, true, VectorBuffer() );
 }
 
 void WorldScreen::SetupViewport()
