@@ -76,7 +76,7 @@ bool UserHandler::LoadCharacter( User* user, const MapID& mapID, const Vector3& 
 
         //Set the Connection Owner
         characterNode->SetOwner( user->connection );
-        characterNode->GetOrCreateComponent<Core::Character>();
+        user->character = characterNode->GetOrCreateComponent<Core::Character>();
 
         //Send Character Node ID for Client
         VectorBuffer worldDataMsg;

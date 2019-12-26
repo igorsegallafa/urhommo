@@ -101,6 +101,7 @@ bool Server::ConnectAll()
         if( connectionInfo->connection = GetSubsystem<Network>()->Connect( connectionInfo->ip, connectionInfo->port, nullptr, identity ) )
         {
             //Set as net connection
+            connectionInfo->address = 0;
             connectionInfo->connection->SetIsNetConnection( true );
             return true;
         }
@@ -144,6 +145,7 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
             netConnection->id = outServerID.GetInt();
             netConnection->serverType = (ServerType)outServerType.GetInt();
             netConnection->connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+            netConnection->address = netConnection->connection->GetAddressOrGUIDHash();
             netConnections.Push( netConnection );
 
             URHO3D_LOGINFOF( "[Net Server] New connection established from '%s'", ServerTypeToString( (ServerType)outServerType.GetInt() ) );
@@ -175,15 +177,18 @@ void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData
     //Server Connected
     if( eventType == E_SERVERCONNECTED )
     {
+        //Update all Server Connections Address
+        for( auto& connectionInfo : netConnections )
+            if( connectionInfo->connection )
+                if( !connectionInfo->connection->IsConnectPending() && connectionInfo->address == 0 )
+                    connectionInfo->address = connectionInfo->connection->GetAddressOrGUIDHash();
     }
     //Server Disconnected
     else if( eventType == E_SERVERDISCONNECTED )
     {
-        auto connection = static_cast<Connection*>(eventData[ServerDisconnected::P_CONNECTION].GetPtr());
-
         for( auto it = netConnections.Begin(); it != netConnections.End(); ++it )
         {
-            if( (*it)->connection == connection )
+            if( (*it)->address == eventData[ServerDisconnected::P_ADDRESS].GetUInt() )
             {
                 netConnections.Erase( it );
                 break;

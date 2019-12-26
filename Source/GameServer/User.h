@@ -12,4 +12,5 @@ public:
 public:
     String characterName;   //!< Character Name.
     MapID mapID;    //!< Map ID.
+    Core::Character* character; //!< Character Pointer.
 };

@@ -22,6 +22,7 @@ enum class ServerType
 struct NetConnection
 {
     int id; //!< Connection ID
+    unsigned int address;   //!< Server Address
     String name;    //!< Server Name
     String ip;  //!< Server IP
     int port;   //!< Server Port
