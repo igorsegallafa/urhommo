@@ -82,6 +82,7 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
 
                 //Intercept Network Position
                 characterNode->SetInterceptNetworkUpdate( "Network Position", true );
+                characterNode->SetInterceptNetworkUpdate( "Network Rotation", true );
 
                 //Load Map
                 MAPMANAGER->Load( mapIDToLoad );
@@ -95,4 +96,8 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
 
 void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventData )
 {
+    if( eventData[MouseButtonDown::P_CLICKS].GetInt() == 2 )
+        isWalking = true;
+    else
+        isWalking = false;
 }

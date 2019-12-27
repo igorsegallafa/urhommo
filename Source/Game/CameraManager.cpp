@@ -112,10 +112,64 @@ void CameraManager::HandlePostUpdate( StringHash eventType, VariantMap& eventDat
 {
     float timeStep = eventData[Update::P_TIMESTEP].GetFloat();
 
+    //Move Camera Handler
+    HandleMoveCamera( timeStep );
+
+    //Update Mouse Yaw
+    mouseYaw = Atan2( INPUT->GetMousePosition().y_ - (GRAPHICS->GetSize().y_ >> 1), INPUT->GetMousePosition().x_ - (GRAPHICS->GetSize().x_ >> 1) ) + 90.0f;
+
     //Follow Camera
     if( type == CameraType::Follow && targetNode )
     {
         GetCameraNode()->SetRotation( Quaternion( cameraPitch, cameraYaw, 0.0f ) );
         GetCameraNode()->SetPosition( targetNode->GetPosition() + lookAtBase + GetCameraNode()->GetRotation() * Vector3::BACK * cameraDistance );
+    }
+}
+
+void CameraManager::HandleMoveCamera( float timeStep )
+{
+    if( type == CameraType::Follow && targetNode )
+    {
+        //Distance Camera
+        if( INPUT->GetKeyDown( KEY_UP ) )
+            cameraDistance -= 0.1f;
+        else if( INPUT->GetKeyDown( KEY_DOWN ) )
+            cameraDistance += 0.1f;
+
+        //Limit Camera Distance
+        cameraDistance = Clamp( cameraDistance, CAMERA_MIN_DISTANCE, CAMERA_MAX_DISTANCE );
+
+        //Move camera to right or left
+        if( INPUT->GetKeyDown( KEY_LEFT ) )
+            cameraYaw += 0.5f;
+        else if( INPUT->GetKeyDown( KEY_RIGHT ) )
+            cameraYaw -= 0.5f;
+
+        //Camera Pitch
+        if( INPUT->GetMouseMoveWheel() )
+            deltaMouseMoveWheel += INPUT->GetMouseMoveWheel() * 0.05f;
+
+        if( deltaMouseMoveWheel )
+        {
+            if( deltaMouseMoveWheel < 0.0f )
+            {
+                deltaMouseMoveWheel += 0.001f;
+
+                if( deltaMouseMoveWheel >= 0.0f )
+                    deltaMouseMoveWheel = 0.0f;
+            }
+            else
+            {
+                deltaMouseMoveWheel -= 0.001f;
+
+                if( deltaMouseMoveWheel <= 0.0f )
+                    deltaMouseMoveWheel = 0.0f;
+            }
+
+            cameraPitch += deltaMouseMoveWheel;
+        }
+
+        //Limit Camera Pitch
+        cameraPitch = Clamp( cameraPitch, 1.0f, 90.0f );
     }
 }

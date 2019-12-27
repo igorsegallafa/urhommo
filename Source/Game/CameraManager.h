@@ -60,6 +60,9 @@ public:
     //! Subscribed Events.
     void HandlePostUpdate( StringHash eventType, VariantMap& eventData );
 private:
+    //! Move Camera Handler.
+    void HandleMoveCamera( float timeStep );
+private:
     WeakPtr<Node> cameraNode;   //!< Pointer for camera Node.
     CameraType type;    //!< Camera Type.
     Node* targetNode;   //!< Camera Target Node.
