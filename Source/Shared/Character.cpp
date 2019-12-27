@@ -72,6 +72,41 @@ void Character::FixedUpdate( float time )
             node_->SetRotation( connection->GetRotation() );
             node_->SetPosition( connection->GetPosition() );
         }
+
+        auto p = node_->GetComponent<AnimationController>( true );
+
+        Variant out;
+        controls.extraData_.TryGetValue( "Action", out );
+        if( auto action = out.GetInt(); action != 0 )
+        {
+            if( action == 10 )
+            {
+                if( p->IsPlaying( 1 ) && p->IsAtEnd( 1 ) )
+                {
+                    p->Play( "Models/ani/char/ws_skill_fclj_single_jian.ani", 1, false, 0.f );
+                    p->SetTime( "Models/ani/char/ws_skill_fclj_single_jian.ani", 0.f );
+                    p->SetSpeed( "Models/ani/char/ws_skill_fclj_single_jian.ani", 1.7f );
+                    p->SetAutoFade( "Models/ani/char/ws_skill_fclj_single_jian.ani", 0.1f );
+                }
+                else if( !p->IsPlaying( 1 ) )
+                {
+                    p->Play( "Models/ani/char/ws_skill_fclj_single_jian.ani", 1, false, 0.15f );
+                    p->SetSpeed( "Models/ani/char/ws_skill_fclj_single_jian.ani", 1.7f );
+                    p->SetAutoFade( "Models/ani/char/ws_skill_fclj_single_jian.ani", 0.1f );
+                }
+            }
+        }
+        else
+        {
+            //Animation Controller
+            if( controls.buttons_ & CHARACTERCONTROL_Forward )
+            {
+                p->PlayExclusive( "Models/ani/char/walk.ani", 0, true, 0.3f );
+            }
+            else
+                p->PlayExclusive( "Models/ani/char/jxbws_stand_both_jian.ani", 0, true, 0.3f );
+        }
+
     }
 }
 };

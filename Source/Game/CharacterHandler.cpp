@@ -56,6 +56,10 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             Controls controls;
             controls.yaw_ = CAMERAMANAGER->GetCameraYaw() + CAMERAMANAGER->GetMouseYaw();
             controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
+            controls.extraData_["Action"] = 0;
+            
+            if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
+                controls.extraData_["Action"] = 10;
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );
             CONNECTIONG->SetRotation( characterNode->GetRotation() );
@@ -96,7 +100,7 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
 
 void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventData )
 {
-    if( eventData[MouseButtonDown::P_CLICKS].GetInt() == 2 )
+    if( eventData[MouseButtonDown::P_BUTTON].GetInt() == MOUSEB_LEFT && eventData[MouseButtonDown::P_CLICKS].GetInt() == 2 )
         isWalking = true;
     else
         isWalking = false;

@@ -132,18 +132,18 @@ void CameraManager::HandleMoveCamera( float timeStep )
     {
         //Distance Camera
         if( INPUT->GetKeyDown( KEY_UP ) )
-            cameraDistance -= 0.1f;
+            cameraDistance -= 30.f * timeStep;
         else if( INPUT->GetKeyDown( KEY_DOWN ) )
-            cameraDistance += 0.1f;
+            cameraDistance += 30.f * timeStep;
 
         //Limit Camera Distance
         cameraDistance = Clamp( cameraDistance, CAMERA_MIN_DISTANCE, CAMERA_MAX_DISTANCE );
 
         //Move camera to right or left
         if( INPUT->GetKeyDown( KEY_LEFT ) )
-            cameraYaw += 0.5f;
+            cameraYaw += 100.f * timeStep;
         else if( INPUT->GetKeyDown( KEY_RIGHT ) )
-            cameraYaw -= 0.5f;
+            cameraYaw -= 100.f * timeStep;
 
         //Camera Pitch
         if( INPUT->GetMouseMoveWheel() )
@@ -166,7 +166,7 @@ void CameraManager::HandleMoveCamera( float timeStep )
                     deltaMouseMoveWheel = 0.0f;
             }
 
-            cameraPitch += deltaMouseMoveWheel;
+            cameraPitch += deltaMouseMoveWheel * timeStep * 100.f;
         }
 
         //Limit Camera Pitch
