@@ -77,7 +77,11 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
             if( characterNode )
             {
                 character = characterNode->GetComponent<Core::Character>( true );
+                character->CreatePhysicsComponent();
                 character->connection = CONNECTIONG;
+
+                //Intercept Network Position
+                characterNode->SetInterceptNetworkUpdate( "Network Position", true );
 
                 //Load Map
                 MAPMANAGER->Load( mapIDToLoad );

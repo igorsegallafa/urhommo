@@ -26,10 +26,14 @@ Entity::~Entity()
 
 void Entity::Start()
 {
+}
+
+void Entity::CreatePhysicsComponent()
+{
     //Initial Node Transform
     btTransform startTransform;
     startTransform.setIdentity();
-    startTransform.setOrigin( btVector3( -76.9475f, 5.0f, -22.1408f ) );
+    startTransform.setOrigin( btVector3( node_->GetWorldPosition().x_, node_->GetWorldPosition().y_, node_->GetWorldPosition().z_ ) );
     startTransform.setRotation( ToBtQuaternion( Quaternion( 90, 0, 0 ) ) );
 
     //Capsule used for collision

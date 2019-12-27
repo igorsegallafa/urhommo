@@ -27,7 +27,7 @@ void Character::FixedUpdate( float time )
     {
         const Controls& controls = connection->GetControls();
 
-        if( GetSubsystem<Network>()->IsServerRunning() )
+        if( !GetSubsystem<Network>()->IsServerRunning() )
         {
             Quaternion rotation;
             Vector3 moveDirection = Vector3::ZERO;
@@ -35,7 +35,7 @@ void Character::FixedUpdate( float time )
             auto transform = GetComponent<SmoothedTransform>();
 
             //Smoothed Transform not found
-            if( !transform )
+            if( transform == nullptr || bulletController == nullptr )
                 return;
 
             //Character is walking?
@@ -67,11 +67,11 @@ void Character::FixedUpdate( float time )
             Vector3 newPosition = ToVector3( worldTransform.getOrigin() ) + Vector3::DOWN * height * 0.5f;
             node_->SetWorldPosition( newPosition );
         }
-        /*else
+        else if( connection->GetPosition() != Vector3( -1.f, -1.f, -1.f ) )
         {
             node_->SetRotation( connection->GetRotation() );
             node_->SetPosition( connection->GetPosition() );
-        }*/
+        }
     }
 }
 };

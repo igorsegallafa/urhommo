@@ -17,6 +17,9 @@ public:
 
     //! Start Logic Component.
     void Start();
+
+    //! Create Physics Component.
+    void CreatePhysicsComponent();
 protected:
     float height;
     float diameter;
