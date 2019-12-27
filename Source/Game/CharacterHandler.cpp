@@ -4,9 +4,12 @@
 CharacterHandler::CharacterHandler( Context* context ) :
     HandlerImpl( context ),
 	characterNodeID( -1 ),
-    character( nullptr )
+    character( nullptr ),
+    isWalking( false )
 {
+    SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( CharacterHandler, HandleUpdate ) );
 	SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( CharacterHandler, HandlePostUpdate ) );
+    SubscribeToEvent( E_MOUSEBUTTONDOWN, URHO3D_HANDLER( CharacterHandler, HandleMouseDown ) );
 }
 
 CharacterHandler::~CharacterHandler()
@@ -41,6 +44,26 @@ void CharacterHandler::LoadCharacter()
     }
 }
 
+void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData )
+{
+    if( SCREEN_TYPE == ScreenType::World && character && CONNECTIONG )
+    {
+        auto characterNode = character->GetNode();
+
+        if( characterNode )
+        {
+            //Set Connection Controls
+            Controls controls;
+            controls.yaw_ = CAMERAMANAGER->GetCameraYaw() + CAMERAMANAGER->GetMouseYaw();
+            controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
+
+            CONNECTIONG->SetPosition( characterNode->GetPosition() );
+            CONNECTIONG->SetRotation( characterNode->GetRotation() );
+            CONNECTIONG->SetControls( controls );
+        }
+    }
+}
+
 void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& eventData )
 {
 	if( SCREEN_TYPE == ScreenType::World )
@@ -54,6 +77,7 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
             if( characterNode )
             {
                 character = characterNode->GetComponent<Core::Character>( true );
+                character->connection = CONNECTIONG;
 
                 //Load Map
                 MAPMANAGER->Load( mapIDToLoad );
@@ -63,4 +87,8 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
             }
         }
 	}
+}
+
+void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventData )
+{
 }

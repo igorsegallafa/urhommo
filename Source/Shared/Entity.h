@@ -14,7 +14,10 @@ public:
 
     //! Deconstructor.
     ~Entity();
-private:
+
+    //! Start Logic Component.
+    void Start();
+protected:
     float height;
     float diameter;
 

@@ -79,6 +79,8 @@ bool UserHandler::LoadCharacter( User* user, const MapID& mapID, const Vector3& 
 
         //Create Character Component
         user->character = characterNode->GetOrCreateComponent<Core::Character>();
+        user->character->connection = user->connection;
+        characterNode->GetOrCreateComponent<SmoothedTransform>();
 
         //Set Character Name
         characterNode->GetChild( "HeadNode" )->GetComponent<Text3D>()->SetText( user->characterName );

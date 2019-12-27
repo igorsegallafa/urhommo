@@ -9,10 +9,13 @@ public:
     //! Deconstructor.
     ~Game();
 
+    //! Setup Engine.
     void Setup();
 
+    //! Start Engine.
     void Start();
 
+    //! Stop Engine.
     void Stop();
 };
 

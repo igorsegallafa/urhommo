@@ -19,6 +19,11 @@ enum class CharacterClass
     Priestess,
 };
 
+enum CharacterControl
+{
+    CHARACTERCONTROL_Forward = 1 << 1,
+};
+
 class Character : public Entity
 {
     URHO3D_OBJECT( Character, Entity );
@@ -28,6 +33,11 @@ public:
 
     //! Deconstructor.
     ~Character();
+
+    //! Fixed Update Handler.
+    void FixedUpdate( float time ) override;
+public:
+    Connection* connection; //!< Connection Pointer.
 };
 
 };

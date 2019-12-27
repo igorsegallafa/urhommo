@@ -18,7 +18,7 @@ bool AccountHandler::HandleCreateCharacter( Connection* connection, MemoryBuffer
     //TODO: Create Character into Database
 
     //Process World Data for Client
-    ProcessWorldData( connection, characterName, characterClass, 1, MapID::Ricarten, Vector3( Random(-76.9475f, -73.9475f), 5.0f, -22.1408f ) );
+    ProcessWorldData( connection, characterName, characterClass, 1, MapID::Ricarten, Vector3( -76.9475f, 5.0f, -22.1408f ) );
 
     return true;
 }

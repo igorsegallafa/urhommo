@@ -23,4 +23,7 @@ private:
 
     //! Build Window.
     void BuildWindow();
+
+    //! Post Render Update Handler.
+    void HandlePostRenderUpdate( StringHash eventType, VariantMap& eventData );
 };

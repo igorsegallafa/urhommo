@@ -3,6 +3,7 @@
 
 WorldScreen::WorldScreen( Context* context ) : Screen( context )
 {
+    SubscribeToEvent( E_POSTRENDERUPDATE, URHO3D_HANDLER( WorldScreen, HandlePostRenderUpdate ) );
 }
 
 WorldScreen::~WorldScreen()
@@ -48,4 +49,12 @@ void WorldScreen::SetupViewport()
 
 void WorldScreen::BuildWindow()
 {
+}
+
+void WorldScreen::HandlePostRenderUpdate( StringHash eventType, VariantMap & eventData )
+{
+    auto debugRenderer = scene->GetOrCreateComponent<DebugRenderer>();
+
+    if( debugRenderer )
+        scene->GetComponent<PhysicsWorld>()->DrawDebugGeometry( debugRenderer, true );
 }

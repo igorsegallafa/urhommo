@@ -19,9 +19,12 @@ public:
     //! Load Character.
     void LoadCharacter();
 private:
+    void HandleUpdate( StringHash eventType, VariantMap& eventData );
 	void HandlePostUpdate( StringHash eventType, VariantMap& eventData );
+    void HandleMouseDown( StringHash eventType, VariantMap& eventData );
 private:
     int characterNodeID;	//!< Character Node ID.
     MapID mapIDToLoad;  //!< Map ID.
     WeakPtr<Core::Character> character; //!< Pointer for Character Component.
+    bool isWalking; //!< Character is Walking.
 };
