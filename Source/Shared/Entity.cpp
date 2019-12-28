@@ -14,7 +14,8 @@ Entity::Entity( Context* context ) :
     height( 2.3f ),
     diameter( 0.7f ),
     ghostObject( nullptr ),
-    bulletController( nullptr )
+    bulletController( nullptr ),
+    animationMgr( nullptr )
 {
 }
 

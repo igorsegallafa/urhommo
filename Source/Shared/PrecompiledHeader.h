@@ -10,3 +10,9 @@
 #include <Urho3D/Urho3DAll.h>
 
 using namespace Urho3D;
+
+namespace Shared
+{
+extern bool isGameRunning;
+inline bool IsGameRunning(){ return isGameRunning; }
+};

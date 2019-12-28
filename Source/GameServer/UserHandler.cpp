@@ -80,7 +80,11 @@ bool UserHandler::LoadCharacter( User* user, const MapID& mapID, const Vector3& 
         //Create Character Component
         user->character = characterNode->GetOrCreateComponent<Core::Character>();
         user->character->connection = user->connection;
+        user->character->animationMgr = characterNode->GetOrCreateComponent<Core::AnimationEntity>();
         characterNode->GetOrCreateComponent<SmoothedTransform>();
+
+        //Load Animation Set
+        user->character->animationMgr->Load( "Models/ani/char/ws.json" );
 
         //Set Connection Position
         user->connection->SetPosition( Vector3( -1.f, -1.f, -1.f ) );

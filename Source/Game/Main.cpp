@@ -6,6 +6,7 @@ Game::Game( Context* context ) : Application( context )
 {
     GameHandler::RegisterLibrary( context );
     GameManager::RegisterLibrary( context );
+    Shared::SetIsGameRunning( true );
     Shared::RegisterLibrary( context );
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Animation.h"
+
 class btPairCachingGhostObject;
 class btKinematicCharacterController;
 
@@ -20,6 +22,8 @@ public:
 
     //! Create Physics Component.
     void CreatePhysicsComponent();
+public:
+    Core::AnimationEntity* animationMgr;
 protected:
     float height;
     float diameter;

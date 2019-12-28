@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Map">
       <UniqueIdentifier>{fdb0d04c-88e0-4ccf-adc6-af623bef847a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Animation">
+      <UniqueIdentifier>{38134bcb-fee7-44a4-a66b-a0a6b43f5a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\Animation">
+      <UniqueIdentifier>{d231f711-37eb-4ebe-87ef-34c7d03a86fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -86,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="MapDef.cpp">
       <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Core\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="MapDef.h">
       <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Core\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

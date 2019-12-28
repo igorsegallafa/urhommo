@@ -59,7 +59,10 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             controls.extraData_["Action"] = 0;
             
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
-                controls.extraData_["Action"] = 10;
+            {
+                auto randomAnim = character->animationMgr->GetAnimationData( Core::AnimationType::Attack );
+                controls.extraData_["Action"] = randomAnim->id;
+            }
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );
             CONNECTIONG->SetRotation( characterNode->GetRotation() );
@@ -83,6 +86,10 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
                 character = characterNode->GetComponent<Core::Character>( true );
                 character->CreatePhysicsComponent();
                 character->connection = CONNECTIONG;
+                character->animationMgr = characterNode->GetComponent<Core::AnimationEntity>( true );
+
+                //Load Animation Set
+                character->animationMgr->Load( "Models/ani/char/ws.json" );
 
                 //Intercept Network Position
                 characterNode->SetInterceptNetworkUpdate( "Network Position", true );

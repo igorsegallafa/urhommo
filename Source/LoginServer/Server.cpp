@@ -1,24 +1,11 @@
 #include "PrecompiledHeader.h"
 #include "Server.h"
 
-#if defined(_WIN32) || defined(WIN32)
-Server* serverInstance = nullptr;
-
-BOOL ConsoleHandler( DWORD event )
-{
-    if( event == CTRL_CLOSE_EVENT )
-    {
-        serverInstance->Stop();
-        return TRUE;
-    }
-    return FALSE;
-}
-#endif
-
 Server::Server( Context* context ) : Application( context )
 {
     ServerManager::RegisterLibrary( context );
     ServerHandler::RegisterLibrary( context );
+    Shared::SetIsGameRunning( false );
     Shared::RegisterLibrary( context );
 }
 
