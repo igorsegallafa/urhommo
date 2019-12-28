@@ -56,12 +56,12 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             Controls controls;
             controls.yaw_ = CAMERAMANAGER->GetCameraYaw() + CAMERAMANAGER->GetMouseYaw();
             controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
-            controls.extraData_["Action"] = 0;
+            controls.extraData_["AnimationID"] = -1;
             
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
             {
                 auto randomAnim = character->animationMgr->GetAnimationData( Core::AnimationType::Attack );
-                controls.extraData_["Action"] = randomAnim->id;
+                controls.extraData_["AnimationID"] = randomAnim->id;
             }
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );

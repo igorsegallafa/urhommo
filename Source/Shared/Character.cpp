@@ -73,18 +73,17 @@ void Character::FixedUpdate( float time )
             node_->SetPosition( connection->GetPosition() );
         }
 
-        Variant out;
-        controls.extraData_.TryGetValue( "Action", out );
-        if( auto action = out.GetInt(); action != 0 )
-            animationMgr->Play( action, false );
+        //Get Animation Current ID
+        Variant animationOut;
+        controls.extraData_.TryGetValue( "AnimationID", animationOut );
+
+        //Set Character Animation
+        if( auto animationID = animationOut.GetInt(); animationID != -1 )
+            animationMgr->Play( animationID, false );
+        else if( controls.buttons_ & CHARACTERCONTROL_Forward )
+            animationMgr->Play( AnimationType::Walk, true );
         else
-        {
-            //Animation Controller
-            if( controls.buttons_ & CHARACTERCONTROL_Forward )
-                animationMgr->Play( AnimationType::Walk, true );
-            else
-                animationMgr->Play( AnimationType::Idle, true );
-        }
+            animationMgr->Play( AnimationType::Idle, true );
 
     }
 }
