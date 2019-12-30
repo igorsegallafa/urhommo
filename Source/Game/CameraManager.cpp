@@ -117,6 +117,9 @@ void CameraManager::HandlePostUpdate( StringHash eventType, VariantMap& eventDat
 
 void CameraManager::HandleMoveCamera( float timeStep )
 {
+    if( USERINTERFACE->GetFocusElement() )
+        return;
+
     if( type == CameraType::Follow && targetNode )
     {
         //Distance Camera

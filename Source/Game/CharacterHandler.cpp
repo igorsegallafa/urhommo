@@ -68,9 +68,11 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             //Set Connection Controls
             Controls controls;
             controls.yaw_ = CAMERAMANAGER->GetCameraYaw() + CAMERAMANAGER->GetMouseYaw();
-            controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
             controls.extraData_["AnimationID"] = -1;
             
+            if( !USERINTERFACE->GetFocusElement() )
+                controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
+
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
             {
                 auto randomAnim = character->animationMgr->GetAnimationData( Core::AnimationType::Attack );

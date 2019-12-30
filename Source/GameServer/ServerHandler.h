@@ -2,9 +2,11 @@
 
 #include "NetworkHandler.h"
 #include "UserHandler.h"
+#include "ChatHandler.h"
 
 #define NETWORKHANDLER      (SERVERHANDLER->Get<NetworkHandler>())
 #define USERHANDLER         (SERVERHANDLER->Get<UserHandler>())
+#define CHATHANDLER         (SERVERHANDLER->Get<ChatHandler>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 

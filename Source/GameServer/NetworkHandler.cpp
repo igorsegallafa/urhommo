@@ -33,6 +33,7 @@ bool NetworkHandler::Init()
 
     //Handlers
     messageHandler->Handle( MSGID_WorldData ).Process( HANDLE_MESSAGE( &UserHandler::HandleWorldData, USERHANDLER ) );
+    messageHandler->Handle( MSGID_ChatGame ).Process( HANDLE_MESSAGE( &ChatHandler::HandleChatGame, CHATHANDLER ) );
 
     //Net Messages
     messageHandler->Handle( Net::MSGID_LoadUser ).Process( HANDLE_MESSAGE( &UserHandler::HandleLoadUser, USERHANDLER ) );

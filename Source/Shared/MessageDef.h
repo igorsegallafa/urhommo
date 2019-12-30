@@ -7,4 +7,5 @@ enum MessageID
     MSGID_GameServerConnected,
     MSGID_CreateCharacter,
     MSGID_WorldData,
+    MSGID_ChatGame,
 };

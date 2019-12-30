@@ -43,7 +43,7 @@ void WorldScreen::CreateScene()
 void WorldScreen::SetupViewport()
 {
     //Set to doesn't render the Hit Boxes
-    //CAMERA->SetViewMask( DEFAULT_VIEWMASK & ~8 );
+    CAMERA->SetViewMask( DEFAULT_VIEWMASK & ~8 );
 
     //Create Viewport and Set it
     SharedPtr<Viewport> viewport( new Viewport( context_, scene, CAMERA ) );
@@ -54,9 +54,9 @@ void WorldScreen::BuildWindow()
 {
 }
 
-void WorldScreen::HandlePostRenderUpdate( StringHash eventType, VariantMap & eventData )
+void WorldScreen::HandlePostRenderUpdate( StringHash eventType, VariantMap& eventData )
 {
-    auto debugRenderer = scene->GetOrCreateComponent<DebugRenderer>();
+    /*auto debugRenderer = scene->GetOrCreateComponent<DebugRenderer>();
 
     if( debugRenderer )
     {
@@ -68,5 +68,5 @@ void WorldScreen::HandlePostRenderUpdate( StringHash eventType, VariantMap & eve
 
         if( auto crowdManager = scene->GetComponent<CrowdManager>( true ); crowdManager )
             crowdManager->DrawDebugGeometry( debugRenderer, true );
-    }
+    }*/
 }

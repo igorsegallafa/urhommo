@@ -65,13 +65,11 @@ void AnimationEntity::Play( int animationID, bool exclusive )
             if( animationController->IsPlaying( ANIMATIONLAYER_Action ) && animationController->IsAtEnd( ANIMATIONLAYER_Action ) )
             {
                 animationController->Play( animationData->file, ANIMATIONLAYER_Action, animationData->loop, 0.15f );
-                animationController->SetSpeed( animationData->file, 1.7f );
                 animationController->SetAutoFade( animationData->file, 0.1f );
             }
             else if( !animationController->IsPlaying( ANIMATIONLAYER_Action ) )
             {
                 animationController->Play( animationData->file, ANIMATIONLAYER_Action, animationData->loop, 0.15f );
-                animationController->SetSpeed( animationData->file, 1.7f );
                 animationController->SetAutoFade( animationData->file, 0.1f );
             }
         }

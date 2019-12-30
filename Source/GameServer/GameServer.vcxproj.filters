@@ -70,6 +70,12 @@
     <Filter Include="Header Files\Handler\User">
       <UniqueIdentifier>{782e3335-608c-443a-b852-155464131758}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\Chat">
+      <UniqueIdentifier>{4d122c6c-e098-4182-afbf-50a138e2f809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Chat">
+      <UniqueIdentifier>{a00226a7-f176-45f3-b0cb-fe4e966e6727}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -101,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="UserHandler.cpp">
       <Filter>Source Files\Handler\User</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatHandler.cpp">
+      <Filter>Source Files\Handler\Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="UserHandler.h">
       <Filter>Header Files\Handler\User</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatHandler.h">
+      <Filter>Header Files\Handler\Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChatHandler.cpp" />
     <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="NetworkHandler.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="MapManager.h" />

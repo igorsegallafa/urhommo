@@ -28,6 +28,7 @@ bool NetworkHandler::Init()
     messageHandler->Handle( MSGID_LoginData ).Process( HANDLE_MESSAGE( &LoginHandler::HandleLoginData, LOGINHANDLER ) );
     messageHandler->Handle( MSGID_GameServerConnected ).Process( HANDLE_MESSAGE( &LoginHandler::HandleGameServerConnected, LOGINHANDLER ) );
     messageHandler->Handle( MSGID_WorldData ).Process( HANDLE_MESSAGE( &CharacterHandler::HandleWorldData, CHARACTERHANDLER ) );
+    messageHandler->Handle( MSGID_ChatGame ).Process( HANDLE_MESSAGE( &ChatHandler::HandleChatGame, CHATHANDLER ) );
 
     return true;
 }
