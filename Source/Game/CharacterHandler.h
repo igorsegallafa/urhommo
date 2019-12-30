@@ -26,5 +26,6 @@ private:
     int characterNodeID;	//!< Character Node ID.
     MapID mapIDToLoad;  //!< Map ID.
     WeakPtr<Core::Character> character; //!< Pointer for Character Component.
+    Node* selectedNode; //!< Pointer for Selected Node.
     bool isWalking; //!< Character is Walking.
 };

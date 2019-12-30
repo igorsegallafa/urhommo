@@ -13,6 +13,7 @@ GameHandler::GameHandler( Context* context ) :
     IMPL_HANDLER( NetworkHandler );
     IMPL_HANDLER( AccountHandler );
     IMPL_HANDLER( CharacterHandler );
+    IMPL_HANDLER( ChatHandler );
 }
 
 GameHandler::~GameHandler()

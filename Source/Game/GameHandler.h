@@ -4,11 +4,13 @@
 #include "NetworkHandler.h"
 #include "AccountHandler.h"
 #include "CharacterHandler.h"
+#include "ChatHandler.h"
 
 #define LOGINHANDLER        (GAMEHANDLER->Get<LoginHandler>())
 #define NETWORKHANDLER      (GAMEHANDLER->Get<NetworkHandler>())
 #define ACCOUNTHANDLER      (GAMEHANDLER->Get<AccountHandler>())
 #define CHARACTERHANDLER    (GAMEHANDLER->Get<CharacterHandler>())
+#define CHATHANDLER         (GAMEHANDLER->Get<ChatHandler>())
 
 #define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
 

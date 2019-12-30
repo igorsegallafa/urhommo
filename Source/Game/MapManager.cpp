@@ -43,7 +43,12 @@ bool MapManager::Load( const MapID& mapID )
         auto it = maps.Find( (MAP_ID)mapID );
 
         if( it != maps.End() )
-            return WORLDSCREEN->GetScene()->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( it->second_->objectFile )->GetRoot(), it->second_->centerPosition, Quaternion::IDENTITY, LOCAL );
+        {
+            auto mapNode = WORLDSCREEN->GetScene()->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( it->second_->objectFile )->GetRoot(), it->second_->centerPosition, Quaternion::IDENTITY, LOCAL );
+            auto crowdManager = WORLDSCREEN->GetScene()->GetOrCreateComponent<CrowdManager>( LOCAL );
+
+            return true;
+        }
     }
 
     return false;

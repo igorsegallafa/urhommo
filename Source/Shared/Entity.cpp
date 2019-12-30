@@ -17,10 +17,14 @@ Entity::Entity( Context* context ) :
     bulletController( nullptr ),
     animationMgr( nullptr )
 {
+    if( Shared::IsGameRunning() )
+        SubscribeToEvent( E_CROWD_AGENT_REPOSITION, URHO3D_HANDLER( Entity, HandleCrowdAgentReposition ) );
 }
 
 Entity::~Entity()
 {
+    animationMgr = nullptr;
+
     if( node_ )
         node_->Remove();
 }
@@ -56,6 +60,64 @@ void Entity::CreatePhysicsComponent()
         physicsWorld->addCollisionObject( ghostObject, btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::AllFilter );
         physicsWorld->addAction( bulletController );
         bulletController->setMaxJumpHeight( 1.5 );
+    }
+}
+
+void Entity::SetTargetPosition( const Vector3& dest )
+{
+    //Reset Target Position
+    ResetTargetPosition();
+
+    //Valid node?
+    if( node_ )
+    {
+        auto scene = node_->GetScene();
+        auto crowdManager = scene->GetComponent<CrowdManager>();
+
+        if( crowdManager )
+            crowdManager->SetCrowdTarget( dest, node_ );
+    }
+}
+
+void Entity::ResetTargetPosition()
+{
+    if( node_ )
+    {
+        auto scene = node_->GetScene();
+        auto crowdManager = scene->GetComponent<CrowdManager>();
+
+        if( crowdManager )
+        {
+            followingTarget = false;
+            targetDirection = Vector3::ZERO;
+
+            crowdManager->ResetCrowdTarget( node_ );
+        }
+    }
+}
+
+void Entity::HandleCrowdAgentReposition( StringHash eventType, VariantMap& eventData )
+{
+    auto crowdAgent = static_cast<CrowdAgent*>(eventData[CrowdAgentReposition::P_CROWD_AGENT].GetPtr());
+    bool arrived = eventData[CrowdAgentReposition::P_ARRIVED].GetBool();
+
+    if( crowdAgent )
+    {
+        Vector3 desiredVelocity = crowdAgent->GetDesiredVelocity();
+
+        //Arrived to destiny? Reset Target Position
+        if( arrived && followingTarget )
+        {
+            ResetTargetPosition();
+            return;
+        }
+
+        //Validate Desired Velocity
+        if( desiredVelocity != Vector3::ZERO )
+        {
+            targetDirection = desiredVelocity.Normalized();
+            followingTarget = true;
+        }
     }
 }
 

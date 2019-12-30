@@ -47,6 +47,14 @@ void Character::FixedUpdate( float time )
                 transform->SetTargetRotation( rotation );
             }
 
+            //Following Target
+            if( followingTarget )
+            {
+                moveDirection = targetDirection;
+                rotation.FromLookRotation( targetDirection );
+                transform->SetTargetRotation( rotation );
+            }
+
             //Move Direction is valid?
             if( moveDirection.LengthSquared() > 0.0f )
             {

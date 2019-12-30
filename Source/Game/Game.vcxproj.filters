@@ -106,6 +106,12 @@
     <Filter Include="Header Files\Manager\Map">
       <UniqueIdentifier>{ac5aabbb-4c43-4f28-899f-98fe15f5b129}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Handler\Chat">
+      <UniqueIdentifier>{8ebbf4eb-826a-4db5-8e29-988845bc8202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Chat">
+      <UniqueIdentifier>{b698a250-6f78-4349-b0ec-4cea1f0fa73f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -155,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>Source Files\Manager\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatHandler.cpp">
+      <Filter>Source Files\Handler\Chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>Header Files\Manager\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatHandler.h">
+      <Filter>Header Files\Handler\Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

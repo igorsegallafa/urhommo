@@ -39,6 +39,19 @@ void CharacterHandler::LoadCharacter()
 
     if( characterNode )
     {
+        //Load Animation Set
+        character->animationMgr->Load( "Models/ani/char/ws.json" );
+
+        //Create Character Crowd Agent
+        auto crowdAgent = characterNode->CreateComponent<CrowdAgent>();
+        if( crowdAgent )
+        {
+            crowdAgent->SetHeight( 1.7f );
+            crowdAgent->SetRadius( 1.f );
+            crowdAgent->SetMaxSpeed( 1.0f );
+            crowdAgent->SetUpdateNodePosition( false );
+        }
+
         //Set Camera Position
         CAMERAMANAGER->SetCameraType( CameraType::Follow, characterNode );
     }
@@ -88,12 +101,11 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
                 character->connection = CONNECTIONG;
                 character->animationMgr = characterNode->GetComponent<Core::AnimationEntity>( true );
 
-                //Load Animation Set
-                character->animationMgr->Load( "Models/ani/char/ws.json" );
-
                 //Intercept Network Position
                 characterNode->SetInterceptNetworkUpdate( "Network Position", true );
                 characterNode->SetInterceptNetworkUpdate( "Network Rotation", true );
+                
+                //Disabled: characterNode->GetComponent<AnimationController>( true )->SetInterceptNetworkUpdate( "Network Animations", true );
 
                 //Load Map
                 MAPMANAGER->Load( mapIDToLoad );
@@ -107,6 +119,32 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
 
 void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventData )
 {
+    //Character isn't created yet
+    if( character == nullptr )
+        return;
+
+    //Get Dynamic Navigation Mesh Pointer
+    auto navigationMesh = character->GetNode()->GetScene()->GetComponent<NavigationMesh>( true );
+
+    //Has Dynamic Navigation Mesh?
+    if( navigationMesh )
+    {
+        selectedNode = CAMERAMANAGER->GetNodeRaycast();
+
+        //Self selecting? Ignore it!
+        if( selectedNode == (character ? character->GetNode() : nullptr) )
+            selectedNode = nullptr;
+
+        //Found Selected Node?
+        if( selectedNode )
+        {
+            Vector3 pathPos = navigationMesh->FindNearestPoint( selectedNode->GetPosition(), Vector3( 1.0f, 1.0f, 1.0f ) );
+            character->SetTargetPosition( pathPos );
+        }
+        else
+            character->ResetTargetPosition();
+    }
+
     if( eventData[MouseButtonDown::P_BUTTON].GetInt() == MOUSEB_LEFT && eventData[MouseButtonDown::P_CLICKS].GetInt() == 2 )
         isWalking = true;
     else

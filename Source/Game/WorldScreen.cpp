@@ -22,6 +22,9 @@ void WorldScreen::Init()
 
     //Build Window
     BuildWindow();
+
+    //Load UI
+    CHATHANDLER->Load();
 }
 
 void WorldScreen::CreateScene()
@@ -40,7 +43,7 @@ void WorldScreen::CreateScene()
 void WorldScreen::SetupViewport()
 {
     //Set to doesn't render the Hit Boxes
-    CAMERA->SetViewMask( DEFAULT_VIEWMASK & ~8 );
+    //CAMERA->SetViewMask( DEFAULT_VIEWMASK & ~8 );
 
     //Create Viewport and Set it
     SharedPtr<Viewport> viewport( new Viewport( context_, scene, CAMERA ) );
@@ -56,5 +59,14 @@ void WorldScreen::HandlePostRenderUpdate( StringHash eventType, VariantMap & eve
     auto debugRenderer = scene->GetOrCreateComponent<DebugRenderer>();
 
     if( debugRenderer )
-        scene->GetComponent<PhysicsWorld>()->DrawDebugGeometry( debugRenderer, true );
+    {
+        if( auto physicsWorld = scene->GetComponent<PhysicsWorld>( true ); physicsWorld )
+            physicsWorld->DrawDebugGeometry( debugRenderer, true );
+
+        if( auto navigationMesh = scene->GetComponent<NavigationMesh>( true ); navigationMesh )
+            navigationMesh->DrawDebugGeometry( debugRenderer, true );
+
+        if( auto crowdManager = scene->GetComponent<CrowdManager>( true ); crowdManager )
+            crowdManager->DrawDebugGeometry( debugRenderer, true );
+    }
 }

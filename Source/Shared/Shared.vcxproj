@@ -91,7 +91,7 @@
       <AdditionalIncludeDirectories>$(URHO3D_HOME)\include\Urho3D\ThirdParty\Bullet;$(URHO3D_HOME)\include\Urho3D\ThirdParty;$(URHO3D_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessorDefinitions>URHO3D_NETWORK=1;URHO3D_PHYSICS=1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>URHO3D_NAVIGATION;URHO3D_NETWORK=1;URHO3D_PHYSICS=1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>5033;4305;</DisableSpecificWarnings>
     </ClCompile>
     <Link>

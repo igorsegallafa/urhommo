@@ -73,33 +73,22 @@ Node* CameraManager::GetNodeRaycast()
         float y = (float)mousePosition.y_ / GRAPHICS->GetHeight();
 
         Ray cameraRay = GetCamera()->GetScreenRay( x, y );
-        PODVector<PhysicsRaycastResult> result;
-        auto physicsWorld = ACTIVESCREEN->GetScene()->GetComponent<PhysicsWorld>();
+        PODVector<RayQueryResult> result;
+        RayOctreeQuery query( result, cameraRay, RAY_AABB, SELECTUNIT_MAX_DISTANCE, DRAWABLE_GEOMETRY, 8 );
 
-        if( physicsWorld )
+        auto octree = ACTIVESCREEN->GetScene()->GetComponent<Octree>();
+
+        if( octree )
         {
-            physicsWorld->Raycast( result, cameraRay, SELECTUNIT_MAX_DISTANCE );
+            octree->Raycast( query );
 
             for( const auto& raycastResult : result )
             {
-                if( raycastResult.body_ )
+                if( raycastResult.node_ )
                 {
-                    auto foundNode = raycastResult.body_->GetNode();
-
-                    //Found Node?
-                    if( foundNode )
-                    {
-                        //Node is selectable?
-                        if( foundNode->HasTag( "Selectable" ) )
-                        {
-                            auto parentNode = foundNode->GetParent();
-
-                            if( parentNode )
-                                foundNode = parentNode;
-
-                            return foundNode;
-                        }
-                    }
+                    //Node is selectable?
+                    if( raycastResult.node_->HasTag( "PickBox" ) )
+                        return raycastResult.node_;
                 }
             }
         }
@@ -166,7 +155,7 @@ void CameraManager::HandleMoveCamera( float timeStep )
                     deltaMouseMoveWheel = 0.0f;
             }
 
-            cameraPitch += deltaMouseMoveWheel * timeStep * 100.f;
+            cameraPitch += deltaMouseMoveWheel * timeStep * 200.f;
         }
 
         //Limit Camera Pitch

@@ -82,7 +82,7 @@
       <EnableModules>true</EnableModules>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>URHO3D_LOGGING;GAME;URHO3D_PHYSICS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>URHO3D_NAVIGATION;URHO3D_LOGGING;GAME;URHO3D_PHYSICS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4305</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -166,6 +166,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="CharacterHandler.cpp" />
     <ClCompile Include="CharacterScreen.cpp" />
+    <ClCompile Include="ChatHandler.cpp" />
     <ClCompile Include="GameHandler.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="LoginHandler.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="CharacterHandler.h" />
     <ClInclude Include="CharacterScreen.h" />
+    <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="GameHandler.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="globals.h" />
