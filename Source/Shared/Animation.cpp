@@ -42,7 +42,6 @@ bool AnimationEntity::Load( const String& fileName )
 void AnimationEntity::Play( const AnimationType& animationType, bool exclusive )
 {
     auto animationData = GetAnimationData( animationType );
-    auto animationController = node_->GetComponent<AnimationController>( true );
 
     if( animationData )
         Play( animationData->id, exclusive );
