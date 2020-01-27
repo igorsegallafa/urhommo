@@ -47,8 +47,6 @@ public:
 
     //! Key Char Handler.
     void HandleKeyChar( StringHash eventType, VariantMap& eventData );
-private:
-    Noesis::IView* view;
 };
 
 URHO3D_DEFINE_APPLICATION_MAIN( Game )
