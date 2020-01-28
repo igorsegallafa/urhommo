@@ -167,6 +167,9 @@
       <AdditionalLibraryDirectories>D:\Ultralight\lib;$(URHO3D_HOME)\lib\;..\Lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Ultralight.lib;UltralightCore.lib;WebCore.lib;AppCore.lib;Shared.lib;Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)Game.exe" "$(GAME_DIR)" /d /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AccountHandler.cpp" />

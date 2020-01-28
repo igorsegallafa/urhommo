@@ -13,7 +13,7 @@ void Server::Setup()
 {
     engineParameters_[EP_WINDOW_TITLE] = "Game Server";
     engineParameters_[EP_FULL_SCREEN] = false;
-    //Deprecated engineParameters_[EP_HEADLESS] = true;
+    engineParameters_[EP_HEADLESS] = true;
     engineParameters_[EP_SOUND] = false;
     engineParameters_[EP_WINDOW_RESIZABLE] = false;
     engineParameters_[EP_WINDOW_WIDTH] = 800;
@@ -24,21 +24,6 @@ void Server::Setup()
 
 void Server::Start()
 {
-    //Load Console Style
-    auto xmlFile = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
-
-    //Set Default Style
-    USERINTERFACE->GetRoot()->SetDefaultStyle( xmlFile );
-
-    //Create console
-    Console* console = engine_->CreateConsole();
-    console->SetDefaultStyle( xmlFile );
-    console->GetBackground()->SetOpacity( 0.8f );
-    console->SetVisible( true );
-    console->SetNumRows( 20 );
-    console->SetNumBufferedRows( 100 );
-    console->GetCloseButton()->SetVisible( false );
-
     PrintSignature();
 
     SERVERMANAGER->Init();
@@ -58,7 +43,7 @@ void Server::PrintSignature()
     printf( "\nMP\"\"\"\"\"\"`MM M\"\"MMMMM\"\"M\n" );
     printf( "M  mmmmm..M M  MMMMM  M\n" );
     printf( "M.      `YM M  MMMMP  M\n" );
-    printf( "MMMMMMM.  M M  MMMM' .M\t\tGame Server\n" );
+    printf( "MMMMMMM.  M M  MMMM' .M\t\Game Server\n" );
     printf( "M. .MMM'  M M  MMP' .MM\n" );
     printf( "Mb.     .dM M     .dMMM\n" );
     printf( "MMMMMMMMMMM MMMMMMMMMMM\n\n" );

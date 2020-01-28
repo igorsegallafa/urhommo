@@ -18,7 +18,7 @@ void LoginHandler::ProcessLogin( const String& account, const String& password )
         VariantMap identity;
         identity[Login::P_ACCOUNTNAME] = account;
         identity[Login::P_PASSWORD] = password;
-        NETWORKHANDLER->ConnectLoginServer( "127.0.0.1", 52011, identity );
+        NETWORKHANDLER->ConnectLoginServer( "127.0.0.1", 10006, identity );
     }
 }
 

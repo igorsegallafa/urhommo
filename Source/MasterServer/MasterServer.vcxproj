@@ -156,7 +156,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(URHO3D_HOME)\include\Urho3D\ThirdParty;$(URHO3D_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <PreprocessorDefinitions>URHO3D_LOGGING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>URHO3D_WIN32_CONSOLE;URHO3D_LOGGING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>5033;4305;4244;</DisableSpecificWarnings>
     </ClCompile>

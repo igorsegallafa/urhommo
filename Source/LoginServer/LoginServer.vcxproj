@@ -155,7 +155,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(URHO3D_HOME)\include\Urho3D\ThirdParty;$(URHO3D_HOME)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>URHO3D_LOGGING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>URHO3D_LOGGING;URHO3D_WIN32_CONSOLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>5033;4305;4244;</DisableSpecificWarnings>
@@ -167,6 +167,9 @@
       <AdditionalDependencies>Shared.lib;NetServer.lib;Setupapi.lib;version.lib;imm32.lib;opengl32.lib;winmm.lib;Urho3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(URHO3D_HOME)\lib\;..\Lib\</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)$(ProjectName).exe" "$(SERVER_DIR)" /d /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AccountHandler.cpp" />

@@ -32,7 +32,7 @@ bool ChatHandler::HandleChatGame( Connection* connection, MemoryBuffer& message 
                 //Broadcast Message
                 VectorBuffer chatGameMsg;
                 chatGameMsg.WriteString( user->characterName + ": " + messageChat );
-                connection->Send( MSGID_ChatGame, true, true, chatGameMsg );
+                NETWORK->BroadcastMessage( MSGID_ChatGame, true, true, chatGameMsg );
             }
         }
 
