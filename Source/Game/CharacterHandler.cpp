@@ -6,7 +6,7 @@ CharacterHandler::CharacterHandler( Context* context ) :
 	characterNodeID( -1 ),
     character( nullptr ),
     isWalking( false ),
-    animationToSet( 0 )
+    animationToSet( 0, false )
 {
     SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( CharacterHandler, HandleUpdate ) );
 	SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( CharacterHandler, HandlePostUpdate ) );
@@ -59,14 +59,14 @@ void CharacterHandler::LoadCharacter()
     }
 }
 
-void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType )
+void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType, bool exclusive )
 {
     if( character )
     {
         auto animationData = character->animationMgr->GetAnimationData( animationType );
 
         if( animationData )
-            ChangeAnimation( animationData->id );
+            ChangeAnimation( animationData->id, exclusive );
     }
 }
 
@@ -88,15 +88,15 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
 
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
             {
-                auto test = character->animationMgr->GetAnimationData( Core::AnimationType::Attack );
-                
-                if( test )
-                    animationToSet = test->id;
+                ChangeAnimation( Core::AnimationType::Attack );
             }
             
             //Have animation to set?
-            if( animationToSet != 0 )
-                controls.extraData_["AnimationID"] = animationToSet;
+            if( animationToSet.first_ != 0 )
+            {
+                controls.extraData_["AnimationID"] = animationToSet.first_;
+                controls.extraData_["AnimationExclusive"] = animationToSet.second_;
+            }
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );
             CONNECTIONG->SetRotation( characterNode->GetRotation() );
@@ -174,5 +174,5 @@ void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventD
 
 void CharacterHandler::HandleNetworkUpdateSent( StringHash eventType, VariantMap & eventData )
 {
-    animationToSet = 0;
+    animationToSet.first_ = 0;
 }

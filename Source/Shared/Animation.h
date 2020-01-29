@@ -15,6 +15,7 @@ enum AnimationLayer
 {
     ANIMATIONLAYER_Default,
     ANIMATIONLAYER_Action,
+    ANIMATIONLAYER_Exclusive,
 };
 
 struct AnimationData
@@ -45,10 +46,10 @@ public:
     bool Load( const String& fileName );
 
     //! Play Animation.
-    void Play( const AnimationType& animationType );
+    void Play( const AnimationType& animationType, bool exclusive = false );
 
     //! Play by Animation ID.
-    void Play( int animationID );
+    void Play( int animationID, bool exclusive = false );
 
     //! Add Animation Data.
     void AddAnimationData( AnimationData animationData );

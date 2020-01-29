@@ -83,11 +83,11 @@ void Character::FixedUpdate( float time )
 
         //Get Animation Current ID
         Variant animationOut;
-        controls.extraData_.TryGetValue( "AnimationID", animationOut );
 
         //Set Character Animation
-        if( auto animationID = animationOut.GetInt(); animationID != -1 )
-            animationMgr->Play( animationID ); 
+        if( controls.extraData_.TryGetValue( "AnimationID", animationOut ) )
+            if( auto animationID = animationOut.GetInt(); animationID != -1 )
+                animationMgr->Play( animationID, controls.extraData_["AnimationExclusive"]->GetBool() );
         else if( controls.buttons_ & CHARACTERCONTROL_Forward )
             animationMgr->Play( AnimationType::Walk );
         else

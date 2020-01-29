@@ -82,7 +82,7 @@ void ChatHandler::SendMessage( const String& message )
             {
                 if( String param1; GetParameterString( message, 1, param1 ) )
                 {
-                    CHARACTERHANDLER->ChangeAnimation( ToInt( param1 ) );
+                    CHARACTERHANDLER->ChangeAnimation( ToInt( param1 ), true );
                     AddMessage( "> Animation (" + param1 + ")" );
                 }
                 else

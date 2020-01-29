@@ -39,15 +39,15 @@ bool AnimationEntity::Load( const String& fileName )
     return false;
 }
 
-void AnimationEntity::Play( const AnimationType& animationType )
+void AnimationEntity::Play( const AnimationType& animationType, bool exclusive )
 {
     auto animationData = GetAnimationData( animationType );
 
     if( animationData )
-        Play( animationData->id );
+        Play( animationData->id, exclusive );
 }
 
-void AnimationEntity::Play( int animationID )
+void AnimationEntity::Play( int animationID, bool exclusive )
 {
     //Invalid Animation
     if( animationID < 0 || animationID >= animations.Size() )
@@ -58,7 +58,13 @@ void AnimationEntity::Play( int animationID )
 
     if( animationData )
     {
-        if( animationData->type > AnimationType::Run )
+        if( exclusive )
+        {
+            animationController->StopAll( 0.1f );
+            animationController->PlayExclusive( animationData->file, ANIMATIONLAYER_Exclusive, animationData->loop, 0.3f );
+            animationController->SetAutoFade( animationData->file, 0.1f );
+        }
+        else if( animationData->type > AnimationType::Run )
         {
             //Keep the same animation? So we don't need to stop the layer
             if( animationController->IsPlaying( ANIMATIONLAYER_Action ) && animationController->IsAtEnd( ANIMATIONLAYER_Action ) )

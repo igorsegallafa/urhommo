@@ -23,8 +23,8 @@ public:
     void LoadCharacter();
 
     //! Animation Handler.
-    void ChangeAnimation( int animationID ){ animationToSet = animationID; }
-    void ChangeAnimation( const Core::AnimationType& animationType );
+    void ChangeAnimation( int animationID, bool exclusive = false ){ animationToSet = Pair(animationID, exclusive); }
+    void ChangeAnimation( const Core::AnimationType& animationType, bool exclusive = false );
 private:
     void HandleUpdate( StringHash eventType, VariantMap& eventData );
 	void HandlePostUpdate( StringHash eventType, VariantMap& eventData );
@@ -36,5 +36,5 @@ private:
     WeakPtr<Core::Character> character; //!< Pointer for Character Component.
     Node* selectedNode; //!< Pointer for Selected Node.
     bool isWalking; //!< Character is Walking.
-    int animationToSet;    //!< Character Animation.
+    Pair<int,bool> animationToSet;    //!< Character Animation.
 };
