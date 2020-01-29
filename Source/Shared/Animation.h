@@ -45,16 +45,19 @@ public:
     bool Load( const String& fileName );
 
     //! Play Animation.
-    void Play( const AnimationType& animationType, bool exclusive = false );
+    void Play( const AnimationType& animationType );
 
     //! Play by Animation ID.
-    void Play( int animationID, bool exclusive = false );
+    void Play( int animationID );
 
     //! Add Animation Data.
     void AddAnimationData( AnimationData animationData );
 
     //! Get a Random Animation Data.
     AnimationData* GetAnimationData( const AnimationType& animationType );
+
+    //! Get current Animation Data.
+    AnimationData* GetCurrentAnimationData();
 private:
     Vector<AnimationData> animations;   //!< Animation Set.
 };

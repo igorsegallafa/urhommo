@@ -87,11 +87,11 @@ void Character::FixedUpdate( float time )
 
         //Set Character Animation
         if( auto animationID = animationOut.GetInt(); animationID != -1 )
-            animationMgr->Play( animationID, false );
+            animationMgr->Play( animationID ); 
         else if( controls.buttons_ & CHARACTERCONTROL_Forward )
-            animationMgr->Play( AnimationType::Walk, true );
+            animationMgr->Play( AnimationType::Walk );
         else
-            animationMgr->Play( AnimationType::Idle, true );
+            animationMgr->Play( AnimationType::Idle );
 
     }
 }

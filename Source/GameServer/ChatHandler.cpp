@@ -23,7 +23,7 @@ bool ChatHandler::HandleChatGame( Connection* connection, MemoryBuffer& message 
             //Chat Command
             if( messageChat[0] == '/' )
             {
-
+                auto chatCommand = messageChat.Substring( 0, messageChat.Find( ' ' ) );
             }
             else
             {

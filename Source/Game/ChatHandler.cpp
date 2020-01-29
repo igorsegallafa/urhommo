@@ -76,6 +76,18 @@ void ChatHandler::SendMessage( const String& message )
         //Command?
         if( message[0] == '/' )
         {
+            auto chatCommand = message.Substring( 0, message.Find( ' ' ) );
+
+            if( chatCommand.Compare( "/SetAnim", false ) == 0 )
+            {
+                if( String param1; GetParameterString( message, 1, param1 ) )
+                {
+                    CHARACTERHANDLER->ChangeAnimation( ToInt( param1 ) );
+                    AddMessage( "> Animation (" + param1 + ")" );
+                }
+                else
+                    AddMessage( "> Use: /SetAnim <animID>" );
+            }
         }
         else
         {

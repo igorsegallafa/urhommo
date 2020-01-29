@@ -5,11 +5,13 @@ CharacterHandler::CharacterHandler( Context* context ) :
     HandlerImpl( context ),
 	characterNodeID( -1 ),
     character( nullptr ),
-    isWalking( false )
+    isWalking( false ),
+    animationToSet( 0 )
 {
     SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( CharacterHandler, HandleUpdate ) );
 	SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( CharacterHandler, HandlePostUpdate ) );
     SubscribeToEvent( E_MOUSEBUTTONDOWN, URHO3D_HANDLER( CharacterHandler, HandleMouseDown ) );
+    SubscribeToEvent( E_NETWORKUPDATESENT, URHO3D_HANDLER( CharacterHandler, HandleNetworkUpdateSent ) );
 }
 
 CharacterHandler::~CharacterHandler()
@@ -57,6 +59,17 @@ void CharacterHandler::LoadCharacter()
     }
 }
 
+void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType )
+{
+    if( character )
+    {
+        auto animationData = character->animationMgr->GetAnimationData( animationType );
+
+        if( animationData )
+            ChangeAnimation( animationData->id );
+    }
+}
+
 void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData )
 {
     if( SCREEN_TYPE == ScreenType::World && character && CONNECTIONG )
@@ -75,9 +88,15 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
 
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
             {
-                auto randomAnim = character->animationMgr->GetAnimationData( Core::AnimationType::Attack );
-                controls.extraData_["AnimationID"] = randomAnim->id;
+                auto test = character->animationMgr->GetAnimationData( Core::AnimationType::Attack );
+                
+                if( test )
+                    animationToSet = test->id;
             }
+            
+            //Have animation to set?
+            if( animationToSet != 0 )
+                controls.extraData_["AnimationID"] = animationToSet;
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );
             CONNECTIONG->SetRotation( characterNode->GetRotation() );
@@ -151,4 +170,9 @@ void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventD
         isWalking = true;
     else
         isWalking = false;
+}
+
+void CharacterHandler::HandleNetworkUpdateSent( StringHash eventType, VariantMap & eventData )
+{
+    animationToSet = 0;
 }

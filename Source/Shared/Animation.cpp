@@ -39,15 +39,15 @@ bool AnimationEntity::Load( const String& fileName )
     return false;
 }
 
-void AnimationEntity::Play( const AnimationType& animationType, bool exclusive )
+void AnimationEntity::Play( const AnimationType& animationType )
 {
     auto animationData = GetAnimationData( animationType );
 
     if( animationData )
-        Play( animationData->id, exclusive );
+        Play( animationData->id );
 }
 
-void AnimationEntity::Play( int animationID, bool exclusive )
+void AnimationEntity::Play( int animationID )
 {
     //Invalid Animation
     if( animationID < 0 || animationID >= animations.Size() )
@@ -58,7 +58,7 @@ void AnimationEntity::Play( int animationID, bool exclusive )
 
     if( animationData )
     {
-        if( animationData->type == AnimationType::Attack )
+        if( animationData->type > AnimationType::Run )
         {
             //Keep the same animation? So we don't need to stop the layer
             if( animationController->IsPlaying( ANIMATIONLAYER_Action ) && animationController->IsAtEnd( ANIMATIONLAYER_Action ) )
@@ -98,6 +98,22 @@ AnimationData* AnimationEntity::GetAnimationData( const AnimationType& animation
 
     if( animationsFound.Size() )
         return animationsFound[Random( 0, animationsFound.Size())];
+
+    return nullptr;
+}
+
+AnimationData * AnimationEntity::GetCurrentAnimationData()
+{
+    auto animationController = node_->GetComponent<AnimationController>( true );
+
+    for( auto& animationData : animations )
+        if( animationController->IsPlaying( animationData.file ) )
+        {
+            if( animationController->IsPlaying( ANIMATIONLAYER_Action ) && animationData.type <= AnimationType::Run )
+                continue;
+
+            return &animationData;
+        }
 
     return nullptr;
 }
