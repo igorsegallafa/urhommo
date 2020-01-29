@@ -85,6 +85,8 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             
             if( !USERINTERFACE->GetFocusElement() )
                 controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
+            else
+                isWalking = false;
 
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
             {
