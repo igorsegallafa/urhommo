@@ -7,6 +7,7 @@ enum class LoginStatus
     Undefined,
 
     Successful,
+    AlreadyIngame,
     Banned,
     WrongAccount,
     WrongPassword,

@@ -10,6 +10,9 @@ public:
     //! Deconstructor.
     ~UserManager();
 
+    //! Get User by Account Name.
+    User* GetUser( const String& accountName );
+
     //! Get User by Connection.
     User* GetUser( Connection* connection ){ return users[connection]; }
 

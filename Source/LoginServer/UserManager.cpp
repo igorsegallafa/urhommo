@@ -9,6 +9,15 @@ UserManager::~UserManager()
 {
 }
 
+User* UserManager::GetUser( const String& accountName )
+{
+    for( auto& userConnection : users )
+        if( userConnection.second_->accountName.Compare( accountName, false ) == 0 )
+            return userConnection.second_;
+
+    return nullptr;
+}
+
 SharedPtr<User> UserManager::AddUser( Connection* connection )
 {
     //Doesn't add net connection as user

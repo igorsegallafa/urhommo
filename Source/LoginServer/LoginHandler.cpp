@@ -24,6 +24,11 @@ void LoginHandler::ProcessLogin( Core::User* user )
     Core::LoginStatus loginStatus = Core::LoginStatus::Successful;
     unsigned int totalGameServers = 0;
 
+    //Check if account is logged
+    if( auto foundUser = USERMANAGER->GetUser( user->accountName ) )
+        if( foundUser != user )
+            loginStatus = Core::LoginStatus::AlreadyIngame;
+
     //Write Login Response Status
     loginDataMsg.WriteInt( (int)loginStatus );
 
