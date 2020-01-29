@@ -9,6 +9,7 @@ enum class AnimationType
     Walk,
     Run,
     Attack,
+    Special,
 };
 
 enum AnimationLayer

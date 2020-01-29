@@ -91,6 +91,12 @@ void ChatHandler::SendMessage( const String& message )
         }
         else
         {
+            //Yahoo or Yes!
+            if( message.Compare( "yahoo", false ) == 0 || message.Compare( "Yes!", false ) == 0 )
+            {
+                CHARACTERHANDLER->ChangeAnimation( Core::AnimationType::Special );
+                return;
+            }
         }
 
         //Send Message for Game Server

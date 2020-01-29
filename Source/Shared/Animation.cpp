@@ -60,6 +60,9 @@ void AnimationEntity::Play( int animationID, bool exclusive )
     {
         if( exclusive )
         {
+            if( animationController->IsPlaying( animationData->file ) && animationController->IsPlaying( ANIMATIONLAYER_Exclusive ) )
+                animationController->SetTime( animationData->file, 0.f );
+
             animationController->StopAll( 0.1f );
             animationController->PlayExclusive( animationData->file, ANIMATIONLAYER_Exclusive, animationData->loop, 0.3f );
             animationController->SetAutoFade( animationData->file, 0.1f );
@@ -136,6 +139,8 @@ const char* AnimationTypeToString( const AnimationType& animationType )
             return "run";
         case AnimationType::Attack:
             return "attack";
+        case AnimationType::Special:
+            return "special";
     }
 
     return "undefined";
@@ -151,6 +156,8 @@ AnimationType AnimationTypeFromString( const String& str )
         return AnimationType::Run;
     else if( str.Compare( "attack", false ) == 0 )
         return AnimationType::Attack;
+    else if( str.Compare( "special", false ) == 0 )
+        return AnimationType::Special;
 
     return AnimationType::Undefined;
 }
