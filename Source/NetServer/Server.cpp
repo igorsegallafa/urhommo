@@ -180,7 +180,7 @@ void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData
         //Update all Server Connections Address
         for( auto& connectionInfo : netConnections )
             if( connectionInfo->connection )
-                if( !connectionInfo->connection->IsConnectPending() && connectionInfo->address == 0 )
+                if( connectionInfo->connection->IsConnectPending() == false && connectionInfo->address == 0 )
                     connectionInfo->address = connectionInfo->connection->GetAddressOrGUIDHash();
     }
     //Server Disconnected
