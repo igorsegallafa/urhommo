@@ -88,7 +88,16 @@ Node* CameraManager::GetNodeRaycast()
                 {
                     //Node is selectable?
                     if( raycastResult.node_->HasTag( "PickBox" ) )
+                    {
+                        //Get Parent Node, looking for node with rigid body
+                        auto parentNode = raycastResult.node_->GetParent();
+                        
+                        if( parentNode )
+                            if( parentNode->GetComponent<RigidBody>() )
+                                return parentNode;
+
                         return raycastResult.node_;
+                    }
                 }
             }
         }

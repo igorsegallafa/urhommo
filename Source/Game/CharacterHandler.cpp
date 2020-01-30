@@ -44,16 +44,6 @@ void CharacterHandler::LoadCharacter()
         //Load Animation Set
         character->animationMgr->Load( "Models/ani/char/ws.json" );
 
-        //Create Character Crowd Agent
-        auto crowdAgent = characterNode->CreateComponent<CrowdAgent>();
-        if( crowdAgent )
-        {
-            crowdAgent->SetHeight( 1.7f );
-            crowdAgent->SetRadius( 1.f );
-            crowdAgent->SetMaxSpeed( 1.0f );
-            crowdAgent->SetUpdateNodePosition( false );
-        }
-
         //Set Camera Position
         CAMERAMANAGER->SetCameraType( CameraType::Follow, characterNode );
     }
@@ -160,10 +150,7 @@ void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventD
 
         //Found Selected Node?
         if( selectedNode )
-        {
-            Vector3 pathPos = navigationMesh->FindNearestPoint( selectedNode->GetPosition(), Vector3( 1.0f, 1.0f, 1.0f ) );
-            character->SetTargetPosition( pathPos );
-        }
+            character->SetTargetPosition( selectedNode->GetWorldPosition() );
         else
             character->ResetTargetPosition();
     }

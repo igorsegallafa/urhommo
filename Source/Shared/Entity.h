@@ -20,6 +20,9 @@ public:
     //! Start Logic Component.
     void Start();
 
+    //! Fixed Update Handler.
+    void FixedUpdate( float time );
+
     //! Create Physics Component.
     void CreatePhysicsComponent();
 
@@ -34,8 +37,7 @@ public:
     void SetTargetDirection( const Vector3& dir ) { targetDirection = dir; }
     const Vector3& GetTargetDirection() const { return targetDirection; }
 private:
-    //! Crowd Agent Reposition Handler.
-    void HandleCrowdAgentReposition( StringHash eventType, VariantMap& eventData );
+    void HandlePostRenderUpdate( StringHash eventType, VariantMap& eventData );
 public:
     Core::AnimationEntity* animationMgr;
 protected:
@@ -44,6 +46,8 @@ protected:
 
     bool followingTarget;
     Vector3 targetDirection;
+    Vector3 targetPos;
+    PODVector<Vector3> targetPath;
 
     btPairCachingGhostObject* ghostObject;
     btKinematicCharacterController* bulletController;

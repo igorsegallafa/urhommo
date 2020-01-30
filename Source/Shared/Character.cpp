@@ -88,11 +88,12 @@ void Character::FixedUpdate( float time )
         if( controls.extraData_.TryGetValue( "AnimationID", animationOut ) )
             if( auto animationID = animationOut.GetInt(); animationID != -1 )
                 animationMgr->Play( animationID, controls.extraData_["AnimationExclusive"]->GetBool() );
-        else if( controls.buttons_ & CHARACTERCONTROL_Forward )
+        else if( controls.buttons_ & CHARACTERCONTROL_Forward || followingTarget )
             animationMgr->Play( AnimationType::Walk );
         else
             animationMgr->Play( AnimationType::Idle );
-
     }
+
+    Entity::FixedUpdate( time );
 }
 };

@@ -36,6 +36,9 @@ void WorldScreen::CreateScene()
     scene->CreateComponent<Octree>( LOCAL );
     scene->CreateComponent<PhysicsWorld>( LOCAL );
 
+    //Setup for Async Loading
+    scene->SetAsyncLoadingMs( 3 );
+
     //Game Server can Set Connection Scene
     CONNECTIONG->Send( MSGID_WorldData, true, true, VectorBuffer() );
 }
@@ -56,7 +59,7 @@ void WorldScreen::BuildWindow()
 
 void WorldScreen::HandlePostRenderUpdate( StringHash eventType, VariantMap& eventData )
 {
-    /*auto debugRenderer = scene->GetOrCreateComponent<DebugRenderer>();
+    /*Derpracated auto debugRenderer = scene->GetOrCreateComponent<DebugRenderer>();
 
     if( debugRenderer )
     {
