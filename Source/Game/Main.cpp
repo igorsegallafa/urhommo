@@ -83,6 +83,10 @@ void Game::HandleMouseWheel( StringHash eventType, VariantMap& eventData )
 
 void Game::HandleKeyDown( StringHash eventType, VariantMap& eventData )
 {
+    using namespace KeyDown;
+
+    if( eventData[P_KEY] == KEY_ESCAPE && (INPUT->GetKeyDown( KEY_LSHIFT ) || INPUT->GetKeyDown( KEY_RSHIFT )) )
+        engine_->Exit();
 }
 
 void Game::HandleKeyUp( StringHash eventType, VariantMap& eventData )

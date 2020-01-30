@@ -16,17 +16,17 @@ bool MapManager::Init()
 {
     BaseMap* map = nullptr;
 
-    //TODO: Load Maps from SQL
-
     //Ricarten Town
     map = maps[(MAP_ID)MapID::Ricarten] = new BaseMap( context_ );
     map->name = "Ricarten Town";
     map->objectFile = "Objects/s_v2/s_v2.xml";
+    map->centerPosition = Vector3( 0.f, 0.f, 0.f );
 
     //Garden of Freedom
     map = maps[(MAP_ID)MapID::GardenOfFreedom] = new BaseMap( context_ );
     map->name = "Garden of Freedom";
     map->objectFile = "Objects/s_f/s_f_01.xml";
+    map->centerPosition = Vector3( 86.313f, 11.5915f, 227.526f );
 
     return true;
 }

@@ -10,7 +10,7 @@ UserHandler::~UserHandler()
 {
 }
 
-bool UserHandler::HandleWorldData( Connection* connection, MemoryBuffer & message )
+bool UserHandler::HandleWorldData( Connection* connection, MemoryBuffer& message )
 {
     auto user = USERMANAGER->GetUser( connection );
     if( user )
