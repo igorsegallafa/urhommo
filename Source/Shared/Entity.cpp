@@ -113,7 +113,7 @@ void Entity::ResetTargetPosition()
 
 void Entity::HandlePostRenderUpdate( StringHash eventType, VariantMap & eventData )
 {
-    if( targetPath.Size() )
+    /*Depracated if( targetPath.Size() )
     {
         //Visualize the current calculated path
         auto* debug = node_->GetScene()->GetComponent<DebugRenderer>();
@@ -128,6 +128,6 @@ void Entity::HandlePostRenderUpdate( StringHash eventType, VariantMap & eventDat
             for( unsigned i = 0; i < targetPath.Size() - 1; ++i )
                 debug->AddLine( targetPath[i] + bias, targetPath[i + 1] + bias, Color( 1.0f, 1.0f, 1.0f ) );
         }
-    }
+    }*/
 }
 };
