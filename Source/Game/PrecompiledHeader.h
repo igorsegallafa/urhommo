@@ -5,10 +5,10 @@
 #include <sstream>
 #include <functional>
 
-//Ultralight:
-#include <Ultralight/Ultralight.h>
-#include <AppCore/AppCore.h>
-#include <JavaScriptCore/JavaScript.h>
+//ImGUI:
+#include "imgui_hook.h"
+#include "imguiEvents.h"
+#include "ImGui/imgui.h"
 
 //Urho3D:
 #include <Urho3D/Urho3DAll.h>

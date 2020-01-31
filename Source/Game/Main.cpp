@@ -21,6 +21,7 @@ Game::Game( Context* context ) : Application( context )
     SubscribeToEvent( E_KEYDOWN, URHO3D_HANDLER( Game, HandleKeyDown ) );
     SubscribeToEvent( E_KEYUP, URHO3D_HANDLER( Game, HandleKeyUp ) );
     SubscribeToEvent( E_TEXTINPUT, URHO3D_HANDLER( Game, HandleKeyChar ) );
+    SubscribeToEvent( E_IMGUI_NEWFRAME, URHO3D_HANDLER( Game, HandleImGuiNewFrame ) );
 }
 
 Game::~Game()
@@ -39,6 +40,9 @@ void Game::Setup()
 
 void Game::Start()
 {
+    //Create ImGui
+    imGui = MakeShared<imgui>( context_ );
+
     //Set Mouse Visible
     GetSubsystem<Input>()->SetMouseVisible( true );
 
@@ -95,4 +99,44 @@ void Game::HandleKeyUp( StringHash eventType, VariantMap& eventData )
 
 void Game::HandleKeyChar( StringHash eventType, VariantMap& eventData )
 {
+}
+
+void Game::HandleImGuiNewFrame( StringHash eventType, VariantMap& eventData )
+{
+    //Debug Window
+    ImGui::Begin( "Debug" );
+    {
+        ImGui::Text( "Hi ^_^" );
+
+        ImGui::BeginTabBar( "Menu" );
+
+        //General Tab
+        if( ImGui::BeginTabItem( "General" ) )
+        {
+            ImGui::EndTabItem();
+        }
+
+        //Character Tab
+        if( ImGui::BeginTabItem( "Character" ) )
+        {
+            ImGui::EndTabItem();
+        }
+
+        //Scene Tab
+        if( ImGui::BeginTabItem( "Scene" ) )
+        {
+            ImGui::EndTabItem();
+        }
+
+        //Server Tab
+        if( ImGui::BeginTabItem( "Server" ) )
+        {
+            ImGui::EndTabItem();
+        }
+
+        ImGui::EndTabBar();
+
+        ImGui::Text( "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate );
+    }
+    ImGui::End();
 }

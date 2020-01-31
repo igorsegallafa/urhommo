@@ -141,9 +141,9 @@ void CameraManager::HandleMoveCamera( float timeStep )
         cameraDistance = Clamp( cameraDistance, CAMERA_MIN_DISTANCE, CAMERA_MAX_DISTANCE );
 
         //Move camera to right or left
-        if( INPUT->GetKeyDown( KEY_LEFT ) )
+        if( INPUT->GetKeyDown( KEY_LEFT ) || INPUT->GetMousePosition().x_ > GRAPHICS->GetSize().x_ - 10 )
             cameraYaw += 100.f * timeStep;
-        else if( INPUT->GetKeyDown( KEY_RIGHT ) )
+        else if( INPUT->GetKeyDown( KEY_RIGHT ) || INPUT->GetMousePosition().x_ < 10 )
             cameraYaw -= 100.f * timeStep;
 
         //Camera Pitch

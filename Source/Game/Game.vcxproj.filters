@@ -112,6 +112,15 @@
     <Filter Include="Header Files\Handler\Chat">
       <UniqueIdentifier>{b698a250-6f78-4349-b0ec-4cea1f0fa73f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{fd73c224-b85d-4303-819f-05a974b3076f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\ImGui">
+      <UniqueIdentifier>{7e9ab9fb-c05c-4766-b0ae-dea87b7a7878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\ImGui\Hook">
+      <UniqueIdentifier>{9534b946-cdc4-49d1-bbfd-a108019e4e66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -164,6 +173,24 @@
     </ClCompile>
     <ClCompile Include="ChatHandler.cpp">
       <Filter>Source Files\Handler\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_gl3.cpp">
+      <Filter>Dependencies\ImGui\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_hook.cpp">
+      <Filter>Dependencies\ImGui\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>Dependencies\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +247,36 @@
     </ClInclude>
     <ClInclude Include="ChatHandler.h">
       <Filter>Header Files\Handler\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_gl3.h">
+      <Filter>Dependencies\ImGui\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="imguiEvents.h">
+      <Filter>Dependencies\ImGui\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="imguiGraphics.h">
+      <Filter>Dependencies\ImGui\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_hook.h">
+      <Filter>Dependencies\ImGui\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>Dependencies\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>Dependencies\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

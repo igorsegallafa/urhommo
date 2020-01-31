@@ -47,6 +47,11 @@ public:
 
     //! Key Char Handler.
     void HandleKeyChar( StringHash eventType, VariantMap& eventData );
+
+    //! ImGui New Frame Handler.
+    void HandleImGuiNewFrame( StringHash eventType, VariantMap& eventData );
+private:
+    SharedPtr<imgui> imGui; //!< ImGui.
 };
 
 URHO3D_DEFINE_APPLICATION_MAIN( Game )
