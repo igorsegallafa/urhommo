@@ -5,11 +5,8 @@ MapManager::MapManager( Context* context ) :
     ManagerImpl( context ),
     maps{},
     curMap( nullptr, MapID::Undefined ),
-    nextMap( nullptr, MapID::Undefined ),
-    mapLoadPending( MapID::Undefined )
+    nextMap( nullptr, MapID::Undefined )
 {
-    SubscribeToEvent( E_ASYNCLOADPROGRESS, URHO3D_HANDLER( MapManager, HandleLoadProgress ) );
-    SubscribeToEvent( E_ASYNCLEVELOADFINISHED, URHO3D_HANDLER( MapManager, HandleLevelLoaded ) );
 }
 
 MapManager::~MapManager()
@@ -37,6 +34,14 @@ bool MapManager::Init()
     map->name = "Garden of Freedom";
     map->objectFile = "Objects/s_f/s_f_01.xml";
     map->centerPosition = Vector3( 86.313f, 11.5915f, 227.526f );
+
+    //Bamboo Forest
+    mapID = MapID::BambooForest;
+    map = maps[(MAP_ID)mapID] = new BaseMap( context_ );
+    map->mapID = mapID;
+    map->name = "Bamboo Forest";
+    map->objectFile = "Objects/s_f/s_f_02.xml";
+    map->centerPosition = Vector3( -181.485f, 11.938f, 214.416f );
 
     return true;
 }
@@ -93,7 +98,7 @@ void MapManager::NodeRegisterLoadTriggers( Node* node )
         node->GetChildrenWithTag( result, "MapLoadTrigger", true );
 
         for( unsigned i = 0; i < result.Size(); ++i )
-            SubscribeToEvent( result[i], E_NODECOLLISIONSTART, URHO3D_HANDLER( MapManager, HandleLoadTriggerEntered ) );
+            SubscribeToEvent( result[i], E_GHOST_COLLISION_STARTED, URHO3D_HANDLER( MapManager, HandleLoadTriggerEntered ) );
     }
     else
         URHO3D_LOGERROR( "NodeRegisterLoadTriggers - Invalid Node." );
@@ -105,12 +110,7 @@ void MapManager::HandleLoadTriggerEntered( StringHash eventType, VariantMap& eve
     {
         auto scene = WORLDSCREEN->GetScene();
 
-        using namespace NodeCollisionStart;
-
-        //Prevent the trigger to reload while already loading
-        if( mapLoadPending != MapID::Undefined )
-            return;
-
+        using namespace GhostCollisionBegin;
         Node *node = ((RigidBody*)eventData[P_BODY].GetVoidPtr())->GetNode();
         StringVector tagVec = node->GetTags();
         MapID mapID = MapID::Undefined;
@@ -174,13 +174,11 @@ void MapManager::HandleLoadTriggerEntered( StringHash eventType, VariantMap& eve
 
                         if( tmpNode->LoadXML( mapXML->GetRoot(), resolver, false, false, LOCAL ) )
                         {
-                            URHO3D_LOGINFO( "Async Loading Map File " + baseMap->objectFile );
-                            
-                            //Prevent the trigger to reload while already loading
-                            if( scene->InstantiateXMLAync( mapXML->GetRoot(), baseMap->centerPosition, Quaternion::IDENTITY, LOCAL ) )
-                                mapLoadPending = baseMap->mapID;
-                            else
-                                URHO3D_LOGERROR( "InstantiateXMLAsync failed to init file = " + baseMap->objectFile );
+                            nextMap.first_ = scene->InstantiateXML( mapXML->GetRoot(), baseMap->centerPosition, Quaternion::IDENTITY, LOCAL );
+                            nextMap.second_ = baseMap->mapID;
+
+                            //Register triggers from new level node and clear loading flag
+                            NodeRegisterLoadTriggers( nextMap.first_ );
                         }
                     }
                     else
@@ -189,19 +187,4 @@ void MapManager::HandleLoadTriggerEntered( StringHash eventType, VariantMap& eve
             }
         }
     }
-}
-
-void MapManager::HandleLoadProgress( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void MapManager::HandleLevelLoaded( StringHash eventType, VariantMap& eventData )
-{
-    using namespace AsyncLevelLoadFinished;
-    nextMap.first_ = (Node*)eventData[P_NODE].GetVoidPtr();
-    nextMap.second_ = mapLoadPending;
-
-    //Register triggers from new level node and clear loading flag
-    NodeRegisterLoadTriggers( nextMap.first_ );
-    mapLoadPending = MapID::Undefined;
 }

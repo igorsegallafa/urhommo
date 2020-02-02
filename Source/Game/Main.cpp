@@ -125,6 +125,12 @@ void Game::HandleImGuiNewFrame( StringHash eventType, VariantMap& eventData )
         //Scene Tab
         if( ImGui::BeginTabItem( "Scene" ) )
         {
+            ImGui::Text( "Current Map ID: %d", MAPMANAGER->GetCurrentMapID() );
+            ImGui::Text( "Next Map ID: %d", MAPMANAGER->GetNextMapID() );
+            ImGui::Text( "Selected Node: %s", (CHARACTERHANDLER->GetSelectedNode() ? CHARACTERHANDLER->GetSelectedNode()->GetName().CString() : "None") );
+            ImGui::Text( "Hovered Node: %s", (CHARACTERHANDLER->GetHoveredNode() ? CHARACTERHANDLER->GetHoveredNode()->GetName().CString() : "None") );
+            ImGui::Text( "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate );
+
             ImGui::EndTabItem();
         }
 
@@ -135,8 +141,6 @@ void Game::HandleImGuiNewFrame( StringHash eventType, VariantMap& eventData )
         }
 
         ImGui::EndTabBar();
-
-        ImGui::Text( "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate );
     }
     ImGui::End();
 }

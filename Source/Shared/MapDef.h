@@ -8,6 +8,7 @@ enum class MapID
 
     Ricarten,
     GardenOfFreedom,
+    BambooForest,
 };
 
 class BaseMap : public Object

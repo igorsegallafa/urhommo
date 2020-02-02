@@ -119,7 +119,7 @@
       <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DisableSpecificWarnings>5033;4305;4244;</DisableSpecificWarnings>
-      <PreprocessorDefinitions>URHO3D_NAVIGATION;URHO3D_NETWORK=1;URHO3D_PHYSICS=1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>URHO3D_LOGGING;URHO3D_NAVIGATION;URHO3D_NETWORK=1;URHO3D_PHYSICS=1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

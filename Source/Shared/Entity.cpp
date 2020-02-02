@@ -53,6 +53,107 @@ void Entity::FixedUpdate( float time )
         followingTarget = false;
 }
 
+void Entity::FixedPostUpdate( float time )
+{
+    if( ghostObject )
+    {
+        currentCollisions.Clear();
+
+        btManifoldArray manifoldArray;
+
+        //Process all current collision events
+        //(Ask ghost shape for a list of objects that it is potentially "colliding" with)
+        int numObjects = ghostObject->getNumOverlappingObjects();
+
+        for( int i = 0; i < numObjects; i++ )
+        {
+            manifoldArray.clear();
+
+            //Access the next collision object whose AABB overlaps with that of our ghost shape
+            btCollisionObject* obj = ghostObject->getOverlappingObject( i );
+
+            //Try to cast the current collision object to bullet rigidbody
+            //If this fails, its not a rigidbody - could be another ghost etc.
+            btRigidBody* rb = dynamic_cast<btRigidBody*>(obj);
+            if( rb )
+            {
+                //Query the physics broadphase for deeper information about the colliding pair
+                auto* paircache = node_->GetScene()->GetComponent<PhysicsWorld>()->GetWorld()->getPairCache();
+                btBroadphasePair* collisionPair = paircache->findPair( ghostObject->getBroadphaseHandle(), obj->getBroadphaseHandle() );
+
+                if( collisionPair == nullptr )
+                    continue;
+
+                //Query the colliding pair for deeper information about the contact manifold(s)
+                if( collisionPair->m_algorithm != nullptr )
+                    collisionPair->m_algorithm->getAllContactManifolds( manifoldArray );
+
+                if( manifoldArray.size() == 0 )
+                    continue;
+
+                //Confirm that the two objects are in contact
+                int numContacts = 0;
+                for( int i = 0; i < manifoldArray.size(); i++ )
+                {
+                    btPersistentManifold* manifold = manifoldArray[i];
+                    numContacts += manifold->getNumContacts();
+                }
+
+                if( numContacts == 0 )
+                    continue;
+
+                //Cast the bullet rigidbody userpointer to Urho RigidBody
+                //Dangerous assumption that this can never fail - hope springs eternal!
+                RigidBody* RB = (RigidBody*)rb->getUserPointer();
+
+                //Wrap the object pointer
+                WeakPtr<RigidBody> weakRB( RB );
+
+                VariantMap& newData = GetEventDataMap();
+
+                //Determine if this collision is "new", or "persistant"
+                if( !prevCollisions.Contains( weakRB ) )
+                {
+                    //Send "collision started" event
+                    newData[GhostCollisionBegin::P_BODY] = RB;
+                    newData[GhostCollisionBegin::P_GHOST] = ghostObject;
+                    newData[GhostCollisionBegin::P_GHOSTNODE] = node_;
+                    RB->GetNode()->SendEvent( E_GHOST_COLLISION_STARTED, newData );
+
+                    //Collect the new collision
+                    currentCollisions.Insert( weakRB );
+                }
+                else
+                {
+                    //Send "collision ongoing" event
+                    newData[GhostCollisionStay::P_BODY] = RB;
+                    newData[GhostCollisionStay::P_GHOST] = ghostObject;
+                    newData[GhostCollisionStay::P_GHOSTNODE] = node_;
+                    RB->GetNode()->SendEvent( E_GHOST_COLLISION_STAY, newData );
+                }
+            }
+        }
+
+        //Process any collisions which have ended
+        for( auto it = prevCollisions.Begin(); it != prevCollisions.End(); it++ )
+        {
+
+            //Check that the object has not been destroyed, and that the collision has ceased
+            if( (*it) != nullptr && !currentCollisions.Contains( *it ) )
+            {
+                VariantMap& newData = GetEventDataMap();
+                newData[GhostCollisionEnded::P_BODY] = *it;
+                newData[GhostCollisionEnded::P_GHOST] = ghostObject;
+                newData[GhostCollisionEnded::P_GHOSTNODE] = node_;
+                (*it)->GetNode()->SendEvent( E_GHOST_COLLISION_ENDED, newData );
+            }
+        }
+
+        //Keep track of collisions across frames
+        prevCollisions = currentCollisions;
+    }
+}
+
 void Entity::CreatePhysicsComponent()
 {
     //Initial Node Transform

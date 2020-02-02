@@ -6,7 +6,9 @@ CharacterHandler::CharacterHandler( Context* context ) :
 	characterNodeID( -1 ),
     character( nullptr ),
     isWalking( false ),
-    animationToSet( 0, false )
+    animationToSet( 0, false ),
+    selectedNode( nullptr ),
+    hoveredNode( nullptr )
 {
     SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( CharacterHandler, HandleUpdate ) );
 	SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( CharacterHandler, HandlePostUpdate ) );
@@ -109,6 +111,8 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
             //Character Node Found!
             if( characterNode )
             {
+                characterNode->RemoveComponent<RigidBody>();
+                characterNode->RemoveComponent<CollisionShape>();
                 character = characterNode->GetComponent<Core::Character>( true );
                 character->CreatePhysicsComponent();
                 character->connection = CONNECTIONG;
@@ -127,6 +131,9 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
                 LoadCharacter();
             }
         }
+
+        //Find Hovered Node
+        hoveredNode = CAMERAMANAGER->GetNodeRaycast();
 	}
 }
 

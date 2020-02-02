@@ -22,6 +22,12 @@ public:
     //! Load Character.
     void LoadCharacter();
 
+    //! Selected Node Getter.
+    Node* GetSelectedNode() const{ return selectedNode; }
+
+    //! Hovered Node Getter.
+    Node* GetHoveredNode() const{ return hoveredNode; }
+
     //! Animation Handler.
     void ChangeAnimation( int animationID, bool exclusive = false ){ animationToSet = Pair(animationID, exclusive); }
     void ChangeAnimation( const Core::AnimationType& animationType, bool exclusive = false );
@@ -35,6 +41,7 @@ private:
     MapID mapIDToLoad;  //!< Map ID.
     WeakPtr<Core::Character> character; //!< Pointer for Character Component.
     Node* selectedNode; //!< Pointer for Selected Node.
+    Node* hoveredNode;  //!< Pointer for Hovered Node.
     bool isWalking; //!< Character is Walking.
     Pair<int,bool> animationToSet;    //!< Character Animation.
 };
