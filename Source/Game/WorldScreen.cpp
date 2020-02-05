@@ -8,6 +8,8 @@ WorldScreen::WorldScreen( Context* context ) : Screen( context )
 
 WorldScreen::~WorldScreen()
 {
+    NETWORKHANDLER->CloseConnections();
+    CHARACTERHANDLER->UnLoad();
 }
 
 void WorldScreen::Init()

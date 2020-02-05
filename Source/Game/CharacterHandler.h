@@ -22,6 +22,9 @@ public:
     //! Load Character.
     void LoadCharacter();
 
+    //! UnLoad.
+    void UnLoad();
+
     //! Selected Node Getter.
     Node* GetSelectedNode() const{ return selectedNode; }
 

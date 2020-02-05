@@ -49,6 +49,9 @@ Node* CameraManager::GetCameraNode()
 {
     if( cameraNode == nullptr )
     {
+        if( ACTIVESCREEN == nullptr )
+            return nullptr;
+
         auto findCameraNode = ACTIVESCREEN->GetScene()->GetChild( "Camera", true );
 
         if( findCameraNode )

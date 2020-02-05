@@ -23,6 +23,7 @@ bool NetworkHandler::Init()
     SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
     SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerConnected ) );
+    SubscribeToEvent( E_SERVERDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerDisconnected ) );
 
     //Handlers
     messageHandler->Handle( MSGID_LoginData ).Process( HANDLE_MESSAGE( &LoginHandler::HandleLoginData, LOGINHANDLER ) );
@@ -58,9 +59,7 @@ void NetworkHandler::ConnectGameServer( const String& ip, unsigned int port, Var
 
 void NetworkHandler::CloseConnections()
 {
-    /*Deprecated CloseLoginServer();
-    CloseMasterServer();
-    CloseGameServer();*/
+    NETWORK->Disconnect();
 }
 
 void NetworkHandler::CloseLoginServer()
@@ -120,4 +119,16 @@ void NetworkHandler::HandleServerConnected( StringHash eventType, VariantMap& ev
     //Game Server Connected? Connect to Master Server
     if( (gameServerConnection) && gameServerConnection->IsConnected() && !gameServerConnection->IsConnectPending() )
         LOGINHANDLER->ProcessMasterServer();
+}
+
+void NetworkHandler::HandleServerDisconnected( StringHash eventType, VariantMap& eventData )
+{
+    using namespace ServerDisconnected;
+
+    if( (loginServerConnection) && loginServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        loginServerConnection = nullptr;
+    else if( (gameServerConnection) && gameServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        gameServerConnection = nullptr;
+    else if( (masterServerConnection) && masterServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        masterServerConnection = nullptr;
 }

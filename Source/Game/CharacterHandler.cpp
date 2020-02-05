@@ -51,6 +51,17 @@ void CharacterHandler::LoadCharacter()
     }
 }
 
+void CharacterHandler::UnLoad()
+{
+    characterNodeID = -1;
+    character = nullptr;
+    selectedNode = nullptr;
+    hoveredNode = nullptr;
+    mapIDToLoad = MapID::Undefined;
+
+    CAMERAMANAGER->SetCameraType( CameraType::Undefined, nullptr );
+}
+
 void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType, bool exclusive )
 {
     if( character )
@@ -106,6 +117,9 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
         //Look for Character Component
         if( character == nullptr )
         {
+            if( ACTIVESCREEN == nullptr )
+                return;
+
             auto characterNode = ACTIVESCREEN->GetScene()->GetNode( characterNodeID );
 
             //Character Node Found!
