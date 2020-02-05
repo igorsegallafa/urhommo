@@ -125,10 +125,15 @@ void Game::HandleImGuiNewFrame( StringHash eventType, VariantMap& eventData )
         //Scene Tab
         if( ImGui::BeginTabItem( "Scene" ) )
         {
+            float distanceToHoveredNode = 0.f;
+
+            if( CHARACTERHANDLER->GetHoveredNode() && CHARACTERHANDLER->GetCharacter()->GetNode() )
+                distanceToHoveredNode = abs((CHARACTERHANDLER->GetCharacter()->GetNode()->GetPosition() - CHARACTERHANDLER->GetHoveredNode()->GetPosition()).LengthSquared());
+
             ImGui::Text( "Current Map ID: %d", MAPMANAGER->GetCurrentMapID() );
             ImGui::Text( "Next Map ID: %d", MAPMANAGER->GetNextMapID() );
             ImGui::Text( "Selected Node: %s", (CHARACTERHANDLER->GetSelectedNode() ? CHARACTERHANDLER->GetSelectedNode()->GetName().CString() : "None") );
-            ImGui::Text( "Hovered Node: %s", (CHARACTERHANDLER->GetHoveredNode() ? CHARACTERHANDLER->GetHoveredNode()->GetName().CString() : "None") );
+            ImGui::Text( "Hovered Node: %s (Distance: %f)", (CHARACTERHANDLER->GetHoveredNode() ? CHARACTERHANDLER->GetHoveredNode()->GetName().CString() : "None"), distanceToHoveredNode );
             ImGui::Text( "Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate );
 
             ImGui::EndTabItem();

@@ -10,7 +10,8 @@ CameraManager::CameraManager( Context* context ) :
     deltaMouseMoveWheel( 0.f ),
     type( CameraType::Undefined ),
     targetNode( nullptr ),
-    cameraNode( nullptr )
+    cameraNode( nullptr ),
+    mode( CameraMode::Manual )
 {
 }
 
@@ -135,10 +136,13 @@ void CameraManager::HandleMoveCamera( float timeStep )
     if( type == CameraType::Follow && targetNode )
     {
         //Distance Camera
-        if( INPUT->GetKeyDown( KEY_UP ) )
-            cameraDistance -= 30.f * timeStep;
-        else if( INPUT->GetKeyDown( KEY_DOWN ) )
-            cameraDistance += 30.f * timeStep;
+        if( mode == CameraMode::Manual || mode == CameraMode::Auto )
+        {
+            if( INPUT->GetKeyDown( KEY_UP ) )
+                cameraDistance -= 30.f * timeStep;
+            else if( INPUT->GetKeyDown( KEY_DOWN ) )
+                cameraDistance += 30.f * timeStep;
+        }
 
         //Limit Camera Distance
         cameraDistance = Clamp( cameraDistance, CAMERA_MIN_DISTANCE, CAMERA_MAX_DISTANCE );
@@ -150,30 +154,52 @@ void CameraManager::HandleMoveCamera( float timeStep )
             cameraYaw -= 100.f * timeStep;
 
         //Camera Pitch
-        if( INPUT->GetMouseMoveWheel() )
-            deltaMouseMoveWheel += INPUT->GetMouseMoveWheel() * 0.05f;
-
-        if( deltaMouseMoveWheel )
+        if( mode == CameraMode::Manual || mode == CameraMode::Auto )
         {
-            if( deltaMouseMoveWheel < 0.0f )
+            if( INPUT->GetMouseMoveWheel() )
+                deltaMouseMoveWheel += INPUT->GetMouseMoveWheel() * 0.05f;
+
+            if( deltaMouseMoveWheel )
             {
-                deltaMouseMoveWheel += 0.001f;
+                if( deltaMouseMoveWheel < 0.0f )
+                {
+                    deltaMouseMoveWheel += 0.001f;
 
-                if( deltaMouseMoveWheel >= 0.0f )
-                    deltaMouseMoveWheel = 0.0f;
+                    if( deltaMouseMoveWheel >= 0.0f )
+                        deltaMouseMoveWheel = 0.0f;
+                }
+                else
+                {
+                    deltaMouseMoveWheel -= 0.001f;
+
+                    if( deltaMouseMoveWheel <= 0.0f )
+                        deltaMouseMoveWheel = 0.0f;
+                }
+
+                cameraPitch += deltaMouseMoveWheel * timeStep * 200.f;
             }
-            else
-            {
-                deltaMouseMoveWheel -= 0.001f;
-
-                if( deltaMouseMoveWheel <= 0.0f )
-                    deltaMouseMoveWheel = 0.0f;
-            }
-
-            cameraPitch += deltaMouseMoveWheel * timeStep * 200.f;
         }
 
         //Limit Camera Pitch
         cameraPitch = Clamp( cameraPitch, 1.0f, 90.0f );
+
+        //Auto Camera
+        if( mode == CameraMode::Auto )
+        {
+            float delta = GetCameraNode()->GetRotation().YawAngle() - CHARACTERHANDLER->GetCharacter()->GetNode()->GetRotation().YawAngle();
+
+            if( delta >= 180.f )
+                delta = delta - 360.f;
+
+            if( abs( delta ) < 90.f )
+            {
+                float step = abs( delta ) / 128.f;
+
+                if( delta < 0.f )
+                    cameraYaw += step;
+                else
+                    cameraYaw -= step;
+            }
+        }
     }
 }

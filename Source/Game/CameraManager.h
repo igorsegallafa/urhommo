@@ -18,6 +18,13 @@ enum class CameraType
     Follow,
 };
 
+enum class CameraMode
+{
+    Fixed,
+    Manual,
+    Auto,
+};
+
 class CameraManager : public ManagerImpl
 {
     URHO3D_OBJECT( CameraManager, ManagerImpl );
@@ -65,6 +72,7 @@ private:
 private:
     WeakPtr<Node> cameraNode;   //!< Pointer for camera Node.
     CameraType type;    //!< Camera Type.
+    CameraMode mode;    //!< Camera Mode.
     Node* targetNode;   //!< Camera Target Node.
 
     float deltaMouseMoveWheel;  //!< Delta Mouse Move Wheel.
