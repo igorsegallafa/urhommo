@@ -53,18 +53,6 @@ public:
 private:
     Connection* Connect( const String& ip, unsigned int port, VariantMap& identity );
 
-    //! Handle Client Connection Identity.
-    void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
-
-    //! Handle New Client Connection.
-    void HandleClientConnected( StringHash eventType, VariantMap& eventData );
-
-    //! Handle Client Disconnection.
-    void HandleClientDisconnected( StringHash eventType, VariantMap& eventData );
-
-    //! Handle Network Message.
-    void HandleMessage( StringHash eventType, VariantMap& eventData );
-
     //! Handle Server Connection.
     void HandleServerConnected( StringHash eventType, VariantMap& eventData );
 

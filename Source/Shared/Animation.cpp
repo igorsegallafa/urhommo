@@ -50,7 +50,7 @@ void AnimationEntity::Play( const AnimationType& animationType, bool exclusive )
 void AnimationEntity::Play( int animationID, bool exclusive )
 {
     //Invalid Animation
-    if( animationID < 0 || animationID >= animations.Size() )
+    if( animationID < 0 || animationID >= (int)animations.Size() )
         return;
 
     auto animationData = &animations[animationID];

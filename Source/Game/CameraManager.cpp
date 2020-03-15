@@ -138,9 +138,9 @@ void CameraManager::HandleMoveCamera( float timeStep )
         //Distance Camera
         if( mode == CameraMode::Manual || mode == CameraMode::Auto )
         {
-            if( INPUT->GetKeyDown( KEY_UP ) )
+            if( INPUT->GetKeyDown( Key::KEY_UP ) )
                 cameraDistance -= 30.f * timeStep;
-            else if( INPUT->GetKeyDown( KEY_DOWN ) )
+            else if( INPUT->GetKeyDown( Key::KEY_DOWN ) )
                 cameraDistance += 30.f * timeStep;
         }
 

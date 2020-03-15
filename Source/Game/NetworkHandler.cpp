@@ -18,10 +18,6 @@ NetworkHandler::~NetworkHandler()
 bool NetworkHandler::Init()
 {
     //Subscribe Events
-    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( NetworkHandler, HandleClientIdentity ) );
-    SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientConnected ) );
-    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
-    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerConnected ) );
     SubscribeToEvent( E_SERVERDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerDisconnected ) );
 
@@ -98,22 +94,6 @@ Connection* NetworkHandler::Connect( const String& ip, unsigned int port, Varian
     return nullptr;
 }
 
-void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void NetworkHandler::HandleMessage( StringHash eventType, VariantMap& eventData )
-{
-}
-
 void NetworkHandler::HandleServerConnected( StringHash eventType, VariantMap& eventData )
 {
     //Game Server Connected? Connect to Master Server
@@ -131,4 +111,11 @@ void NetworkHandler::HandleServerDisconnected( StringHash eventType, VariantMap&
         gameServerConnection = nullptr;
     else if( (masterServerConnection) && masterServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
         masterServerConnection = nullptr;
+    
+    if( SCREENMANAGER->GetActiveScreenType() == ScreenType::World )
+    {
+        //Disconnect all servers and go back to Login Screen
+        CloseConnections();
+        SCREENMANAGER->ChangeScreen( ScreenType::Login );
+    }
 }

@@ -5,6 +5,8 @@
 class btPairCachingGhostObject;
 class btKinematicCharacterController;
 
+namespace Urho3D{ class RigidBody; };
+
 URHO3D_EVENT( E_GHOST_COLLISION_STARTED, GhostCollisionBegin )
 {
     URHO3D_PARAM( P_BODY, Body );             /// RigidBody which collided with btGhostObject
