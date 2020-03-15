@@ -1,12 +1,6 @@
 #include "PrecompiledHeader.h"
 #include "Entity.h"
 
-#undef new
-
-#include <Bullet/btBulletDynamicsCommon.h>
-#include <BulletCollision/CollisionDispatch/btGhostObject.h>
-#include <Bullet/BulletDynamics/Character/btKinematicCharacterController.h>
-
 namespace Core
 {
 Entity::Entity( Context* context ) : 
