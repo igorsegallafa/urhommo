@@ -23,6 +23,8 @@ Character::~Character()
 
 void Character::FixedUpdate( float time )
 {
+    using namespace CharacterData;
+
     if( connection )
     {
         const Controls& controls = connection->GetControls();
@@ -85,9 +87,9 @@ void Character::FixedUpdate( float time )
         Variant animationOut;
 
         //Set Character Animation
-        if( controls.extraData_.TryGetValue( "AnimationID", animationOut ) )
+        if( controls.extraData_.TryGetValue( P_ANIMATIONID, animationOut ) )
             if( auto animationID = animationOut.GetInt(); animationID != -1 )
-                animationMgr->Play( animationID, controls.extraData_["AnimationExclusive"]->GetBool() );
+                animationMgr->Play( animationID, controls.extraData_[P_ANIMATIONEXCLUSIVE]->GetBool() );
         else if( controls.buttons_ & CHARACTERCONTROL_Forward || followingTarget )
             animationMgr->Play( AnimationType::Walk );
         else

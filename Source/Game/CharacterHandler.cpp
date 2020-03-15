@@ -75,6 +75,8 @@ void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType
 
 void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData )
 {
+    using namespace Core::CharacterData;
+
     if( SCREEN_TYPE == ScreenType::World && character && CONNECTIONG )
     {
         auto characterNode = character->GetNode();
@@ -84,7 +86,8 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             //Set Connection Controls
             Controls controls;
             controls.yaw_ = CAMERAMANAGER->GetCameraYaw() + CAMERAMANAGER->GetMouseYaw();
-            controls.extraData_["AnimationID"] = -1;
+            controls.extraData_[P_ANIMATIONID] = -1;
+            controls.extraData_[P_MAPID] = (MAP_ID)MAPMANAGER->GetCurrentMapID();
             
             if( !USERINTERFACE->GetFocusElement() )
                 controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
@@ -99,8 +102,8 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             //Have animation to set?
             if( animationToSet.first_ != 0 )
             {
-                controls.extraData_["AnimationID"] = animationToSet.first_;
-                controls.extraData_["AnimationExclusive"] = animationToSet.second_;
+                controls.extraData_[P_ANIMATIONID] = animationToSet.first_;
+                controls.extraData_[P_ANIMATIONEXCLUSIVE] = animationToSet.second_;
             }
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );

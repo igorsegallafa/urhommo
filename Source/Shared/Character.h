@@ -24,6 +24,13 @@ enum CharacterControl
     CHARACTERCONTROL_Forward = 1 << 1,
 };
 
+namespace CharacterData
+{
+URHO3D_PARAM( P_ANIMATIONID, AnimationID );
+URHO3D_PARAM( P_ANIMATIONEXCLUSIVE, AnimationExclusive );
+URHO3D_PARAM( P_MAPID, MapID );
+};
+
 class Character : public Entity
 {
     URHO3D_OBJECT( Character, Entity );

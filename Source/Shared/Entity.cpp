@@ -214,21 +214,5 @@ void Entity::ResetTargetPosition()
 
 void Entity::HandlePostRenderUpdate( StringHash eventType, VariantMap & eventData )
 {
-    /*Depracated if( targetPath.Size() )
-    {
-        //Visualize the current calculated path
-        auto* debug = node_->GetScene()->GetComponent<DebugRenderer>();
-        debug->AddBoundingBox( BoundingBox( targetPos - Vector3( 0.1f, 0.1f, 0.1f ), targetPos + Vector3( 0.1f, 0.1f, 0.1f ) ), Color( 1.0f, 1.0f, 1.0f ) );
-
-        //Draw the path with a small upward bias so that it does not clip into the surfaces
-        Vector3 bias( 0.0f, 0.05f, 0.0f );
-        debug->AddLine( node_->GetPosition() + bias, targetPath[0] + bias, Color( 1.0f, 1.0f, 1.0f ) );
-
-        if( targetPath.Size() > 1 )
-        {
-            for( unsigned i = 0; i < targetPath.Size() - 1; ++i )
-                debug->AddLine( targetPath[i] + bias, targetPath[i + 1] + bias, Color( 1.0f, 1.0f, 1.0f ) );
-        }
-    }*/
 }
 };
