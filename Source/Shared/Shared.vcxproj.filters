@@ -96,6 +96,12 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files\Core\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="EntityCollision.cpp">
+      <Filter>Source Files\Core\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityNavigation.cpp">
+      <Filter>Source Files\Core\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -133,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files\Core\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityCollision.h">
+      <Filter>Header Files\Core\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityNavigation.h">
+      <Filter>Header Files\Core\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

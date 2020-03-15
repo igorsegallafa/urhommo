@@ -187,6 +187,8 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityCollision.cpp" />
+    <ClCompile Include="EntityNavigation.cpp" />
     <ClCompile Include="LoginDef.cpp" />
     <ClCompile Include="MapDef.cpp" />
     <ClCompile Include="MessageDef.cpp" />
@@ -204,6 +206,8 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityCollision.h" />
+    <ClInclude Include="EntityNavigation.h" />
     <ClInclude Include="HandlerImpl.h" />
     <ClInclude Include="IShared.h" />
     <ClInclude Include="LoginDef.h" />

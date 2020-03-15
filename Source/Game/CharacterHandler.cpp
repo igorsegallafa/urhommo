@@ -131,7 +131,7 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
                 characterNode->RemoveComponent<RigidBody>();
                 characterNode->RemoveComponent<CollisionShape>();
                 character = characterNode->GetComponent<Core::Character>( true );
-                character->CreatePhysicsComponent();
+                character->CreatePhysicsComponent( 0.56f, 1.51f );
                 character->connection = CONNECTIONG;
                 character->animationMgr = characterNode->GetComponent<Core::AnimationEntity>( true );
 

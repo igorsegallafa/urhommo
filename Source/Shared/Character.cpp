@@ -13,8 +13,6 @@ Character::Character( Context* context ) :
     Entity( context ),
     connection( nullptr )
 {
-    height = 1.51f;
-    diameter = 0.56f;
 }
 
 Character::~Character()
