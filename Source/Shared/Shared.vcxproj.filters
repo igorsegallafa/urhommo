@@ -102,6 +102,9 @@
     <ClCompile Include="EntityNavigation.cpp">
       <Filter>Source Files\Core\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionDef.cpp">
+      <Filter>Source Files\Definitions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PrecompiledHeader.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="EntityNavigation.h">
       <Filter>Header Files\Core\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDef.h">
+      <Filter>Header Files\Definitions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
