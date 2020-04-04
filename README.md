@@ -2,7 +2,7 @@
 This is a project of a MMORPG game using the game engine Urho3D. Urho is used for client-side and server-side.
 
 ## License
-Licensed under the GNU General Public License v3.0.
+Licensed under the MIT License.
 
 ## Development
 I am developing this project by myself for now, like a hobby. I have not idea if this could be a *final product* in the future, but I will be working hard to make it happen.
