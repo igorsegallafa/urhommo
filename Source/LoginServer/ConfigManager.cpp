@@ -3,20 +3,21 @@
 
 ConfigManager::ConfigManager( Context* context ) :
     ManagerImpl( context ),
-    connection( nullptr )
+    connection_( nullptr )
 {
 }
 
 ConfigManager::~ConfigManager()
 {
-    for( auto& connection : netConnections )
+    for( auto& connection : netConnections_ )
         delete connection;
 
-    netConnections.Clear();
+    netConnections_.Clear();
 }
 
 bool ConfigManager::Init()
 {
+    ParseParameters();
     Load( Net::ServerType::Login );
 
     return true;
@@ -33,18 +34,18 @@ bool ConfigManager::Load( const Net::ServerType& serverType, int id )
         auto ReadServerConfig = [=]( auto json, auto type )
         {
             Net::NetConnection* netConnection = new Net::NetConnection();
-            netConnection->connection = nullptr;
-            netConnection->id = json["id"].GetInt();
-            netConnection->name = json["name"].GetString();
-            netConnection->ip = json["ip"].GetString();
-            netConnection->port = json["port"].GetInt();
-            netConnection->serverType = type;
-            netConnection->maxConnections = json["maxConnections"].GetInt();
-            netConnections.Push( netConnection );
+            netConnection->connection_ = nullptr;
+            netConnection->id_ = json["id"].GetInt();
+            netConnection->name_ = json["name"].GetString();
+            netConnection->ip_ = json["ip"].GetString();
+            netConnection->port_ = json["port"].GetInt();
+            netConnection->serverType_ = type;
+            netConnection->maxConnections_ = json["maxConnections"].GetInt();
+            netConnections_.Push( netConnection );
 
             //Current Server Config
-            if( type == serverType && netConnection->id == id )
-                connection = netConnection;
+            if( type == serverType && netConnection->id_ == id )
+                connection_ = netConnection;
         };
 
         for( auto it = root.Begin(); it != root.End(); ++it )
@@ -52,12 +53,12 @@ bool ConfigManager::Load( const Net::ServerType& serverType, int id )
             auto object = (*it);
 
             //Read Game Servers Config
-            if( object.first_ == ServerTypeToString( Net::ServerType::Game ) )
+            if( object.first_ == ServerTypeToString( Net::ServerType::Game ) || object.first_ == ServerTypeToString( Net::ServerType::World ) )
             {
                 auto servers = object.second_.GetArray();
 
                 for( const auto& value : servers )
-                    ReadServerConfig( value, Net::ServerType::Game );
+                    ReadServerConfig( value, Net::ServerTypeFromString( object.first_ ) );
             }
             else
                 ReadServerConfig( object.second_, Net::ServerTypeFromString( object.first_ ) );
@@ -71,12 +72,38 @@ bool ConfigManager::Load( const Net::ServerType& serverType, int id )
 
 Net::NetConnection* ConfigManager::GetNetConfig( const Net::ServerType& serverType, int id )
 {
-    for( auto& connection : netConnections )
+    for( auto& connection : netConnections_ )
     {
-        if( connection->serverType == serverType && connection->id == id )
+        if( connection->serverType_ == serverType && connection->id_ == id )
             return connection;
     }
 
     return nullptr;
 }
 
+const Vector<Net::NetConnection*> ConfigManager::GetNetConnections( const Net::ServerType& serverType )
+{
+    Vector<Net::NetConnection*> retNetConnections;
+
+    for( auto& connection : netConnections_ )
+    {
+        if( connection->serverType_ == serverType )
+            retNetConnections.Push( connection );
+    }
+
+    return retNetConnections;
+}
+
+void ConfigManager::ParseParameters()
+{
+    auto arguments = GetArguments();
+
+    for( unsigned i = 0; i < arguments.Size(); ++i )
+    {
+        if( arguments[i].Length() > 1 && arguments[i][0] == '-' )
+        {
+            String argument = arguments[i].Substring( 1 ).ToLower();
+            String value = i + 1 < arguments.Size() ? arguments[i + 1] : String::EMPTY;
+        }
+    }
+}

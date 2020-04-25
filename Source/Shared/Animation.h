@@ -61,6 +61,6 @@ public:
     //! Get current Animation Data.
     AnimationData* GetCurrentAnimationData();
 private:
-    Vector<AnimationData> animations;   //!< Animation Set.
+    Vector<AnimationData> animations_;   //!< Animation Set.
 };
 };

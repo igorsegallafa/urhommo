@@ -3,12 +3,15 @@
 #include "ScreenManager.h"
 #include "CameraManager.h"
 #include "MapManager.h"
+#include "ConfigManager.h"
 
 #define SCREENMANAGER       (GAMEMANAGER->Get<ScreenManager>())
 #define CAMERAMANAGER       (GAMEMANAGER->Get<CameraManager>())
 #define MAPMANAGER          (GAMEMANAGER->Get<MapManager>())
+#define CONFIGMANAGER       (GAMEMANAGER->Get<ConfigManager>())
+#define EQUIPMENTMANAGER    (GAMEMANAGER->Get<EquipmentManager>())
 
-#define IMPL_MANAGER(name)  managers[name::GetTypeStatic()] = new name( context ); 
+#define IMPL_MANAGER(name)  managers_[name::GetTypeStatic()] = new name( context ); 
 
 class GameManager : public ManagerImpl
 {
@@ -33,13 +36,13 @@ public:
     template<class T>
     inline T* Get()
     {
-        auto it = managers.Find( T::GetTypeStatic() );
+        auto it = managers_.Find( T::GetTypeStatic() );
 
-        if( it != managers.End() )
+        if( it != managers_.End() )
             return static_cast<T*>(it->second_);
 
         return nullptr;
     }
 private:
-    HashMap<StringHash, ManagerImpl*> managers;  //!< Pointer for Managers.
+    HashMap<StringHash, ManagerImpl*> managers_;  //!< Pointer for Managers.
 };

@@ -50,10 +50,10 @@ void AnimationEntity::Play( const AnimationType& animationType, bool exclusive )
 void AnimationEntity::Play( int animationID, bool exclusive )
 {
     //Invalid Animation
-    if( animationID < 0 || animationID >= (int)animations.Size() )
+    if( animationID < 0 || animationID >= (int)animations_.Size() )
         return;
 
-    auto animationData = &animations[animationID];
+    auto animationData = &animations_[animationID];
     auto animationController = node_->GetComponent<AnimationController>( true );
 
     if( animationData )
@@ -91,17 +91,17 @@ void AnimationEntity::Play( int animationID, bool exclusive )
 void AnimationEntity::AddAnimationData( AnimationData animationData )
 {
     //Update Animation Data ID
-    animationData.id = animations.Size();
+    animationData.id = animations_.Size();
 
     //Push it to Vector
-    animations.Push( animationData );
+    animations_.Push( animationData );
 }
 
 AnimationData* AnimationEntity::GetAnimationData( const AnimationType& animationType )
 {
     Vector<AnimationData*> animationsFound;
 
-    for( auto& animationData : animations )
+    for( auto& animationData : animations_ )
         if( animationData.type == animationType )
             animationsFound.Push( &animationData );
 
@@ -111,11 +111,11 @@ AnimationData* AnimationEntity::GetAnimationData( const AnimationType& animation
     return nullptr;
 }
 
-AnimationData * AnimationEntity::GetCurrentAnimationData()
+AnimationData* AnimationEntity::GetCurrentAnimationData()
 {
     auto animationController = node_->GetComponent<AnimationController>( true );
 
-    for( auto& animationData : animations )
+    for( auto& animationData : animations_ )
         if( animationController->IsPlaying( animationData.file ) )
         {
             if( animationController->IsPlaying( ANIMATIONLAYER_Action ) && animationData.type <= AnimationType::Run )

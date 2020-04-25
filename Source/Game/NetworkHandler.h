@@ -3,12 +3,11 @@
 #define CONNECTIONL     (NETWORKHANDLER->GetLoginServerConnection())
 #define CONNECTIONG     (NETWORKHANDLER->GetGameServerConnection())
 #define CONNECTIONM     (NETWORKHANDLER->GetMasterServerConnection())
+#define CONNECTIONW     (NETWORKHANDLER->GetWorldServerConnection())
 
-#define MESSAGEHANDLER  (NETWORKHANDLER->GetMessageHandler())
+#define MESSAGE_HANDLER(handler_class, function)    std::bind( &handler_class::function, GAMEHANDLER->Get<handler_class>(), std::placeholders::_1, std::placeholders::_2 )
 
-#define HANDLE_MESSAGE(function,ptr)   std::bind( function, ptr, std::placeholders::_1, std::placeholders::_2 )
-
-class NetworkHandler : public HandlerImpl
+class NetworkHandler : public HandlerImpl, private Handler::Message
 {
     URHO3D_OBJECT( NetworkHandler, HandlerImpl );
 public:
@@ -30,6 +29,9 @@ public:
     //! Connect to Master Server.
     void ConnectMasterServer( const String& ip, unsigned int port, VariantMap& identity );
 
+    //! Connect to World Server.
+    void ConnectWorldServer( const String& ip, unsigned int port, VariantMap& identity );
+
     //! Connect to Game Server.
     void ConnectGameServer( const String& ip, unsigned int port, VariantMap& identity );
 
@@ -42,14 +44,17 @@ public:
     //! Close Master Server Connection.
     void CloseMasterServer();
 
+    //! Close World Server Connection.
+    void CloseWorldServer();
+
     //! Close Game Server Connection.
     void CloseGameServer();
 
     //! Getters.
-    Handler::Message* GetMessageHandler() const{ return messageHandler; }
-    Connection* GetLoginServerConnection() const { return loginServerConnection; }
-    Connection* GetGameServerConnection() const { return gameServerConnection; }
-    Connection* GetMasterServerConnection() const { return masterServerConnection; }
+    Connection* GetLoginServerConnection() const { return loginServerConnection_; }
+    Connection* GetWorldServerConnection() const { return worldServerConnection_; }
+    Connection* GetGameServerConnection() const { return gameServerConnection_; }
+    Connection* GetMasterServerConnection() const { return masterServerConnection_; }
 private:
     Connection* Connect( const String& ip, unsigned int port, VariantMap& identity );
 
@@ -59,9 +64,8 @@ private:
     //! Handle Server Disconnected.
     void HandleServerDisconnected( StringHash eventType, VariantMap& eventData );
 private:
-    SharedPtr<Handler::Message> messageHandler; //!< Pointer for the Message Handler.
-
-    Connection* loginServerConnection;  //!< Pointer for Login Server Connection.
-    Connection* masterServerConnection; //!< Pointer for Master Server Connection.
-    Connection* gameServerConnection;   //!< Pointer for Game Server Connection.
+    Connection* loginServerConnection_;  //!< Pointer for Login Server Connection.
+    Connection* masterServerConnection_; //!< Pointer for Master Server Connection.
+    Connection* worldServerConnection_;  //!< Pointer for World Server Connection.
+    Connection* gameServerConnection_;   //!< Pointer for Game Server Connection.
 };

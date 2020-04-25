@@ -18,8 +18,12 @@ public:
 
     //! Map Getter.
     BaseMap* GetMap( const MapID& mapID );
+
+    //! Scene Getter.
+    Scene* GetScene() const{ return scene_; }
 private:
     void Load();
 private:
-    HashMap<int, SharedPtr<BaseMap>> maps;
+    HashMap<int, SharedPtr<BaseMap>> maps_;
+    SharedPtr<Scene> scene_;
 };

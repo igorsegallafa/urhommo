@@ -11,26 +11,27 @@ ServerManager::ServerManager( Context* context ) :
 {
     IMPL_MANAGER( UserManager );
     IMPL_MANAGER( ConfigManager );
+    IMPL_MANAGER( DatabaseManager );
 }
 
 ServerManager::~ServerManager()
 {
-    for( auto& p : managers )
-        delete p.second_;
+    for( auto& manager : managers_ )
+        delete manager.second_;
 
-    managers.Clear();
+    managers_.Clear();
 }
 
 bool ServerManager::Init()
 {
-    for( const auto& m : managers )
-        m.second_->Init();
+    for( const auto& manager : managers_ )
+        manager.second_->Init();
 
     return true;
 }
 
 void ServerManager::UnInit()
 {
-    for( const auto& m : managers )
-        m.second_->UnInit();
+    for( const auto& manager : managers_ )
+        manager.second_->UnInit();
 }

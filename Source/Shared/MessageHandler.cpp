@@ -4,7 +4,7 @@
 bool MessageImpl::IsValid( Connection* connection )
 {
     //Validate message before to process it
-    for( const auto& validation : validations )
+    for( const auto& validation : validations_ )
         if( !validation( connection ) )
             return false;
 
@@ -14,7 +14,7 @@ bool MessageImpl::IsValid( Connection* connection )
 bool MessageImpl::CanProcess( Connection* connection, MemoryBuffer& message )
 {
     //Process message
-    for( const auto& process : processing )
+    for( const auto& process : processing_ )
         if( !process( connection, message ) )
             return false;
 
@@ -23,9 +23,11 @@ bool MessageImpl::CanProcess( Connection* connection, MemoryBuffer& message )
 
 namespace Handler
 {
-Message::Message( Context* context ) : Object( context ), handlers{}, validations{}, processing{}
+Message::Message() : 
+    handlers{}, 
+    validations_{}, 
+    processing_{}
 {
-    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( Message, HandleMessage ) );
 }
 
 Message::~Message()
@@ -39,7 +41,7 @@ MessageImpl& Message::Handle( int messageID )
         return *handlers[messageID];
 
     //Create a new message handler
-    MessageImpl* newHandler( new MessageImpl( context_ ) );
+    MessageImpl* newHandler( new MessageImpl() );
     handlers[messageID] = newHandler;
 
     //Return message handler pointer
@@ -58,7 +60,7 @@ void Message::HandleMessage( StringHash eventType, VariantMap& eventData )
         auto message = it->second_;
 
         //Validate Message with Global Validations before
-        for( const auto& handler : validations )
+        for( const auto& handler : validations_ )
             if( !handler( messageID, sender ) )
                 return;
 
@@ -71,7 +73,7 @@ void Message::HandleMessage( StringHash eventType, VariantMap& eventData )
         MemoryBuffer buffer( data );
 
         //Process Message with Global Processing Handlers before
-        for( const auto& handler : processing )
+        for( const auto& handler : processing_ )
             if( !handler( messageID, sender, buffer ) )
                 return;
 

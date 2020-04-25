@@ -13,6 +13,8 @@ const char* ServerTypeToString( const ServerType& serverType )
             return "loginserver";
         case ServerType::Game:
             return "gameserver";
+        case ServerType::World:
+            return "worldserver";
     }
 
     return "unknown";
@@ -26,14 +28,16 @@ ServerType ServerTypeFromString( const String& str )
         return ServerType::Login;
     else if( str.Compare( "gameserver", false ) == 0 )
         return ServerType::Game;
+    else if( str.Compare( "worldserver", false ) == 0 )
+        return ServerType::World;
 
     return ServerType::Undefined;
 }
 
 Server::Server( Context* context ) :
     Object( context ),
-    serverConnection( nullptr ),
-    netConnections{}
+    currentNetConnection_( nullptr ),
+    netConnections_{}
 {
 }
 
@@ -44,6 +48,7 @@ Server::~Server()
 bool Server::Init()
 {
     //Subscribe Events
+    SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( Server, HandleUpdate ) );
     SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( Server, HandleClientIdentity ) );
     SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( Server, HandleClientDisconnect ) );
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( Server, HandleConnectionStatus ) );
@@ -56,9 +61,9 @@ bool Server::Init()
 void Server::UnInit()
 {
     //Disconnect Net Connections
-    for( const auto& connection : netConnections )
-        if( connection->connection )
-            connection->connection->Disconnect();
+    for( const auto& connection : netConnections_ )
+        if( connection->connection_ )
+            connection->connection_->Disconnect();
 
     //Close Server
     GetSubsystem<Network>()->Disconnect();
@@ -69,10 +74,10 @@ bool Server::Start( NetConnection* netConnection )
 {
     if( netConnection )
     {
-        currentNetConnection = netConnection;
+        currentNetConnection_ = netConnection;
 
         //Start Server
-        return GetSubsystem<Network>()->StartServer( currentNetConnection->port, currentNetConnection->maxConnections );
+        return GetSubsystem<Network>()->StartServer( currentNetConnection_->port_, currentNetConnection_->maxConnections_ );
     }
 
     return false;
@@ -80,56 +85,54 @@ bool Server::Start( NetConnection* netConnection )
 
 bool Server::Load( NetConnection* netConnection )
 {
-    netConnections.Push( netConnection );
+    netConnections_.Push( netConnection );
     return true;
 }
 
-bool Server::ConnectAll()
+void Server::ConnectAll()
 {
-    //Server already connected
-    if( serverConnection )
-        return false;
-
-    for( const auto& connectionInfo : netConnections )
-    {
-        //Prepare Variant Map of identity for Connection
-        VariantMap identity;
-        identity[P_SERVERTYPE] = (int)currentNetConnection->serverType;
-        identity[P_SERVERID] = currentNetConnection->id;
-
-        //Make server connection
-        if( connectionInfo->connection = GetSubsystem<Network>()->Connect( connectionInfo->ip, connectionInfo->port, nullptr, identity ) )
-        {
-            //Set as net connection
-            connectionInfo->address = 0;
-            connectionInfo->connection->SetIsNetConnection( true );
-            return true;
-        }
-    }
-
-    return false;
+    for( const auto& netConnection : netConnections_ )
+        Connect( netConnection );
 }
 
 NetConnection* Server::GetConnection( ServerType serverType, int index ) const
 {
-    int i = 0;
-    for( auto connection : netConnections )
-    {
-        //Found!
-        if( connection->serverType == serverType && i == index )
-            return connection;
-
-        i++;
-    }
+    for( auto& netConnection : netConnections_ )
+        if( netConnection->serverType_ == serverType && netConnection->id_ == index )
+            return netConnection;
 
     return nullptr;
 }
 
 void Server::Send( ServerType serverType, int msgID, bool reliable, bool inOrder, const VectorBuffer& msg )
 {
-    for( const auto& connection : netConnections )
-        if( connection->connection && connection->serverType == serverType )
-            connection->connection->Send( msgID, reliable, inOrder, msg );
+    for( const auto& netConnection : netConnections_ )
+        if( netConnection->connection_ && netConnection->serverType_ == serverType )
+            netConnection->connection_->Send( msgID, reliable, inOrder, msg );
+}
+
+void Server::HandleUpdate( StringHash eventType, VariantMap& eventData )
+{
+    using namespace Update;
+    static float elapsedTime10secs = 0.f;
+
+    //Check every 10 seconds
+    if( elapsedTime10secs >= 10.f )
+    {
+        //Has server to reconnect
+        if( reconnectNetConnections_.Size() )
+        {
+            for( auto& netConnection : reconnectNetConnections_ )
+            {
+                if( Connect( netConnection ) )
+                    URHO3D_LOGINFOF( "NET_SERVER: Trying reconnect to (%s)[%d]", ServerTypeToString( netConnection->serverType_ ), netConnection->id_ );
+            }
+        }
+
+        elapsedTime10secs = 0.f;
+    }
+
+    elapsedTime10secs += eventData[P_TIMESTEP].GetFloat();
 }
 
 void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
@@ -137,21 +140,24 @@ void Server::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
     if( Variant outServerType, outServerID; eventData.TryGetValue( P_SERVERTYPE, outServerType ) && eventData.TryGetValue( P_SERVERID, outServerID ) )
     {
         //Check if already have the connection
-        if( GetConnection( (ServerType)outServerType.GetInt(), outServerID.GetInt() ) )
+        if( auto connection = GetConnection( (ServerType)outServerType.GetInt(), outServerID.GetInt() ); connection )
+        {
             eventData[ClientIdentity::P_ALLOW] = false;
+            URHO3D_LOGINFOF( "NET_SERVER: Connection request from (%s)[%d] denied", ServerTypeToString( connection->serverType_ ), connection->id_ );
+        }
         else
         {
             NetConnection* netConnection = new NetConnection();
-            netConnection->id = outServerID.GetInt();
-            netConnection->serverType = (ServerType)outServerType.GetInt();
-            netConnection->connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
-            netConnection->address = netConnection->connection->GetAddressOrGUIDHash();
-            netConnections.Push( netConnection );
+            netConnection->id_ = outServerID.GetInt();
+            netConnection->serverType_ = (ServerType)outServerType.GetInt();
+            netConnection->connection_ = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+            netConnection->address_ = netConnection->connection_->GetAddressOrGUIDHash();
+            netConnections_.Push( netConnection );
 
-            URHO3D_LOGINFOF( "[Net Server] New connection established from '%s'", ServerTypeToString( (ServerType)outServerType.GetInt() ) );
+            URHO3D_LOGINFOF( "NET_SERVER: New connection established from (%s)[%d]", ServerTypeToString( netConnection->serverType_ ), netConnection->id_ );
 
             //Set as net connection
-            netConnection->connection->SetIsNetConnection( true );
+            netConnection->connection_->SetIsNetConnection( true );
 
             //TODO: Validate the connection with specific password
         }
@@ -162,11 +168,12 @@ void Server::HandleClientDisconnect( StringHash eventType, VariantMap& eventData
 {
     auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
 
-    for( auto it = netConnections.Begin(); it != netConnections.End(); ++it )
+    for( auto it = netConnections_.Begin(); it != netConnections_.End(); ++it )
     {
-        if( (*it)->connection == connection )
+        if( auto netConnection = (*it); netConnection->connection_ == connection )
         {
-            netConnections.Erase( it );
+            URHO3D_LOGINFOF( "NET_SERVER: Server (%s)[%d] disconnected", ServerTypeToString( (ServerType)netConnection->serverType_ ), netConnection->id_ );
+            netConnections_.Erase( it );
             break;
         }
     }
@@ -174,30 +181,80 @@ void Server::HandleClientDisconnect( StringHash eventType, VariantMap& eventData
 
 void Server::HandleConnectionStatus( StringHash eventType, VariantMap& eventData )
 {
-    //Server Connected
-    if( eventType == E_SERVERCONNECTED )
-    {
-        //Update all Server Connections Address
-        for( auto& connectionInfo : netConnections )
-            if( connectionInfo->connection )
-                if( connectionInfo->connection->IsConnectPending() == false && connectionInfo->address == 0 )
-                    connectionInfo->address = connectionInfo->connection->GetAddressOrGUIDHash();
-    }
     //Server Disconnected
-    else if( eventType == E_SERVERDISCONNECTED )
+    if( eventType == E_SERVERDISCONNECTED )
     {
-        for( auto it = netConnections.Begin(); it != netConnections.End(); ++it )
+        for( auto& netConnection : netConnections_ )
         {
-            if( (*it)->address == eventData[ServerDisconnected::P_ADDRESS].GetUInt() )
+            if( netConnection->address_ == eventData[ServerDisconnected::P_ADDRESS].GetUInt() )
             {
-                netConnections.Erase( it );
+                netConnection->connection_ = nullptr;
+                netConnection->address_ = 0;
+                URHO3D_LOGINFOF( "NET_SERVER: Disconnected from (%s)[%d]", ServerTypeToString( (ServerType)netConnection->serverType_ ), netConnection->id_ );
+                reconnectNetConnections_.Push( netConnection );
                 break;
             }
         }
     }
-    //Server Connect Failed
-    else if( eventType == E_CONNECTFAILED )
+    else 
     {
+        for( auto& netConnection : netConnections_ )
+        {
+            using namespace ClientConnected;
+
+            if( netConnection->connection_ == static_cast<Connection*>(eventData[P_CONNECTION].GetPtr()) )
+            {
+                //Server Connected
+                if( eventType == E_SERVERCONNECTED )
+                {
+                    bool reconnectedServer = false;
+
+                    //Check if server is reconnecting
+                    for( auto it = reconnectNetConnections_.Begin(); it != reconnectNetConnections_.End(); ++it )
+                    {
+                        if( auto reconnectNetConnection = (*it); reconnectNetConnection == netConnection )
+                        {
+                            reconnectedServer = true;
+                            reconnectNetConnections_.Erase( it );
+                            break;
+                        }
+                    }
+
+                    netConnection->address_ = netConnection->connection_->GetAddressOrGUIDHash();
+                    URHO3D_LOGINFOF( "NET_SERVER: %s to (%s)[%d]", (reconnectedServer ? "Reconnected" : "Connected"), ServerTypeToString( (ServerType)netConnection->serverType_ ), netConnection->id_ );
+                }
+                //Server Connection Failed
+                else if( eventType == E_CONNECTFAILED )
+                {
+                    netConnection->address_ = 0;
+                    netConnection->connection_ = nullptr;
+                }
+            }
+        }
     }
+}
+
+bool Server::Connect( NetConnection* netConnection )
+{
+    //We cant connect to a server already connected
+    if( auto otherConnection = GetConnection( netConnection->serverType_, netConnection->id_ ); otherConnection )
+        if( (otherConnection->connection_) && otherConnection->connection_->IsConnectPending() )
+            return false;
+
+    //Prepare Variant Map of identity for Connection
+    VariantMap identity;
+    identity[P_SERVERTYPE] = (int)currentNetConnection_->serverType_;
+    identity[P_SERVERID] = currentNetConnection_->id_;
+
+    //Make server connection
+    if( netConnection->connection_ = GetSubsystem<Network>()->Connect( netConnection->ip_, netConnection->port_, nullptr, identity ) )
+    {
+        //Set as net connection
+        netConnection->address_ = 0;
+        netConnection->connection_->SetIsNetConnection( true );
+        return true;
+    }
+
+    return false;
 }
 }

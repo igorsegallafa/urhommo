@@ -1,11 +1,9 @@
 #pragma once
 
 #define NETSERVER       (NETWORKHANDLER->GetNetServer())
-#define MESSAGEHANDLER  (NETWORKHANDLER->GetMessageHandler())
+#define MESSAGE_HANDLER(handler_class, function)    std::bind( &handler_class::function, SERVERHANDLER->Get<handler_class>(), std::placeholders::_1, std::placeholders::_2 )
 
-#define HANDLE_MESSAGE(function,ptr)   std::bind( function, ptr, std::placeholders::_1, std::placeholders::_2 )
-
-class NetworkHandler : public HandlerImpl
+class NetworkHandler : public HandlerImpl, private Handler::Message
 {
     URHO3D_OBJECT( NetworkHandler, HandlerImpl );
 public:
@@ -22,24 +20,10 @@ public:
     void UnInit();
 
     //! Getters.
-    Net::Server* GetNetServer() const{ return netServer; }
-    Handler::Message* GetMessageHandler() const{ return messageHandler; }
+    Net::Server* GetNetServer() const{ return netServer_; }
 private:
     //! Validate Message.
     bool CanProcessMessage( int messageID, Connection* connection );
-
-    //! Handle Client Connection Identity.
-    void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
-
-    //! Handle New Client Connection.
-    void HandleClientConnected( StringHash eventType, VariantMap& eventData );
-
-    //! Handle Client Disconnection.
-    void HandleClientDisconnected( StringHash eventType, VariantMap& eventData );
-
-    //! Handle Network Message.
-    void HandleMessage( StringHash eventType, VariantMap& eventData );
 private:
-    SharedPtr<Net::Server> netServer;   //!< Pointer for the Net Server.
-    SharedPtr<Handler::Message> messageHandler; //!< Pointer for the Message Handler.
+    SharedPtr<Net::Server> netServer_;   //!< Pointer for the Net Server.
 };

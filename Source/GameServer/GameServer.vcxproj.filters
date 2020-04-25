@@ -76,6 +76,12 @@
     <Filter Include="Header Files\Handler\Chat">
       <UniqueIdentifier>{a00226a7-f176-45f3-b0cb-fe4e966e6727}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Database">
+      <UniqueIdentifier>{b0ffedd0-ddfc-4521-b57e-aec1cbbf0c4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Database">
+      <UniqueIdentifier>{df28a13f-ff5f-4d45-8a2d-f1505270d459}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -110,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="ChatHandler.cpp">
       <Filter>Source Files\Handler\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseConnection.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseManager.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="ChatHandler.h">
       <Filter>Header Files\Handler\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseConnection.h">
+      <Filter>Header Files\Manager\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseManager.h">
+      <Filter>Header Files\Manager\Database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

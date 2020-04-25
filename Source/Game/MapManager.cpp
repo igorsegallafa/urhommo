@@ -3,15 +3,15 @@
 
 MapManager::MapManager( Context* context ) :
     ManagerImpl( context ),
-    maps{},
-    curMap( nullptr, MapID::Undefined ),
-    nextMap( nullptr, MapID::Undefined )
+    maps_{},
+    curMap_( nullptr, MapID::Undefined ),
+    nextMap_( nullptr, MapID::Undefined )
 {
 }
 
 MapManager::~MapManager()
 {
-    maps.Clear();
+    maps_.Clear();
 }
 
 bool MapManager::Init()
@@ -21,56 +21,56 @@ bool MapManager::Init()
 
     //Ricarten Town
     mapID = MapID::Ricarten;
-    map = maps[(MAP_ID)mapID] = new BaseMap( context_ );
-    map->mapID = mapID;
-    map->name = "Ricarten Town";
-    map->objectFile = "Objects/s_v2/s_v2.xml";
-    map->centerPosition = Vector3( 0.f, 0.f, 0.f );
+    map = maps_[(MAP_ID)mapID] = new BaseMap( context_ );
+    map->mapID_ = mapID;
+    map->name_ = "Ricarten Town";
+    map->objectFile_ = "Objects/s_v2/s_v2.xml";
+    map->centerPosition_ = Vector3( 0.f, 0.f, 0.f );
 
     //Garden of Freedom
     mapID = MapID::GardenOfFreedom;
-    map = maps[(MAP_ID)mapID] = new BaseMap( context_ );
-    map->mapID = mapID;
-    map->name = "Garden of Freedom";
-    map->objectFile = "Objects/s_f/s_f_01.xml";
-    map->centerPosition = Vector3( 86.313f, 11.5915f, 227.526f );
+    map = maps_[(MAP_ID)mapID] = new BaseMap( context_ );
+    map->mapID_ = mapID;
+    map->name_ = "Garden of Freedom";
+    map->objectFile_ = "Objects/s_f/s_f_01.xml";
+    map->centerPosition_ = Vector3( 86.313f, 11.5915f, 227.526f );
 
     //Bamboo Forest
     mapID = MapID::BambooForest;
-    map = maps[(MAP_ID)mapID] = new BaseMap( context_ );
-    map->mapID = mapID;
-    map->name = "Bamboo Forest";
-    map->objectFile = "Objects/s_f/s_f_02.xml";
-    map->centerPosition = Vector3( -181.485f, 11.938f, 214.416f );
+    map = maps_[(MAP_ID)mapID] = new BaseMap( context_ );
+    map->mapID_ = mapID;
+    map->name_ = "Bamboo Forest";
+    map->objectFile_ = "Objects/s_f/s_f_02.xml";
+    map->centerPosition_ = Vector3( -181.485f, 11.938f, 214.416f );
 
     return true;
 }
 
 void MapManager::UnInit()
 {
-    maps.Clear();
+    maps_.Clear();
 }
 
 bool MapManager::Load( const MapID& mapID )
 {
     if( SCREEN_TYPE == ScreenType::World )
     {
-        auto it = maps.Find( (MAP_ID)mapID );
+        auto it = maps_.Find( (MAP_ID)mapID );
 
-        if( it != maps.End() )
+        if( it != maps_.End() )
         {
             auto scene = WORLDSCREEN->GetScene();
-            auto mapXML = RESOURCECACHE->GetResource<XMLFile>( it->second_->objectFile );
-            auto tmpNode = scene->CreateTemporaryChild();
+            auto mapXML = RESOURCECACHE->GetResource<XMLFile>( it->second_->objectFile_ );
+            auto tmpNode = scene->CreateTemporaryChild( String::EMPTY, LOCAL );
 
             SceneResolver resolver;
 
             //Load Map
             if( tmpNode->LoadXML( mapXML->GetRoot(), resolver, false, false, LOCAL ) )
             {
-                curMap.first_ = scene->InstantiateXML( mapXML->GetRoot(), it->second_->centerPosition, Quaternion::IDENTITY, LOCAL );
-                curMap.second_ = it->second_->mapID;
-                NodeRegisterLoadTriggers( curMap.first_ );
+                curMap_.first_ = scene->InstantiateXML( mapXML->GetRoot(), it->second_->centerPosition_, Quaternion::IDENTITY, LOCAL );
+                curMap_.second_ = it->second_->mapID_;
+                NodeRegisterLoadTriggers( curMap_.first_ );
 
                 return true;
             }
@@ -82,9 +82,9 @@ bool MapManager::Load( const MapID& mapID )
 
 BaseMap* MapManager::GetMap( const MapID& mapID )
 {
-    auto it = maps.Find( (MAP_ID)mapID );
+    auto it = maps_.Find( (MAP_ID)mapID );
 
-    if( it != maps.End() )
+    if( it != maps_.End() )
         return it->second_;
 
     return nullptr;
@@ -133,17 +133,17 @@ void MapManager::HandleLoadTriggerEntered( StringHash eventType, VariantMap& eve
 
         if( mapID != MapID::Undefined && loadMapID != MapID::Undefined )
         {
-            const MapID& curMapID = curMap.first_ ? curMap.second_ : MapID::Undefined;
-            const MapID& nextMapID = nextMap.first_ ? nextMap.second_ : MapID::Undefined;
+            const MapID& curMapID = curMap_.first_ ? curMap_.second_ : MapID::Undefined;
+            const MapID& nextMapID = nextMap_.first_ ? nextMap_.second_ : MapID::Undefined;
 
             if( curMapID != mapID )
             {
                 //Swap Maps Loaded
                 if( curMapID == loadMapID && nextMapID == mapID )
                 {
-                    auto backupMap = curMap;
-                    curMap = nextMap;
-                    nextMap = backupMap;
+                    auto backupMap = curMap_;
+                    curMap_ = nextMap_;
+                    nextMap_ = backupMap;
                 }
                 else
                 {
@@ -153,11 +153,11 @@ void MapManager::HandleLoadTriggerEntered( StringHash eventType, VariantMap& eve
             else if( nextMapID != loadMapID )
             {
                 //Remove any existing level
-                if( nextMap.first_ )
+                if( nextMap_.first_ )
                 {
-                    nextMap.first_->Remove();
-                    nextMap.first_ = nullptr;
-                    nextMap.second_ = MapID::Undefined;
+                    nextMap_.first_->Remove();
+                    nextMap_.first_ = nullptr;
+                    nextMap_.second_ = MapID::Undefined;
                 }
 
                 //Async loading
@@ -165,24 +165,24 @@ void MapManager::HandleLoadTriggerEntered( StringHash eventType, VariantMap& eve
 
                 if( baseMap )
                 {
-                    auto mapXML = RESOURCECACHE->GetResource<XMLFile>( baseMap->objectFile );
+                    auto mapXML = RESOURCECACHE->GetResource<XMLFile>( baseMap->objectFile_ );
 
                     if( mapXML )
                     {
                         SceneResolver resolver;
-                        Node *tmpNode = scene->CreateTemporaryChild();
+                        Node *tmpNode = scene->CreateTemporaryChild(String::EMPTY, LOCAL);
 
                         if( tmpNode->LoadXML( mapXML->GetRoot(), resolver, false, false, LOCAL ) )
                         {
-                            nextMap.first_ = scene->InstantiateXML( mapXML->GetRoot(), baseMap->centerPosition, Quaternion::IDENTITY, LOCAL );
-                            nextMap.second_ = baseMap->mapID;
+                            nextMap_.first_ = scene->InstantiateXML( mapXML->GetRoot(), baseMap->centerPosition_, Quaternion::IDENTITY, LOCAL );
+                            nextMap_.second_ = baseMap->mapID_;
 
                             //Register triggers from new level node and clear loading flag
-                            NodeRegisterLoadTriggers( nextMap.first_ );
+                            NodeRegisterLoadTriggers( nextMap_.first_ );
                         }
                     }
                     else
-                        URHO3D_LOGERROR( "Load level file " + baseMap->objectFile + " not found!" );
+                        URHO3D_LOGERROR( "Load level file " + baseMap->objectFile_ + " not found!" );
                 }
             }
         }

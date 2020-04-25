@@ -9,14 +9,19 @@
 #include "User.h"
 #include "Character.h"
 #include "Animation.h"
+#include "CharacterEquipment.h"
 
 //Definitions
 #include "MessageDef.h"
 #include "LoginDef.h"
 #include "MapDef.h"
+#include "UserDef.h"
+#include "CharacterDef.h"
+#include "EquipmentDef.h"
 
 //Implementations
 #include "MessageHandler.h"
+#include "EquipmentManager.h"
 
 namespace Shared
 {
@@ -28,5 +33,6 @@ static void RegisterLibrary( Context* context )
     context->RegisterFactory<Core::Entity>();
     context->RegisterFactory<Core::Character>();
     context->RegisterFactory<Core::AnimationEntity>();
+    context->RegisterFactory<Core::CharacterEquipment>();
 }
 };

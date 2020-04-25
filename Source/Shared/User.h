@@ -2,17 +2,6 @@
 
 namespace Core
 {
-enum class LoginStatus
-{
-    Undefined,
-
-    Successful,
-    AlreadyIngame,
-    Banned,
-    WrongAccount,
-    WrongPassword,
-};
-
 class User : public Object
 {
     URHO3D_OBJECT( User, Object );
@@ -23,7 +12,8 @@ public:
     //! Deconstructor.
     ~User();
 public:
-    String accountName; //!< Account Name.
-    Connection* connection; //!< Connection pointer.
+    int id_;    //!< ID.
+    String accountName_; //!< Account Name.
+    Connection* connection_; //!< Connection pointer.
 };
 }

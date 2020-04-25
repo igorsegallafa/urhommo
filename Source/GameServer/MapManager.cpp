@@ -3,13 +3,14 @@
 
 MapManager::MapManager( Context* context ) :
     ManagerImpl( context ),
-    maps{}
+    maps_{},
+    scene_( nullptr )
 {
 }
 
 MapManager::~MapManager()
 {
-    maps.Clear();
+    maps_.Clear();
 }
 
 bool MapManager::Init()
@@ -19,14 +20,14 @@ bool MapManager::Init()
     //TODO: Load Maps from SQL
 
     //Ricarten Town
-    map = maps[(MAP_ID)MapID::Ricarten] = new BaseMap( context_ );
-    map->name = "Ricarten Town";
-    map->objectFile = "Objects/s_v2/s_v2.xml";
+    map = maps_[(MAP_ID)MapID::Ricarten] = new BaseMap( context_ );
+    map->name_ = "Ricarten Town";
+    map->objectFile_ = "Objects/s_v2/s_v2.xml";
 
     //Garden of Freedom
-    map = maps[(MAP_ID)MapID::GardenOfFreedom] = new BaseMap( context_ );
-    map->name = "Garden of Freedom";
-    map->objectFile = "Objects/s_f/s_f_01.xml";
+    map = maps_[(MAP_ID)MapID::GardenOfFreedom] = new BaseMap( context_ );
+    map->name_ = "Garden of Freedom";
+    map->objectFile_ = "Objects/s_f/s_f_01.xml";
 
     //Load Maps
     Load();
@@ -36,14 +37,14 @@ bool MapManager::Init()
 
 void MapManager::UnInit()
 {
-    maps.Clear();
+    maps_.Clear();
 }
 
 BaseMap* MapManager::GetMap( const MapID& mapID )
 {
-    auto it = maps.Find( (MAP_ID)mapID );
+    auto it = maps_.Find( (MAP_ID)mapID );
 
-    if( it != maps.End() )
+    if( it != maps_.End() )
         return it->second_;
 
     return nullptr;
@@ -51,14 +52,10 @@ BaseMap* MapManager::GetMap( const MapID& mapID )
 
 void MapManager::Load()
 {
-    for( auto& map : maps )
-    {
-        //Create Scene
-		map.second_->scene = new Scene( context_ );
-		map.second_->scene->CreateComponent<Octree>( LOCAL );
-		map.second_->scene->CreateComponent<PhysicsWorld>( LOCAL );
+    scene_ = new Scene( context_ );
+    scene_->CreateComponent<Octree>( LOCAL );
+    scene_->CreateComponent<PhysicsWorld>( LOCAL );
 
-        //Instantiate Map Object
-		map.second_->scene->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( map.second_->objectFile )->GetRoot(), map.second_->centerPosition, Quaternion::IDENTITY, LOCAL );
-    }
+    for( auto& map : maps_ )
+        scene_->InstantiateXML( RESOURCECACHE->GetResource<XMLFile>( map.second_->objectFile_ )->GetRoot(), map.second_->centerPosition_, Quaternion::IDENTITY, LOCAL );
 }

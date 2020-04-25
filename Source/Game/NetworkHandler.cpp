@@ -3,16 +3,15 @@
 
 NetworkHandler::NetworkHandler( Context* context ) :
     HandlerImpl( context ),
-    loginServerConnection( nullptr ),
-    masterServerConnection( nullptr ),
-    gameServerConnection( nullptr )
+    Handler::Message(),
+    loginServerConnection_( nullptr ),
+    masterServerConnection_( nullptr ),
+    gameServerConnection_( nullptr )
 {
-    messageHandler = new Handler::Message( context );
 }
 
 NetworkHandler::~NetworkHandler()
 {
-    messageHandler = nullptr;
 }
 
 bool NetworkHandler::Init()
@@ -20,12 +19,13 @@ bool NetworkHandler::Init()
     //Subscribe Events
     SubscribeToEvent( E_SERVERCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerConnected ) );
     SubscribeToEvent( E_SERVERDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleServerDisconnected ) );
+    SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
 
     //Handlers
-    messageHandler->Handle( MSGID_LoginData ).Process( HANDLE_MESSAGE( &LoginHandler::HandleLoginData, LOGINHANDLER ) );
-    messageHandler->Handle( MSGID_GameServerConnected ).Process( HANDLE_MESSAGE( &LoginHandler::HandleGameServerConnected, LOGINHANDLER ) );
-    messageHandler->Handle( MSGID_WorldData ).Process( HANDLE_MESSAGE( &CharacterHandler::HandleWorldData, CHARACTERHANDLER ) );
-    messageHandler->Handle( MSGID_ChatGame ).Process( HANDLE_MESSAGE( &ChatHandler::HandleChatGame, CHATHANDLER ) );
+    Handle( MSGID_LoginData ).Process( MESSAGE_HANDLER( LoginHandler, HandleLoginData ) );
+    Handle( MSGID_GameServerConnected ).Process( MESSAGE_HANDLER( LoginHandler, HandleGameServerConnected ) );
+    Handle( MSGID_WorldData ).Process( MESSAGE_HANDLER( CharacterHandler, HandleWorldData ) );
+    Handle( MSGID_ChatGame ).Process( MESSAGE_HANDLER( ChatHandler, HandleChatGame ) );
 
     return true;
 }
@@ -38,19 +38,25 @@ void NetworkHandler::UnInit()
 void NetworkHandler::ConnectLoginServer( const String& ip, unsigned int port, VariantMap& identity )
 {
     if( auto connection = Connect( ip, port, identity ); connection )
-        loginServerConnection = connection;
+        loginServerConnection_ = connection;
 }
 
 void NetworkHandler::ConnectMasterServer( const String& ip, unsigned int port, VariantMap& identity )
 {
     if( auto connection = Connect( ip, port, identity ); connection )
-        masterServerConnection = connection;
+        masterServerConnection_ = connection;
+}
+
+void NetworkHandler::ConnectWorldServer( const String& ip, unsigned int port, VariantMap& identity )
+{
+    if( auto connection = Connect( ip, port, identity ); connection )
+        worldServerConnection_ = connection;
 }
 
 void NetworkHandler::ConnectGameServer( const String& ip, unsigned int port, VariantMap& identity )
 {
     if( auto connection = Connect( ip, port, identity ); connection )
-        gameServerConnection = connection;
+        gameServerConnection_ = connection;
 }
 
 void NetworkHandler::CloseConnections()
@@ -60,28 +66,37 @@ void NetworkHandler::CloseConnections()
 
 void NetworkHandler::CloseLoginServer()
 {
-    if( loginServerConnection )
+    if( loginServerConnection_ )
     {
-        loginServerConnection->Disconnect();
-        loginServerConnection = nullptr;
+        loginServerConnection_->Disconnect();
+        loginServerConnection_ = nullptr;
     }
 }
 
 void NetworkHandler::CloseMasterServer()
 {
-    if( masterServerConnection )
+    if( masterServerConnection_ )
     {
-        masterServerConnection->Disconnect();
-        masterServerConnection = nullptr;
+        masterServerConnection_->Disconnect();
+        masterServerConnection_ = nullptr;
+    }
+}
+
+void NetworkHandler::CloseWorldServer()
+{
+    if( worldServerConnection_ )
+    {
+        worldServerConnection_->Disconnect();
+        worldServerConnection_ = nullptr;
     }
 }
 
 void NetworkHandler::CloseGameServer()
 {
-    if( gameServerConnection )
+    if( gameServerConnection_ )
     {
-        gameServerConnection->Disconnect();
-        gameServerConnection = nullptr;
+        gameServerConnection_->Disconnect();
+        gameServerConnection_ = nullptr;
     }
 }
 
@@ -96,21 +111,27 @@ Connection* NetworkHandler::Connect( const String& ip, unsigned int port, Varian
 
 void NetworkHandler::HandleServerConnected( StringHash eventType, VariantMap& eventData )
 {
-    //Game Server Connected? Connect to Master Server
-    if( (gameServerConnection) && gameServerConnection->IsConnected() && !gameServerConnection->IsConnectPending() )
+    using namespace ServerConnected;
+    auto connection = static_cast<Connection*>(eventData[P_CONNECTION].GetPtr());
+
+    if( connection == gameServerConnection_ )
         LOGINHANDLER->ProcessMasterServer();
+    else if( connection == worldServerConnection_ )
+        LOGINHANDLER->ProcessGameServer();
 }
 
 void NetworkHandler::HandleServerDisconnected( StringHash eventType, VariantMap& eventData )
 {
     using namespace ServerDisconnected;
 
-    if( (loginServerConnection) && loginServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
-        loginServerConnection = nullptr;
-    else if( (gameServerConnection) && gameServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
-        gameServerConnection = nullptr;
-    else if( (masterServerConnection) && masterServerConnection->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
-        masterServerConnection = nullptr;
+    if( (loginServerConnection_) && loginServerConnection_->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        loginServerConnection_ = nullptr;
+    else if( (gameServerConnection_) && gameServerConnection_->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        gameServerConnection_ = nullptr;
+    else if( (worldServerConnection_) && worldServerConnection_->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        worldServerConnection_ = nullptr;
+    else if( (masterServerConnection_) && masterServerConnection_->GetAddressOrGUIDHash() == eventData[P_ADDRESS].GetInt() )
+        masterServerConnection_ = nullptr;
     
     if( SCREENMANAGER->GetActiveScreenType() == ScreenType::World )
     {

@@ -64,11 +64,17 @@
     <Filter Include="Header Files\Manager\Config">
       <UniqueIdentifier>{62dd2f87-a2ef-49ad-b663-4c3066e8f3b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Handler\Account">
-      <UniqueIdentifier>{e35a0b3d-01f6-4f09-9bc2-684711c84f30}</UniqueIdentifier>
+    <Filter Include="Source Files\Handler\User">
+      <UniqueIdentifier>{17e07ea5-f749-4723-b345-f50fe717af63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Handler\Account">
-      <UniqueIdentifier>{b9dbb2aa-384d-4c35-af3f-251cf40aedf0}</UniqueIdentifier>
+    <Filter Include="Header Files\Handler\User">
+      <UniqueIdentifier>{26611099-5a66-40fd-9a40-de03c0b01c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Database">
+      <UniqueIdentifier>{4459fb81-f794-4fb6-9401-dac381dc1b1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Database">
+      <UniqueIdentifier>{575a1da1-9e32-41b7-b5a9-a9e972dd469c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,8 +105,14 @@
     <ClCompile Include="ConfigManager.cpp">
       <Filter>Source Files\Manager\Config</Filter>
     </ClCompile>
-    <ClCompile Include="AccountHandler.cpp">
-      <Filter>Source Files\Handler\Account</Filter>
+    <ClCompile Include="UserHandler.cpp">
+      <Filter>Source Files\Handler\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseConnection.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseManager.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,8 +146,14 @@
     <ClInclude Include="ConfigManager.h">
       <Filter>Header Files\Manager\Config</Filter>
     </ClInclude>
-    <ClInclude Include="AccountHandler.h">
-      <Filter>Header Files\Handler\Account</Filter>
+    <ClInclude Include="UserHandler.h">
+      <Filter>Header Files\Handler\User</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseManager.h">
+      <Filter>Header Files\Manager\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseConnection.h">
+      <Filter>Header Files\Manager\Database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

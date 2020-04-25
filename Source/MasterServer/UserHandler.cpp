@@ -10,15 +10,23 @@ UserHandler::~UserHandler()
 {
 }
 
-bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message )
+bool UserHandler::Init()
+{
+    //Subscribe Events
+    SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( UserHandler, HandleUserConnected ) );
+    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( UserHandler, HandleUserDisconnected ) );
+
+    return true;
+}
+
+bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message ) //@Net::MSGID_LoadUser
 {
     auto address = message.ReadString();
     auto port = message.ReadInt();
 
-    //Find User by IP::Port
+    //Find User by IP and Port
     for( const auto& clientConnection : NETWORK->GetClientConnections() )
     {
-        //Found!
         if( clientConnection->GetAddress() == address && clientConnection->GetPort() == port )
         {
             auto user = USERMANAGER->GetUser( clientConnection );
@@ -29,11 +37,11 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
                 auto accountName = message.ReadString();
                 auto characterName = message.ReadString();
 
-                user->accountName = accountName;
-                user->characterName = characterName;
+                user->accountName_ = accountName;
+                user->characterName_ = characterName;
 
                 //Send message for Game Server
-                NETSERVER->Send( Net::ServerType::Game, Net::MSGID_LoadUser, true, true, VectorBuffer( message.GetData(), message.GetSize() ) );
+                NETSERVER->Send( Net::ServerType::World, Net::MSGID_LoadUser, true, true, VectorBuffer( message.GetData(), message.GetSize() ) );
             }
 
             break;
@@ -41,4 +49,20 @@ bool UserHandler::HandleLoadUser( Connection* connection, MemoryBuffer& message 
     }
 
     return true;
+}
+
+void UserHandler::HandleUserConnected( StringHash eventType, VariantMap& eventData )
+{
+    auto connection = static_cast<Connection*>(eventData[ClientConnected::P_CONNECTION].GetPtr());
+
+    if( connection )
+        USERMANAGER->AddUser( connection );
+}
+
+void UserHandler::HandleUserDisconnected( StringHash eventType, VariantMap& eventData )
+{
+    auto connection = static_cast<Connection*>(eventData[ClientDisconnected::P_CONNECTION].GetPtr());
+
+    if( connection )
+        USERMANAGER->DelUser( connection );
 }

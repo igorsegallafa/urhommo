@@ -3,12 +3,11 @@
 #include <Urho3D/Network/Network.h>
 #include <Urho3D/Network/NetworkEvents.h>
 
-class MessageImpl : public Object
+class MessageImpl
 {
-    URHO3D_OBJECT( MessageImpl, Object );
 public:
     //! Constructor.
-    MessageImpl( Context* context ) : Object( context ), validations{}, processing{} {}
+    MessageImpl() : validations_{}, processing_{} {}
 
     //! Deconstructor.
     ~MessageImpl() = default;
@@ -30,7 +29,7 @@ public:
         std::function<bool( Connection * connection )>* args[]{ handler... };
 
         for( auto& i : args )
-            validations.Push( i );
+            validations_.Push( i );
 
         return *this;
     }
@@ -46,33 +45,32 @@ public:
         std::function<bool( Connection* connection, MemoryBuffer& message )> args[]{ handler... };
 
         for( auto& i : args )
-            processing.Push( i );
+            processing_.Push( i );
 
         return *this;
 
     }
 private:
-    Vector<std::function<bool( Connection* connection )>> validations;  //!< List of Validation Handler.
-    Vector<std::function<bool( Connection* connection, MemoryBuffer& message )>> processing;    //!< List of Processing Handler.
+    Vector<std::function<bool( Connection* connection )>> validations_;  //!< List of Validation Handler.
+    Vector<std::function<bool( Connection* connection, MemoryBuffer& message )>> processing_;    //!< List of Processing Handler.
 };
 
 namespace Handler
 {
-class Message : public Object
+class Message
 {
-    URHO3D_OBJECT( Message, Object );
 public:
     //! Constructor.
-    Message( Context* context );
+    Message();
 
     //! Deconstructor.
     ~Message();
 
     //! Add Global Validation Handler.
-    void AddValidation( std::function<bool( int messageID, Connection* connection )> handler ){ validations.Push( handler ); }
+    void AddValidation( std::function<bool( int messageID, Connection* connection )> handler ){ validations_.Push( handler ); }
 
     //! Add Global Processing Handler.
-    void AddProcessing( std::function<bool( int messageID, Connection* connection, MemoryBuffer& message )> handler ){ processing.Push( handler ); }
+    void AddProcessing( std::function<bool( int messageID, Connection* connection, MemoryBuffer& message )> handler ){ processing_.Push( handler ); }
 
     //! Register a Handler for some message ID. 
     MessageImpl& Handle( int messageID );
@@ -81,7 +79,7 @@ public:
     void HandleMessage( StringHash eventType, VariantMap& eventData );
 private:
     HashMap<int, MessageImpl*> handlers;    //!< List of Messages Handlers.
-    Vector<std::function<bool( int messageID, Connection* connection )>> validations;  //!< List of Global Validation Handler.
-    Vector<std::function<bool( int messageID, Connection* connection, MemoryBuffer& message )>> processing;    //!< List of Global Processing Handler.
+    Vector<std::function<bool( int messageID, Connection* connection )>> validations_;  //!< List of Global Validation Handler.
+    Vector<std::function<bool( int messageID, Connection* connection, MemoryBuffer& message )>> processing_;    //!< List of Global Processing Handler.
 };
 }

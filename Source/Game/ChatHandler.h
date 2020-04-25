@@ -31,6 +31,6 @@ private:
     //! Send Button Handler.
     void HandleSendButtonPressed( StringHash eventType, VariantMap& eventData );
 private:
-    SharedPtr<UIElement> chatWindow;
+    SharedPtr<UIElement> chatWindow_;
 };
 

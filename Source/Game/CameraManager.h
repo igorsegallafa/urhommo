@@ -43,7 +43,7 @@ public:
      * @param cameraType Type desired for camera
      * @param target Target of camera when needed
      */
-    void SetCameraType( const CameraType& cameraType, Node* target = nullptr ) { type = cameraType; targetNode = target; UpdateCameraBase(); }
+    void SetCameraType( const CameraType& cameraType, Node* target = nullptr ) { type_ = cameraType; targetNode_ = target; UpdateCameraBase(); }
     
     /**
      * Set Camera Position
@@ -59,10 +59,10 @@ public:
     Node* GetCameraNode();
     Urho3D::Camera* GetCamera() { return GetCameraNode()->GetComponent<Urho3D::Camera>(); }
     Node* GetNodeRaycast();
-    float GetCameraDistance() const{ return cameraDistance; }
-    float GetCameraPitch() const{ return cameraPitch; }
-    float GetCameraYaw() const{ return cameraYaw; }
-    float GetMouseYaw() const{ return mouseYaw; }
+    float GetCameraDistance() const{ return cameraDistance_; }
+    float GetCameraPitch() const{ return cameraPitch_; }
+    float GetCameraYaw() const{ return cameraYaw_; }
+    float GetMouseYaw() const{ return mouseYaw_; }
 
     //! Subscribed Events.
     void HandlePostUpdate( StringHash eventType, VariantMap& eventData );
@@ -70,18 +70,18 @@ private:
     //! Move Camera Handler.
     void HandleMoveCamera( float timeStep );
 private:
-    WeakPtr<Node> cameraNode;   //!< Pointer for camera Node.
-    CameraType type;    //!< Camera Type.
-    CameraMode mode;    //!< Camera Mode.
-    Node* targetNode;   //!< Camera Target Node.
+    WeakPtr<Node> cameraNode_;   //!< Pointer for camera Node.
+    CameraType type_;    //!< Camera Type.
+    CameraMode mode_;    //!< Camera Mode.
+    Node* targetNode_;   //!< Camera Target Node.
 
-    float deltaMouseMoveWheel;  //!< Delta Mouse Move Wheel.
+    float deltaMouseMoveWheel_;  //!< Delta Mouse Move Wheel.
 
-    float cameraDistance;   //!< Camera Distance.
-    float cameraPitch;  //!< Camera Pitch.
-    float cameraYaw;    //!< Camera Yaw.
+    float cameraDistance_;   //!< Camera Distance.
+    float cameraPitch_;  //!< Camera Pitch.
+    float cameraYaw_;    //!< Camera Yaw.
 
-    Vector3 lookAtBase; //!< Camera Target Position.
+    Vector3 lookAtBase_; //!< Camera Target Position.
 
-    float mouseYaw; //!< Mouse Yaw.
+    float mouseYaw_; //!< Mouse Yaw.
 };

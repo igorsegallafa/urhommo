@@ -24,24 +24,24 @@ SharedPtr<User> UserManager::AddUser( Connection* connection )
     if( connection->IsNetConnection() )
         return nullptr;
 
-    auto it = users.Find( connection );
+    auto it = users_.Find( connection );
 
     //We can't hold two instances of user for the same connection
-    if( it != users.End() )
+    if( it != users_.End() )
         return it->second_;
 
     //User Added
     SharedPtr<User> newUser( new User( context_ ) );
-	newUser->connection = connection;
-    users[connection] = newUser;
+	newUser->connection_ = connection;
+    users_[connection] = newUser;
 
     return newUser;
 }
 
 void UserManager::DelUser( Connection* connection )
 {
-    auto it = users.Find( connection );
+    auto it = users_.Find( connection );
 
-    if( it != users.End() )
-        users.Erase( it );
+    if( it != users_.End() )
+        users_.Erase( it );
 }

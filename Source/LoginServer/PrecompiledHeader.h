@@ -5,10 +5,8 @@
 #include <sstream>
 #include <functional>
 
-//Windows:
-#if defined(_WIN32) || defined(WIN32)
-#include <Windows.h>
-#endif
+//PostgreSQL:
+#include <pqxx/pqxx>
 
 //Urho3D:
 #include <Urho3D/Urho3DAll.h>

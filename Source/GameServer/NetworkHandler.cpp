@@ -2,48 +2,46 @@
 #include "NetworkHandler.h"
 
 NetworkHandler::NetworkHandler( Context* context ) :
-    HandlerImpl( context )
+    HandlerImpl( context ),
+    Handler::Message()
 {
-    netServer = new Net::Server( context );
-    messageHandler = new Handler::Message( context );
+    netServer_ = new Net::Server( context );
 }
 
 NetworkHandler::~NetworkHandler()
 {
-    netServer = nullptr;
-    messageHandler = nullptr;
+    netServer_ = nullptr;
 }
 
 bool NetworkHandler::Init()
 {
     //Initialize Net Server
-    netServer->Init();
-    netServer->Start( CONFIGMANAGER->GetNetConnection() );
-    netServer->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::Master ) );
-    netServer->ConnectAll();
+    netServer_->Init();
+    netServer_->Start( CONFIGMANAGER->GetNetConnection() );
+    netServer_->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::Master ) );
+    netServer_->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::Login ) );
+    netServer_->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::World, CONFIGMANAGER->GetNetConnection()->id_ ) );
+    netServer_->ConnectAll();
 
     //Subscribe Events
-    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( NetworkHandler, HandleClientIdentity ) );
-    SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientConnected ) );
-    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
     SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
 
     //Global Validation
-    messageHandler->AddValidation( std::bind( &NetworkHandler::CanProcessMessage, this, std::placeholders::_1, std::placeholders::_2 ) );
+    AddValidation( MESSAGE_HANDLER( NetworkHandler, CanProcessMessage ) );
 
     //Handlers
-    messageHandler->Handle( MSGID_WorldData ).Process( HANDLE_MESSAGE( &UserHandler::HandleWorldData, USERHANDLER ) );
-    messageHandler->Handle( MSGID_ChatGame ).Process( HANDLE_MESSAGE( &ChatHandler::HandleChatGame, CHATHANDLER ) );
+    Handle( MSGID_WorldData ).Process( MESSAGE_HANDLER( UserHandler, HandleWorldData ) );
+    Handle( MSGID_ChatGame ).Process( MESSAGE_HANDLER( ChatHandler, HandleChatGame ) );
 
     //Net Messages
-    messageHandler->Handle( Net::MSGID_LoadUser ).Process( HANDLE_MESSAGE( &UserHandler::HandleLoadUser, USERHANDLER ) );
+    Handle( Net::MSGID_LoadUser ).Process( MESSAGE_HANDLER( UserHandler, HandleLoadUser ) );
 
     return true;
 }
 
 void NetworkHandler::UnInit()
 {
-    netServer->UnInit();
+    netServer_->UnInit();
 }
 
 bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
@@ -53,37 +51,4 @@ bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
         return false;
 
     return true;
-}
-
-void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
-{
-    auto connection = static_cast<Connection*>(eventData[ClientConnected::P_CONNECTION].GetPtr());
-
-    if( connection )
-    {
-        //Add User to Server Memory
-        auto user = USERMANAGER->AddUser( connection );
-
-        //Send the message to confirm the game server was connected
-        connection->Send( MSGID_GameServerConnected, true, true, VectorBuffer() );
-    }
-}
-
-void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
-{
-    auto connection = static_cast<Connection*>(eventData[ClientDisconnected::P_CONNECTION].GetPtr());
-
-    if( connection )
-    {
-        //Remove User from Server Memory
-        USERMANAGER->DelUser( connection );
-    }
-}
-
-void NetworkHandler::HandleMessage( StringHash eventType, VariantMap& eventData )
-{
 }

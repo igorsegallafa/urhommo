@@ -3,13 +3,14 @@
 
 User::User( Context* context ) :
     Core::User( context ),
-    character( nullptr )
+    character_( nullptr ),
+    characterClass_( CharacterClass::Undefined )
 {
 
 }
 
 User::~User()
 {
-    if( (character) && character->GetNode() )
-        character->GetNode()->Remove();
+    if( (character_) && character_->GetNode() )
+        character_->GetNode()->Remove();
 }

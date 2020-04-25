@@ -3,12 +3,13 @@
 
 CharacterHandler::CharacterHandler( Context* context ) :
     HandlerImpl( context ),
-	characterNodeID( -1 ),
-    character( nullptr ),
-    isWalking( false ),
-    animationToSet( 0, false ),
-    selectedNode( nullptr ),
-    hoveredNode( nullptr )
+	characterNodeID_( -1 ),
+    character_( nullptr ),
+    isWalking_( false ),
+    animationToSet_( 0, false ),
+    selectedNode_( nullptr ),
+    hoveredNode_( nullptr ),
+    mapIDToLoad_( MapID::Undefined )
 {
     SubscribeToEvent( E_UPDATE, URHO3D_HANDLER( CharacterHandler, HandleUpdate ) );
 	SubscribeToEvent( E_POSTUPDATE, URHO3D_HANDLER( CharacterHandler, HandlePostUpdate ) );
@@ -18,18 +19,18 @@ CharacterHandler::CharacterHandler( Context* context ) :
 
 CharacterHandler::~CharacterHandler()
 {
-    if( character )
+    if( character_ )
     {
-        character->Remove();
-        character = nullptr;
+        character_->Remove();
+        character_ = nullptr;
     }
 }
 
-bool CharacterHandler::HandleWorldData( Connection* connection, MemoryBuffer& message )
+bool CharacterHandler::HandleWorldData( Connection* connection, MemoryBuffer& message ) //@MSGID_WorldData
 {
 	//Set Character Node ID
-	characterNodeID = message.ReadInt();
-    mapIDToLoad = (MapID)message.ReadInt();
+	characterNodeID_ = message.ReadInt();
+    mapIDToLoad_ = (MapID)message.ReadInt();
 
 	//Change to World Screen
 	SCREENMANAGER->ChangeScreen(ScreenType::World);
@@ -39,12 +40,12 @@ bool CharacterHandler::HandleWorldData( Connection* connection, MemoryBuffer& me
 
 void CharacterHandler::LoadCharacter()
 {
-    auto characterNode = character->GetNode();
+    auto characterNode = character_->GetNode();
 
     if( characterNode )
     {
         //Load Animation Set
-        character->animationMgr->Load( "Models/ani/char/ws.json" );
+        character_->animationMgr_->Load( "Definitions/Animations/fighter.json" );
 
         //Set Camera Position
         CAMERAMANAGER->SetCameraType( CameraType::Follow, characterNode );
@@ -53,20 +54,20 @@ void CharacterHandler::LoadCharacter()
 
 void CharacterHandler::UnLoad()
 {
-    characterNodeID = -1;
-    character = nullptr;
-    selectedNode = nullptr;
-    hoveredNode = nullptr;
-    mapIDToLoad = MapID::Undefined;
+    characterNodeID_ = -1;
+    character_ = nullptr;
+    selectedNode_ = nullptr;
+    hoveredNode_ = nullptr;
+    mapIDToLoad_ = MapID::Undefined;
 
     CAMERAMANAGER->SetCameraType( CameraType::Undefined, nullptr );
 }
 
 void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType, bool exclusive )
 {
-    if( character )
+    if( character_ )
     {
-        auto animationData = character->animationMgr->GetAnimationData( animationType );
+        auto animationData = character_->animationMgr_->GetAnimationData( animationType );
 
         if( animationData )
             ChangeAnimation( animationData->id, exclusive );
@@ -75,11 +76,11 @@ void CharacterHandler::ChangeAnimation( const Core::AnimationType& animationType
 
 void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData )
 {
-    using namespace Core::CharacterData;
+    using namespace CharacterData;
 
-    if( SCREEN_TYPE == ScreenType::World && character && CONNECTIONG )
+    if( SCREEN_TYPE == ScreenType::World && character_ && CONNECTIONG )
     {
-        auto characterNode = character->GetNode();
+        auto characterNode = character_->GetNode();
 
         if( characterNode )
         {
@@ -90,9 +91,9 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             controls.extraData_[P_MAPID] = (MAP_ID)MAPMANAGER->GetCurrentMapID();
             
             if( !USERINTERFACE->GetFocusElement() )
-                controls.Set( Core::CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking );
+                controls.Set( CHARACTERCONTROL_Forward, INPUT->GetMouseButtonDown( MOUSEB_LEFT ) || isWalking_ );
             else
-                isWalking = false;
+                isWalking_ = false;
 
             if( INPUT->GetMouseButtonDown( MOUSEB_RIGHT ) )
             {
@@ -100,10 +101,10 @@ void CharacterHandler::HandleUpdate( StringHash eventType, VariantMap& eventData
             }
             
             //Have animation to set?
-            if( animationToSet.first_ != 0 )
+            if( animationToSet_.first_ != 0 )
             {
-                controls.extraData_[P_ANIMATIONID] = animationToSet.first_;
-                controls.extraData_[P_ANIMATIONEXCLUSIVE] = animationToSet.second_;
+                controls.extraData_[P_ANIMATIONID] = animationToSet_.first_;
+                controls.extraData_[P_ANIMATIONEXCLUSIVE] = animationToSet_.second_;
             }
 
             CONNECTIONG->SetPosition( characterNode->GetPosition() );
@@ -118,22 +119,22 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
 	if( SCREEN_TYPE == ScreenType::World )
 	{
         //Look for Character Component
-        if( character == nullptr )
+        if( character_ == nullptr )
         {
             if( ACTIVESCREEN == nullptr )
                 return;
 
-            auto characterNode = ACTIVESCREEN->GetScene()->GetNode( characterNodeID );
+            auto characterNode = ACTIVESCREEN->GetScene()->GetNode( characterNodeID_ );
 
             //Character Node Found!
             if( characterNode )
             {
                 characterNode->RemoveComponent<RigidBody>();
                 characterNode->RemoveComponent<CollisionShape>();
-                character = characterNode->GetComponent<Core::Character>( true );
-                character->CreatePhysicsComponent( 0.56f, 1.51f );
-                character->connection = CONNECTIONG;
-                character->animationMgr = characterNode->GetComponent<Core::AnimationEntity>( true );
+                character_ = characterNode->GetComponent<Core::Character>( true );
+                character_->CreatePhysicsComponent( 0.56f, 1.51f );
+                character_->connection_ = CONNECTIONG;
+                character_->animationMgr_ = characterNode->GetComponent<Core::AnimationEntity>( true );
 
                 //Intercept Network Position
                 characterNode->SetInterceptNetworkUpdate( "Network Position", true );
@@ -142,7 +143,7 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
                 //Disabled: characterNode->GetComponent<AnimationController>( true )->SetInterceptNetworkUpdate( "Network Animations", true );
 
                 //Load Map
-                MAPMANAGER->Load( mapIDToLoad );
+                MAPMANAGER->Load( mapIDToLoad_ );
 
                 //Load Character
                 LoadCharacter();
@@ -150,42 +151,42 @@ void CharacterHandler::HandlePostUpdate( StringHash eventType, VariantMap& event
         }
 
         //Find Hovered Node
-        hoveredNode = CAMERAMANAGER->GetNodeRaycast();
+        hoveredNode_ = CAMERAMANAGER->GetNodeRaycast();
 	}
 }
 
 void CharacterHandler::HandleMouseDown( StringHash eventType, VariantMap& eventData )
 {
     //Character isn't created yet
-    if( character == nullptr )
+    if( character_ == nullptr )
         return;
 
     //Get Dynamic Navigation Mesh Pointer
-    auto navigationMesh = character->GetNode()->GetScene()->GetComponent<NavigationMesh>( true );
+    auto navigationMesh = character_->GetNode()->GetScene()->GetComponent<NavigationMesh>( true );
 
     //Has Dynamic Navigation Mesh?
     if( navigationMesh )
     {
-        selectedNode = CAMERAMANAGER->GetNodeRaycast();
+        selectedNode_ = CAMERAMANAGER->GetNodeRaycast();
 
         //Self selecting? Ignore it!
-        if( selectedNode == (character ? character->GetNode() : nullptr) )
-            selectedNode = nullptr;
+        if( selectedNode_ == (character_ ? character_->GetNode() : nullptr) )
+            selectedNode_ = nullptr;
 
         //Found Selected Node?
-        if( selectedNode )
-            character->SetTargetPosition( selectedNode->GetWorldPosition() );
+        if( selectedNode_ )
+            character_->SetTargetPosition( selectedNode_->GetWorldPosition() );
         else
-            character->ResetTargetPosition();
+            character_->ResetTargetPosition();
     }
 
     if( eventData[MouseButtonDown::P_BUTTON].GetInt() == MOUSEB_LEFT && eventData[MouseButtonDown::P_CLICKS].GetInt() == 2 )
-        isWalking = true;
+        isWalking_ = true;
     else
-        isWalking = false;
+        isWalking_ = false;
 }
 
 void CharacterHandler::HandleNetworkUpdateSent( StringHash eventType, VariantMap & eventData )
 {
-    animationToSet.first_ = 0;
+    animationToSet_.first_ = 0;
 }

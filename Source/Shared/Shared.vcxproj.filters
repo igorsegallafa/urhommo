@@ -67,6 +67,12 @@
     <Filter Include="Header Files\Core\Animation">
       <UniqueIdentifier>{d231f711-37eb-4ebe-87ef-34c7d03a86fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Equipment">
+      <UniqueIdentifier>{7edc3c0d-aca5-4002-9275-15963155702a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Equipment">
+      <UniqueIdentifier>{a93ad70a-def9-4f7d-9107-7a7abeac666a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -103,6 +109,15 @@
       <Filter>Source Files\Core\Entity</Filter>
     </ClCompile>
     <ClCompile Include="CollisionDef.cpp">
+      <Filter>Source Files\Definitions</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterEquipment.cpp">
+      <Filter>Source Files\Core\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="EquipmentManager.cpp">
+      <Filter>Source Files\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="EquipmentDef.cpp">
       <Filter>Source Files\Definitions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,6 +165,21 @@
       <Filter>Header Files\Core\Entity</Filter>
     </ClInclude>
     <ClInclude Include="CollisionDef.h">
+      <Filter>Header Files\Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDef.h">
+      <Filter>Header Files\Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterDef.h">
+      <Filter>Header Files\Definitions</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterEquipment.h">
+      <Filter>Header Files\Core\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipmentManager.h">
+      <Filter>Header Files\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipmentDef.h">
       <Filter>Header Files\Definitions</Filter>
     </ClInclude>
   </ItemGroup>

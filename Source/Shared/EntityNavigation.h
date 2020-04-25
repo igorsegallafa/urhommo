@@ -7,9 +7,9 @@ class EntityNavigation
 public:
     //! Constructor.
     EntityNavigation() :
-        followingTarget( false ),
-        targetDirection( Vector3::ZERO ),
-        targetPos( Vector3::ZERO )
+        followingTarget_( false ),
+        targetDirection_( Vector3::ZERO ),
+        targetPosition_( Vector3::ZERO )
     {
     }
 
@@ -24,15 +24,15 @@ public:
     void ResetTargetPosition();
 
     //! Is Following Target Getter.
-    bool IsFollowingTarget() const { return followingTarget; }
+    bool IsFollowingTarget() const { return followingTarget_; }
 
     //! Target Direction Getter and Setter.
-    void SetTargetDirection( const Vector3& dir ) { targetDirection = dir; }
-    const Vector3& GetTargetDirection() const { return targetDirection; }
+    void SetTargetDirection( const Vector3& targetDirection ) { targetDirection_ = targetDirection; }
+    const Vector3& GetTargetDirection() const { return targetDirection_; }
 protected:
-    bool followingTarget;
-    Vector3 targetDirection;
-    Vector3 targetPos;
-    PODVector<Vector3> targetPath;
+    bool followingTarget_;
+    Vector3 targetDirection_;
+    Vector3 targetPosition_;
+    PODVector<Vector3> targetPath_;
 };
 };

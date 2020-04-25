@@ -3,7 +3,7 @@
 
 ChatHandler::ChatHandler( Context* context ) :
     HandlerImpl( context ),
-    chatWindow( nullptr )
+    chatWindow_( nullptr )
 {
 }
 
@@ -17,10 +17,10 @@ bool ChatHandler::Init()
     auto style = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
 
     //Load Layout from XML
-    chatWindow = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/ChatWindow.xml" ), style );
+    chatWindow_ = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/ChatWindow.xml" ), style );
 
     //Get Chat History Element
-    auto chatHistory = chatWindow->GetChildDynamicCast<ScrollView>( "ChatHistory", true );
+    auto chatHistory = chatWindow_->GetChildDynamicCast<ScrollView>( "ChatHistory", true );
 
     //Create Content Element and set it as Content
     SharedPtr<UIElement> chatContentElement( chatHistory->CreateChild<UIElement>() );
@@ -31,7 +31,7 @@ bool ChatHandler::Init()
 
     //Subscribe Events
     SubscribeToEvent( E_KEYDOWN, URHO3D_HANDLER( ChatHandler, HandleKeyDown ) );
-    SubscribeToEvent( chatWindow->GetChild( "SendButton", true ), E_RELEASED, URHO3D_HANDLER( ChatHandler, HandleSendButtonPressed ) );
+    SubscribeToEvent( chatWindow_->GetChild( "SendButton", true ), E_RELEASED, URHO3D_HANDLER( ChatHandler, HandleSendButtonPressed ) );
 
     return true;
 }
@@ -39,13 +39,13 @@ bool ChatHandler::Init()
 void ChatHandler::Load()
 {
     //Add Window for UI
-    USERINTERFACE->GetRoot()->AddChild( chatWindow );
+    USERINTERFACE->GetRoot()->AddChild( chatWindow_ );
 }
 
 void ChatHandler::AddMessage( const String& message )
 {
     //Get Chat History Element
-    auto chatHistory = chatWindow->GetChildDynamicCast<ScrollView>( "ChatHistory", true );
+    auto chatHistory = chatWindow_->GetChildDynamicCast<ScrollView>( "ChatHistory", true );
 
     if( chatHistory )
     {
@@ -60,7 +60,7 @@ void ChatHandler::AddMessage( const String& message )
     }
 }
 
-bool ChatHandler::HandleChatGame( Connection* connection, MemoryBuffer& message )
+bool ChatHandler::HandleChatGame( Connection* connection, MemoryBuffer& message ) //@MSGID_ChatGame
 {
     auto messageChat = message.ReadString();
 
@@ -88,6 +88,12 @@ void ChatHandler::SendMessage( const String& message )
                 else
                     AddMessage( "> Use: /SetAnim <animID>" );
             }
+            else if( chatCommand.Compare( "/DumpScene", false ) == 0 )
+            {
+                File file( context_, "scene.xml", FILE_WRITE );
+                ACTIVESCREEN->GetScene()->SaveXML( file );
+                AddMessage( "> Scene saved!" );
+            }
         }
         else
         {
@@ -112,7 +118,7 @@ void ChatHandler::HandleKeyDown( StringHash eventType, VariantMap& eventData )
 
     if( eventData[P_KEY] == KEY_RETURN )
     {
-        auto lineEditInput = chatWindow->GetChildStaticCast<LineEdit>( "Input", true );
+        auto lineEditInput = chatWindow_->GetChildStaticCast<LineEdit>( "Input", true );
 
         //Send Message
         if( lineEditInput->HasFocus() )
@@ -134,7 +140,7 @@ void ChatHandler::HandleKeyDown( StringHash eventType, VariantMap& eventData )
 
 void ChatHandler::HandleSendButtonPressed( StringHash eventType, VariantMap& eventData )
 {
-    auto lineEditInput = chatWindow->GetChildStaticCast<LineEdit>( "Input", true );
+    auto lineEditInput = chatWindow_->GetChildStaticCast<LineEdit>( "Input", true );
 
     if( lineEditInput )
     {

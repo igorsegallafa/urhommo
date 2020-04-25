@@ -16,7 +16,7 @@ public:
     void Init() override;
 
     //! Set Game Server List.
-    void SetGameServerList( const Vector<String>& gameServerList );
+    void SetWorldServerList( const Vector<String>& gameServerList );
 private:
     //! Create Scene.
     void CreateScene();
@@ -27,12 +27,15 @@ private:
     //! Build Window.
     void BuildWindow();
 
-    //! Game Server Selected Handler.
-    void HandleGameServerPressed( int serverIndex );
+    //! Screen Mode Handler.
+    void HandleScreenMode( StringHash eventType, VariantMap& eventData );
+
+    //! World Server Selected Handler.
+    void HandleWorldServerPressed( int serverIndex );
 
     //! Login Button Handler.
     void HandleLoginButtonPressed( StringHash eventType, VariantMap& eventData );
 private:
-    SharedPtr<UIElement> loginWindow;
-    SharedPtr<UIElement> gameServerWindow;
+    SharedPtr<UIElement> loginWindow_;
+    SharedPtr<UIElement> worldServerWindow_;
 };

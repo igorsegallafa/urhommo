@@ -4,29 +4,46 @@
 void Screen::Init()
 {
     //Create the Scene
-    scene = new Scene( context_ );
+    scene_ = MakeShared<Scene>( context_ );
+    gui_ =  MakeShared<UIElement>( context_ );
+
+    //Add GUI for UI Root
+    gui_->SetSize( GRAPHICS->GetSize() );
+    USERINTERFACE->GetRoot()->AddChild( gui_ );
+
+    //Subscribe Events
+    SubscribeToEvent( E_SCREENMODE, URHO3D_HANDLER( Screen, HandleScreenMode ) );
+}
+
+void Screen::HandleScreenMode( StringHash eventType, VariantMap& eventData )
+{
+    if( gui_ )
+        gui_->SetSize( GRAPHICS->GetSize() );
 }
 
 void Screen::Run()
 {
-    scene->SetUpdateEnabled( true );
+    scene_->SetUpdateEnabled( true );
 }
 
 void Screen::Pause()
 {
-    scene->SetUpdateEnabled( false );
+    scene_->SetUpdateEnabled( false );
 }
 
 void Screen::Dispose()
 {
     //Pause the scene and remove everything from it
-    if( scene )
+    if( scene_ )
     {
-        scene->SetUpdateEnabled( false );
-        scene->Clear();
-        scene->Remove();
+        scene_->SetUpdateEnabled( false );
+        scene_->Clear();
+        scene_->Remove();
     }
 
-    if( USERINTERFACE )
-        USERINTERFACE->GetRoot()->RemoveAllChildren();
+    if( gui_ )
+    {
+        gui_->RemoveAllChildren();
+        gui_->Remove();
+    }
 }

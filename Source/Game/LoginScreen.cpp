@@ -1,10 +1,12 @@
 #include "PrecompiledHeader.h"
 #include "LoginScreen.h"
 
+#include <Urho3D/Urho2D/SpriteSheet2D.h>
+
 LoginScreen::LoginScreen( Context* context ) : 
     Screen( context ),
-    loginWindow( nullptr ),
-    gameServerWindow( nullptr )
+    loginWindow_( nullptr ),
+    worldServerWindow_( nullptr )
 {
 }
 
@@ -24,107 +26,93 @@ void LoginScreen::Init()
 
     //Build Window
     BuildWindow();
+
+    //Subscribe Events
+    SubscribeToEvent( E_SCREENMODE, URHO3D_HANDLER( LoginScreen, HandleScreenMode ) );
 }
 
 void LoginScreen::CreateScene()
 {
-    auto sceneFile = RESOURCECACHE->GetResource<XMLFile>( "Scenes/Login.xml" );
+    auto sceneFile = RESOURCECACHE->GetResource<XMLFile>( "Scenes/CharacterSelect.xml" );
 
     if( sceneFile )
-    {
-        scene->LoadXML( sceneFile->GetRoot() );
-
-        if( auto birdNode = scene->GetChild( "s_login_niao", true ); birdNode )
-        {
-            if( auto animCtrl = birdNode->GetComponent<AnimationController>(); animCtrl )
-                animCtrl->PlayExclusive( "Models/login/s_login_niao_Take.ani", 0, true );
-        }
-    }
+        scene_->LoadXML( sceneFile->GetRoot() );
 }
 
 void LoginScreen::SetupViewport()
 {
     //Create Viewport and Set it
-    SharedPtr<Viewport> viewport( new Viewport( context_, scene, CAMERA ) );
+    SharedPtr<Viewport> viewport( new Viewport( context_, scene_, CAMERA ) );
     RENDERER->SetViewport( 0, viewport );
 }
 
 void LoginScreen::BuildWindow()
 {
-    //Load UI Style
-    auto style = RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" );
+    worldServerWindow_ = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/LoginGameServer.xml" ) );
 
-    //Load Layout from XML
-    loginWindow = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/Login.xml" ), style );
-    gameServerWindow = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/LoginGameServer.xml" ), style );
+    loginWindow_ = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/Login.xml" ) );
+    loginWindow_->SetSize( GRAPHICS->GetSize() );
+    loginWindow_->GetChild( "LoginTip", true )->SetWidth( GRAPHICS->GetWidth() );
 
     //Load Window
-    loginWindow->SetVisible( true );
-    gameServerWindow->SetVisible( false );
+    loginWindow_->SetVisible( true );
+    worldServerWindow_->SetVisible( false );
 
     //Subscribe Events
-    SubscribeToEvent( loginWindow->GetChild( "ButtonLogin", true ), E_RELEASED, URHO3D_HANDLER( LoginScreen, HandleLoginButtonPressed ) );
+    SubscribeToEvent( loginWindow_->GetChild( "ButtonLogin", true ), E_RELEASED, URHO3D_HANDLER( LoginScreen, HandleLoginButtonPressed ) );
 
     //Add Window for UI
-    USERINTERFACE->GetRoot()->AddChild( loginWindow );
-    USERINTERFACE->GetRoot()->AddChild( gameServerWindow );
+    gui_->AddChild( loginWindow_ );
+    gui_->AddChild( worldServerWindow_ );
 }
 
-void LoginScreen::SetGameServerList( const Vector<String>& gameServerList )
+void LoginScreen::HandleScreenMode( StringHash eventType, VariantMap& eventData )
 {
-    if( gameServerWindow && loginWindow )
-    {
-        gameServerWindow->RemoveAllChildren();
+    loginWindow_->SetSize( GRAPHICS->GetSize() );
+    loginWindow_->GetChild( "LoginTip", true )->SetWidth( GRAPHICS->GetWidth() );
+}
 
-        Text* pSelectServerText = new Text( context_ );
-        pSelectServerText->SetText( "Selecione um Servidor" );
-        pSelectServerText->SetFont( RESOURCECACHE->GetResource<Font>( "Fonts/Anonymous Pro.ttf" ), 12 );
-        pSelectServerText->SetColor( Color::WHITE );
-        pSelectServerText->SetPosition( 0, 0 );
-        pSelectServerText->SetTextEffect( TextEffect::TE_STROKE );
-        pSelectServerText->SetAlignment( HA_CENTER, VA_TOP );
-        gameServerWindow->AddChild( pSelectServerText );
+void LoginScreen::SetWorldServerList( const Vector<String>& gameServerList )
+{
+    if( worldServerWindow_ && loginWindow_ )
+    {
+        worldServerWindow_->RemoveAllChildren();
 
         int totalServers = 0;
-        for( const auto pServerName : gameServerList )
+        for( const auto gameServerName : gameServerList )
         {
-            Button* textButton = new Button( context_ );
-            textButton->SetAlignment( HA_CENTER, VA_TOP );
-            textButton->SetSize( 150, 20 );
-            textButton->SetPosition( 0, 50 + (30 * totalServers) );
-            textButton->SetStyleAuto();
-            gameServerWindow->AddChild( textButton );
-            SubscribeToEvent( textButton, E_PRESSED, std::bind( &LoginScreen::HandleGameServerPressed, this, totalServers ) );
-
-            Text* serverText = new Text( context_ );
-            serverText->SetText( pServerName );
-            serverText->SetFont( RESOURCECACHE->GetResource<Font>( "Fonts/Anonymous Pro.ttf" ), 12 );
-            serverText->SetColor( Color::WHITE );
-            serverText->SetPosition( 0, 50 + (30 * totalServers) );
-            serverText->SetTextEffect( TextEffect::TE_SHADOW );
-            serverText->SetAlignment( HA_CENTER, VA_TOP );
-            gameServerWindow->AddChild( serverText );
+            auto gameServer = USERINTERFACE->LoadLayout( RESOURCECACHE->GetResource<XMLFile>( "UI/LoginThreadItem.xml" ) );
+            gameServer->SetPosition( IntVector2( 0, totalServers * 60 ) );
+            gameServer->GetChildDynamicCast<Text>( "Name", true )->SetText( gameServerName );
+            SubscribeToEvent( gameServer, E_PRESSED, std::bind( &LoginScreen::HandleWorldServerPressed, this, totalServers ) );
+            worldServerWindow_->AddChild( gameServer );
 
             totalServers++;
         }
 
-        loginWindow->SetVisible( false );
-        gameServerWindow->SetVisible( true );
+        loginWindow_->GetChild( "LoginAccount", true )->SetVisible( false );
+        worldServerWindow_->SetVisible( true );
     }
 }
 
-void LoginScreen::HandleGameServerPressed( int serverIndex )
+void LoginScreen::HandleWorldServerPressed( int serverIndex )
 {
     //We must to connect to all servers before to send/receive any message
-    LOGINHANDLER->ProcessGameServer( serverIndex );
-
-    //TODO: Connect Chat Server?
+    LOGINHANDLER->ProcessWorldServer( serverIndex );
 }
 
 void LoginScreen::HandleLoginButtonPressed( StringHash eventType, VariantMap& eventData )
 {
-    auto lineEditAccount = loginWindow->GetChildStaticCast<LineEdit>( "Account", true );
-    auto lineEditPassword = loginWindow->GetChildStaticCast<LineEdit>( "Password", true );
+    auto account = loginWindow_->GetChildStaticCast<LineEdit>( "Account", true )->GetText();
+    auto password = loginWindow_->GetChildStaticCast<LineEdit>( "Password", true )->GetText();
 
-    LOGINHANDLER->ProcessLogin( lineEditAccount->GetText(), lineEditPassword->GetText() );
+    if( account.Empty() )
+        NOTIFICATIONTEXT->Push( "Insert an account to proceed..." );
+    else if( password.Empty() )
+        NOTIFICATIONTEXT->Push( "Insert a password to proceed..." );
+    else
+    {
+        NOTIFICATIONTEXT->Push( "Connecting..." );
+        LOGINHANDLER->ProcessLogin( account, password );
+    }
 }

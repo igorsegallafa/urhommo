@@ -88,12 +88,6 @@
     <Filter Include="Source Files\Handler\Network">
       <UniqueIdentifier>{34ff118b-37b6-4a7f-9f42-f88b6b2624f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Handler\Account">
-      <UniqueIdentifier>{77bb4efa-fc7b-4091-ad92-40f18f6f143a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Handler\Account">
-      <UniqueIdentifier>{f69437aa-ae09-4ea7-8f57-99aa99633de4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Handler\Character">
       <UniqueIdentifier>{2fcb48f3-8605-4306-811f-3be97d3bae26}</UniqueIdentifier>
     </Filter>
@@ -120,6 +114,24 @@
     </Filter>
     <Filter Include="Dependencies\ImGui\Hook">
       <UniqueIdentifier>{9534b946-cdc4-49d1-bbfd-a108019e4e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Config">
+      <UniqueIdentifier>{c0b09767-2b9e-449c-9ba8-b0e8355c196c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Config">
+      <UniqueIdentifier>{e7b709f1-ac5f-40fd-9833-4ff82b674b6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler\User">
+      <UniqueIdentifier>{77bb4efa-fc7b-4091-ad92-40f18f6f143a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\User">
+      <UniqueIdentifier>{f69437aa-ae09-4ea7-8f57-99aa99633de4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{b5e8ae36-59c6-44a5-9393-03f2dd0725b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{f8359e27-31ce-45a6-9e97-84859613129e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +174,6 @@
     <ClCompile Include="NetworkHandler.cpp">
       <Filter>Source Files\Handler\Network</Filter>
     </ClCompile>
-    <ClCompile Include="AccountHandler.cpp">
-      <Filter>Source Files\Handler\Account</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterHandler.cpp">
       <Filter>Source Files\Handler\Character</Filter>
     </ClCompile>
@@ -191,6 +200,18 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Dependencies\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>Source Files\Manager\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="UserHandler.cpp">
+      <Filter>Source Files\Handler\User</Filter>
+    </ClCompile>
+    <ClCompile Include="NotificationText.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +257,6 @@
     <ClInclude Include="NetworkHandler.h">
       <Filter>Header Files\Handler\Network</Filter>
     </ClInclude>
-    <ClInclude Include="AccountHandler.h">
-      <Filter>Header Files\Handler\Account</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterHandler.h">
       <Filter>Header Files\Handler\Character</Filter>
     </ClInclude>
@@ -277,6 +295,18 @@
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>Dependencies\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>Header Files\Manager\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="UserHandler.h">
+      <Filter>Header Files\Handler\User</Filter>
+    </ClInclude>
+    <ClInclude Include="NotificationText.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -51,7 +51,7 @@ public:
     //! ImGui New Frame Handler.
     void HandleImGuiNewFrame( StringHash eventType, VariantMap& eventData );
 private:
-    SharedPtr<imgui> imGui; //!< ImGui.
+    SharedPtr<imgui> imGui_; //!< ImGui.
 };
 
 URHO3D_DEFINE_APPLICATION_MAIN( Game )

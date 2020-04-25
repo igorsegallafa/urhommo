@@ -17,18 +17,19 @@ enum class ServerType
     Master,
     Login,
     Game,
+    World,
 };
 
 struct NetConnection
 {
-    int id; //!< Connection ID
-    unsigned int address;   //!< Server Address
-    String name;    //!< Server Name
-    String ip;  //!< Server IP
-    int port;   //!< Server Port
-    ServerType serverType;  //!< Server Type
-    int maxConnections; //!< Max Connections
-    Connection* connection;   //!< Connection Pointer
+    int id_; //!< Connection ID
+    unsigned int address_;   //!< Server Address
+    String name_;    //!< Server Name
+    String ip_;  //!< Server IP
+    int port_;   //!< Server Port
+    ServerType serverType_;  //!< Server Type
+    int maxConnections_; //!< Max Connections
+    Connection* connection_;   //!< Connection Pointer
 };
 
 const char* ServerTypeToString( const ServerType& serverType );
@@ -57,13 +58,16 @@ public:
     bool Load( NetConnection* netConnection );
 
     //! Connect with all Servers loaded.
-    bool ConnectAll();
+    void ConnectAll();
 
     //! Get a specific connection by Server Type.
     NetConnection* GetConnection( ServerType serverType, int index = 0 ) const;
 
     //! Send
     void Send( ServerType serverType, int msgID, bool reliable, bool inOrder, const VectorBuffer& msg );
+
+    //! Handle Update.
+    void HandleUpdate( StringHash eventType, VariantMap& eventData );
 
     //! Handle Client Connection Identity.
     void HandleClientIdentity( StringHash eventType, VariantMap& eventData );
@@ -74,8 +78,11 @@ public:
     //! Handle Server Connection Status.
     void HandleConnectionStatus( StringHash eventType, VariantMap& eventData );
 private:
-    Connection* serverConnection;  //!< Server Connection.
-    NetConnection* currentNetConnection;    //!< Current net Connection.
-    Vector<NetConnection*> netConnections;  //!< Net Connections.
+    //! Connect with a specific Server.
+    bool Connect( NetConnection* netConnection );
+private:
+    NetConnection* currentNetConnection_;    //!< Current net Connection.
+    Vector<NetConnection*> netConnections_;  //!< Net Connections.
+    Vector<NetConnection*> reconnectNetConnections_;    //!< Net Connections to reconnect.
 };
 }

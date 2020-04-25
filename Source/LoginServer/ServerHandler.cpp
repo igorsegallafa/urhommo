@@ -11,27 +11,27 @@ ServerHandler::ServerHandler( Context* context ) :
 {
     IMPL_HANDLER( NetworkHandler );
     IMPL_HANDLER( LoginHandler );
-    IMPL_HANDLER( AccountHandler );
+    IMPL_HANDLER( UserHandler );
 }
 
 ServerHandler::~ServerHandler()
 {
-    for( auto& p : handlers )
-        delete p.second_;
+    for( auto& handler : handlers_ )
+        delete handler.second_;
 
-    handlers.Clear();
+    handlers_.Clear();
 }
 
 bool ServerHandler::Init()
 {
-    for( const auto& m : handlers )
-        m.second_->Init();
+    for( const auto& handler : handlers_ )
+        handler.second_->Init();
 
     return true;
 }
 
 void ServerHandler::UnInit()
 {
-    for( const auto& m : handlers )
-        m.second_->UnInit();
+    for( const auto& handler : handlers_ )
+        handler.second_->UnInit();
 }

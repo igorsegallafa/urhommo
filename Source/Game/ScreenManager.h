@@ -47,8 +47,8 @@ public:
     void HandleUpdate( StringHash eventType, VariantMap& eventData );
 
     //! Getters.
-    Screen* GetActiveScreen() const{ return activeScreen; }
-    const ScreenType& GetActiveScreenType() const{ return activeScreenType; }
+    Screen* GetActiveScreen() const{ return activeScreen_; }
+    const ScreenType& GetActiveScreenType() const{ return activeScreenType_; }
     
     //! Setters.
     void ChangeScreen( const ScreenType& screen );
@@ -60,11 +60,11 @@ private:
     //! Build Window.
     void BuildWindow();
 private:
-    List<ScreenType> screenQueue;
-    SharedPtr<Screen> activeScreen;
-    ScreenType activeScreenType;
-    SharedPtr<Window> window;
+    List<ScreenType> screenQueue_;
+    SharedPtr<Screen> activeScreen_;
+    ScreenType activeScreenType_;
+    SharedPtr<Window> window_;
 
-    float fadeTime;
-    FadeStep fadeStep;
+    float fadeTime_;
+    FadeStep fadeStep_;
 };

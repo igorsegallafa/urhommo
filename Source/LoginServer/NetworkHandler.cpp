@@ -2,44 +2,41 @@
 #include "NetworkHandler.h"
 
 NetworkHandler::NetworkHandler( Context* context ) :
-    HandlerImpl( context )
+    HandlerImpl( context ),
+    Handler::Message()
 {
-    netServer = new Net::Server( context );
-    messageHandler = new Handler::Message( context );
+    netServer_ = new Net::Server( context );
 }
 
 NetworkHandler::~NetworkHandler()
 {
-    netServer = nullptr;
-    messageHandler = nullptr;
+    netServer_ = nullptr;
 }
 
 bool NetworkHandler::Init()
 {
     //Initialize Net Server
-    netServer->Init();
-    netServer->Start( CONFIGMANAGER->GetNetConnection() );
-    netServer->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::Master ) );
-    netServer->ConnectAll();
+    netServer_->Init();
+    netServer_->Start( CONFIGMANAGER->GetNetConnection() );
+    netServer_->Load( CONFIGMANAGER->GetNetConfig( Net::ServerType::Master ) );
+    netServer_->ConnectAll();
 
     //Subscribe Events
-    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( NetworkHandler, HandleClientIdentity ) );
-    SubscribeToEvent( E_CLIENTCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientConnected ) );
-    SubscribeToEvent( E_CLIENTDISCONNECTED, URHO3D_HANDLER( NetworkHandler, HandleClientDisconnected ) );
     SubscribeToEvent( E_NETWORKMESSAGE, URHO3D_HANDLER( NetworkHandler, HandleMessage ) );
 
     //Global Validation
-    messageHandler->AddValidation( std::bind( &NetworkHandler::CanProcessMessage, this, std::placeholders::_1, std::placeholders::_2 ) );
+    AddValidation( MESSAGE_HANDLER( NetworkHandler, CanProcessMessage ) );
 
     //Handlers
-    messageHandler->Handle( MSGID_CreateCharacter ).Process( HANDLE_MESSAGE( &AccountHandler::HandleCreateCharacter, ACCOUNTHANDLER ) );
+    Handle(MSGID_SelectCharacter ).Process( MESSAGE_HANDLER( UserHandler, HandleSelectCharacter ) );
+    Handle( MSGID_CreateCharacter ).Process( MESSAGE_HANDLER( UserHandler, HandleCreateCharacter ) );
 
     return true;
 }
 
 void NetworkHandler::UnInit()
 {
-    netServer->UnInit();
+    netServer_->UnInit();
 }
 
 bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
@@ -52,27 +49,4 @@ bool NetworkHandler::CanProcessMessage( int messageID, Connection* connection )
     }
 
     return true;
-}
-
-void NetworkHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void NetworkHandler::HandleClientConnected( StringHash eventType, VariantMap& eventData )
-{
-}
-
-void NetworkHandler::HandleClientDisconnected( StringHash eventType, VariantMap& eventData )
-{
-    auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
-
-    if( connection )
-    {
-        //Remove User from Server Memory
-        USERMANAGER->DelUser( connection );
-    }
-}
-
-void NetworkHandler::HandleMessage( StringHash eventType, VariantMap& eventData )
-{
 }

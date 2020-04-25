@@ -17,16 +17,14 @@ class BaseMap : public Object
 public:
     //! Constructor.
     BaseMap( Context* context ) : Object( context ),
-        mapID(MapID::Undefined),
-        centerPosition(Vector3::ZERO),
-        scene(nullptr){}
+        mapID_(MapID::Undefined),
+        centerPosition_(Vector3::ZERO){}
 
     //! Deconstructor.
     ~BaseMap(){}
 public:
-    MapID mapID;
-    String name;
-    String objectFile;
-    Vector3 centerPosition;
-    SharedPtr<Scene> scene;
+    MapID mapID_;
+    String name_;
+    String objectFile_;
+    Vector3 centerPosition_;
 };

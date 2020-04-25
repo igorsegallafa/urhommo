@@ -10,7 +10,8 @@ public:
     //! Deconstructor.
     ~User();
 public:
-    String characterName;   //!< Character Name.
-    MapID mapID;    //!< Map ID.
-    Core::Character* character; //!< Character Pointer.
+    String characterName_;          //!< Character Name.
+    MapID mapID_;                   //!< Map ID.
+    CharacterClass characterClass_; //!< Character Class.
+    Core::Character* character_;    //!< Character Pointer.
 };

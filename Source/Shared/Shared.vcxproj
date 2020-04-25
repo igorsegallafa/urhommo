@@ -23,6 +23,8 @@
     <ProjectGuid>{e539be52-f72f-4b02-a688-73154f0dbbe8}</ProjectGuid>
     <RootNamespace>Shared</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+    <VcpkgEnabled>true</VcpkgEnabled>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -173,6 +175,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>5033;4305;4244;</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -186,10 +189,13 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterEquipment.cpp" />
     <ClCompile Include="CollisionDef.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityCollision.cpp" />
     <ClCompile Include="EntityNavigation.cpp" />
+    <ClCompile Include="EquipmentDef.cpp" />
+    <ClCompile Include="EquipmentManager.cpp" />
     <ClCompile Include="LoginDef.cpp" />
     <ClCompile Include="MapDef.cpp" />
     <ClCompile Include="MessageDef.cpp" />
@@ -206,10 +212,14 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterDef.h" />
+    <ClInclude Include="CharacterEquipment.h" />
     <ClInclude Include="CollisionDef.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityCollision.h" />
     <ClInclude Include="EntityNavigation.h" />
+    <ClInclude Include="EquipmentDef.h" />
+    <ClInclude Include="EquipmentManager.h" />
     <ClInclude Include="HandlerImpl.h" />
     <ClInclude Include="IShared.h" />
     <ClInclude Include="LoginDef.h" />
@@ -219,6 +229,7 @@
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="PrecompiledHeader.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="UserDef.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,12 +10,6 @@
 #include "imguiEvents.h"
 #include "ImGui/imgui.h"
 
-//Sciter:
-#include "sciter-x.h"
-#include "sciter-x-behavior.h"
-#include "sciter-x-dom.hpp"
-#include "aux-slice.h"
-
 //Urho3D:
 #include <Urho3D/Urho3DAll.h>
 

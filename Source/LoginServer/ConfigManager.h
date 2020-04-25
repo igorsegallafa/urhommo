@@ -17,14 +17,20 @@ public:
     bool Load( const Net::ServerType& serverType, int id = 0 );
 
     //! Get Current Net Server Connection.
-    Net::NetConnection* GetNetConnection() { return connection; }
+    Net::NetConnection* GetNetConnection() { return connection_; }
 
     //! Get Net Server Configuration.
     Net::NetConnection* GetNetConfig( const Net::ServerType& serverType, int id = 0 );
 
     //! Get All Net Server Connections.
-    const Vector<Net::NetConnection*> GetNetConnections() const { return netConnections; }
+    const Vector<Net::NetConnection*> GetNetConnections() const { return netConnections_; }
+
+    //! Get All Net Server Connections specified by server type.
+    const Vector<Net::NetConnection*> GetNetConnections( const Net::ServerType& serverType );
 private:
-    Net::NetConnection* connection;
-    Vector<Net::NetConnection*> netConnections;
+    void ParseParameters();
+private:
+    VariantMap parameters_;
+    Net::NetConnection* connection_;
+    Vector<Net::NetConnection*> netConnections_;
 };

@@ -2,17 +2,17 @@
 
 #include "LoginHandler.h"
 #include "NetworkHandler.h"
-#include "AccountHandler.h"
+#include "UserHandler.h"
 #include "CharacterHandler.h"
 #include "ChatHandler.h"
 
 #define LOGINHANDLER        (GAMEHANDLER->Get<LoginHandler>())
 #define NETWORKHANDLER      (GAMEHANDLER->Get<NetworkHandler>())
-#define ACCOUNTHANDLER      (GAMEHANDLER->Get<AccountHandler>())
+#define USERHANDLER         (GAMEHANDLER->Get<UserHandler>())
 #define CHARACTERHANDLER    (GAMEHANDLER->Get<CharacterHandler>())
 #define CHATHANDLER         (GAMEHANDLER->Get<ChatHandler>())
 
-#define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
+#define IMPL_HANDLER(name)  handlers_[name::GetTypeStatic()] = new name( context ); 
 
 class GameHandler : public HandlerImpl
 {
@@ -36,13 +36,13 @@ public:
     template<class T>
     inline T* Get()
     {
-        auto it = handlers.Find( T::GetTypeStatic() );
+        auto it = handlers_.Find( T::GetTypeStatic() );
 
-        if( it != handlers.End() )
+        if( it != handlers_.End() )
             return static_cast<T*>(it->second_);
 
         return nullptr;
     }
 private:
-    HashMap<StringHash, HandlerImpl*> handlers;  //!< Pointer for Handlers.
+    HashMap<StringHash, HandlerImpl*> handlers_;  //!< Pointer for Handlers.
 };

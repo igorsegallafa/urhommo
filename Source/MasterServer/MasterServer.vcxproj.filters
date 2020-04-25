@@ -64,6 +64,12 @@
     <Filter Include="Header Files\Handler\User">
       <UniqueIdentifier>{b02b6c59-553c-4d45-8f1f-a188f0615430}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Manager\Database">
+      <UniqueIdentifier>{75752c86-6643-4307-b36d-e3bc4bbc8a37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Database">
+      <UniqueIdentifier>{91c91956-045e-461d-8079-62bda3f69091}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrecompiledHeader.cpp">
@@ -92,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="UserHandler.cpp">
       <Filter>Source Files\Handler\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseConnection.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseManager.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="UserHandler.h">
       <Filter>Header Files\Handler\User</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseConnection.h">
+      <Filter>Header Files\Manager\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseManager.h">
+      <Filter>Header Files\Manager\Database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

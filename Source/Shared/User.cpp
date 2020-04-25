@@ -5,12 +5,13 @@ namespace Core
 {
 User::User( Context* context ) :
     Object( context ),
-    connection( nullptr )
+    connection_( nullptr ),
+    id_( -1 )
 {
 }
 
 User::~User()
 {
-    connection = nullptr;
+    connection_ = nullptr;
 }
 }

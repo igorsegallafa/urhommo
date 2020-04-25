@@ -18,7 +18,7 @@ class Screen : public Object
     URHO3D_OBJECT( Screen, Object );
 public:
     //! Constructor.
-    Screen( Context* context ) : Object( context ), scene( nullptr ) {}
+    Screen( Context* context ) : Object( context ), scene_( nullptr ), gui_( nullptr ){}
 
     //! Deconstructor.
     ~Screen() { Dispose(); }
@@ -27,11 +27,15 @@ public:
     virtual void Init();
 
     //! Getters.
-    Scene* GetScene(){ return scene; }
+    Scene* GetScene(){ return scene_; }
+private:
+    //! Screen Mode Handler.
+    void HandleScreenMode( StringHash eventType, VariantMap& eventData );
 protected:
     virtual void Run();
     virtual void Pause();
     virtual void Dispose();
 protected:
-    SharedPtr<Scene> scene; //!< Pointer for scene.
+    SharedPtr<UIElement> gui_;    //!< Pointer for GUI.
+    SharedPtr<Scene> scene_; //!< Pointer for scene.
 };

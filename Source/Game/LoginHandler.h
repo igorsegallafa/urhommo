@@ -1,14 +1,26 @@
 #pragma once
 
-struct ServerInfo
-{
-    String name;
-    String ip;
-    unsigned int port;
-};
-
 class LoginHandler : public HandlerImpl
 {
+    struct ServerInfo
+    {
+        String name;
+        String ip;
+        unsigned int port;
+        bool isOnline;
+        String gameServerIp;
+        unsigned int gameServerPort;
+    };
+
+    struct CharacterInfo
+    {
+        String name;
+        unsigned level;
+        CharacterClass characterClass;
+        int armorId;
+        int headId;
+    };
+
     URHO3D_OBJECT( LoginHandler, HandlerImpl );
 public:
     //! Constructor.
@@ -25,10 +37,15 @@ public:
     void ProcessLogin( const String& account, const String& password );
 
     /**
-     * Process Account Login into Game Server
-     * @param serverIndex Index of Game Server Selected
+     * Process Account Login into World Server
+     * @param serverIndex Index of World Server Selected
      */
-    void ProcessGameServer( unsigned int serverIndex = 0 );
+    void ProcessWorldServer( unsigned int serverIndex = 0 );
+
+    /**
+     * Process Account Login into Game Server
+     */
+    void ProcessGameServer();
 
     /**
      * Process Account Login into Master Server
@@ -40,7 +57,11 @@ public:
 
     //! Handle Game Server Connected.
     bool HandleGameServerConnected( Connection* connection, MemoryBuffer& message );
+
+    const Vector<CharacterInfo>& GetCharacterList() const{ return characterList_; }
 private:
-    Vector<ServerInfo> gameServerList;
-    ServerInfo masterServerInfo;
+    unsigned int worldServerIndex_;
+    Vector<ServerInfo> worldServerList_;
+    ServerInfo masterServerInfo_;
+    Vector<CharacterInfo> characterList_;
 };

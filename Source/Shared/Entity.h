@@ -29,7 +29,7 @@ public:
     //! Fixed Post Update Handler.
     void FixedPostUpdate( float time );
 public:
-    Core::AnimationEntity* animationMgr;
+    Core::AnimationEntity* animationMgr_;
 };
 };
 

@@ -11,39 +11,23 @@
 
 namespace Core
 {
-void EntityCollision::CreatePhysicsComponent( float diameter_, float height_ )
+void EntityCollision::CreatePhysicsComponent( float diameter, float height )
 {
     //Set new diameter and height
-    diameter = diameter_;
-    height = height_;
+    diameter_ = diameter;
+    height_ = height;
 
     auto entity = static_cast<Entity*>(this);
 
-    //Initial Node Transform
-    btTransform startTransform;
-    startTransform.setIdentity();
-    startTransform.setOrigin( btVector3( entity->node_->GetWorldPosition().x_, entity->node_->GetWorldPosition().y_, entity->node_->GetWorldPosition().z_ ) );
-    startTransform.setRotation( ToBtQuaternion( Quaternion( 90, 0, 0 ) ) );
-
-    //Capsule used for collision
-    btConvexShape* capsule = new btCapsuleShape( diameter * 0.5f, height - diameter );
-
-    //Getting Physics World from Scene
-    btDiscreteDynamicsWorld* physicsWorld = entity->GetScene()->GetComponent<PhysicsWorld>()->GetWorld();
-
-    if( physicsWorld )
+    //Get Physics World from Scene
+    if( btDiscreteDynamicsWorld* physicsWorld = entity->GetScene()->GetComponent<PhysicsWorld>()->GetWorld(); physicsWorld )
     {
-        ghostObject = new btPairCachingGhostObject();
-        ghostObject->setWorldTransform( startTransform );
-        physicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback( new btGhostPairCallback() );
-        ghostObject->setCollisionShape( capsule );
-        ghostObject->setCollisionFlags( btCollisionObject::CF_CHARACTER_OBJECT );
-        bulletController = new btKinematicCharacterController( ghostObject, capsule, 0.3f, btVector3( 0, 0, 1 ) );
-        bulletController->setGravity( physicsWorld->getGravity() );
+        auto collisionShape = CreateCollisionShape( diameter * 0.5f, height - diameter );
+        ghostObject_ = CreateGhostObject( entity->node_, collisionShape );
+        bulletController_ = CreateCharacterController( entity->node_, collisionShape, ghostObject_ );
 
-        physicsWorld->addCollisionObject( ghostObject, btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::AllFilter );
-        physicsWorld->addAction( bulletController );
-        bulletController->setMaxJumpHeight( 1.5 );
+        physicsWorld->addCollisionObject( ghostObject_, btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::AllFilter );
+        physicsWorld->addAction( bulletController_ );
     }
 }
 
@@ -51,22 +35,21 @@ void EntityCollision::HandleCollisionNode()
 {
     auto entity = static_cast<Entity*>(this);
 
-    if( ghostObject )
+    if( ghostObject_ )
     {
-        currentCollisions.Clear();
-
+        currentCollisions_.Clear();
         btManifoldArray manifoldArray;
 
         //Process all current collision events
         //(Ask ghost shape for a list of objects that it is potentially "colliding" with)
-        int numObjects = ghostObject->getNumOverlappingObjects();
+        int numObjects = ghostObject_->getNumOverlappingObjects();
 
         for( int i = 0; i < numObjects; i++ )
         {
             manifoldArray.clear();
 
             //Access the next collision object whose AABB overlaps with that of our ghost shape
-            btCollisionObject* obj = ghostObject->getOverlappingObject( i );
+            btCollisionObject* obj = ghostObject_->getOverlappingObject( i );
 
             //Try to cast the current collision object to bullet rigidbody
             //If this fails, its not a rigidbody - could be another ghost etc.
@@ -75,7 +58,7 @@ void EntityCollision::HandleCollisionNode()
             {
                 //Query the physics broadphase for deeper information about the colliding pair
                 auto* paircache = entity->node_->GetScene()->GetComponent<PhysicsWorld>()->GetWorld()->getPairCache();
-                btBroadphasePair* collisionPair = paircache->findPair( ghostObject->getBroadphaseHandle(), obj->getBroadphaseHandle() );
+                btBroadphasePair* collisionPair = paircache->findPair( ghostObject_->getBroadphaseHandle(), obj->getBroadphaseHandle() );
 
                 if( collisionPair == nullptr )
                     continue;
@@ -90,10 +73,7 @@ void EntityCollision::HandleCollisionNode()
                 //Confirm that the two objects are in contact
                 int numContacts = 0;
                 for( int i = 0; i < manifoldArray.size(); i++ )
-                {
-                    btPersistentManifold* manifold = manifoldArray[i];
-                    numContacts += manifold->getNumContacts();
-                }
+                    numContacts += manifoldArray[i]->getNumContacts();
 
                 if( numContacts == 0 )
                     continue;
@@ -105,48 +85,80 @@ void EntityCollision::HandleCollisionNode()
                 //Wrap the object pointer
                 WeakPtr<RigidBody> weakRB( RB );
 
-                VariantMap newData{};
-
                 //Determine if this collision is "new", or "persistant"
-                if( !prevCollisions.Contains( weakRB ) )
+                if( !prevCollisions_.Contains( weakRB ) )
                 {
                     //Send "collision started" event
-                    newData[GhostCollisionBegin::P_BODY] = RB;
-                    newData[GhostCollisionBegin::P_GHOST] = ghostObject;
-                    newData[GhostCollisionBegin::P_GHOSTNODE] = entity->node_;
-                    RB->GetNode()->SendEvent( E_GHOST_COLLISION_STARTED, newData );
-
-                    //Collect the new collision
-                    currentCollisions.Insert( weakRB );
+                    SendCollisionEvent( E_GHOST_COLLISION_STARTED, RB, entity->node_ );
+                    currentCollisions_.Insert( weakRB );
                 }
                 else
-                {
-                    //Send "collision ongoing" event
-                    newData[GhostCollisionStay::P_BODY] = RB;
-                    newData[GhostCollisionStay::P_GHOST] = ghostObject;
-                    newData[GhostCollisionStay::P_GHOSTNODE] = entity->node_;
-                    RB->GetNode()->SendEvent( E_GHOST_COLLISION_STAY, newData );
-                }
+                    SendCollisionEvent( E_GHOST_COLLISION_STAY, RB, entity->node_ );
             }
         }
 
         //Process any collisions which have ended
-        for( auto it = prevCollisions.Begin(); it != prevCollisions.End(); it++ )
-        {
-
-            //Check that the object has not been destroyed, and that the collision has ceased
-            if( (*it) != nullptr && !currentCollisions.Contains( *it ) )
-            {
-                VariantMap newData{};
-                newData[GhostCollisionEnded::P_BODY] = *it;
-                newData[GhostCollisionEnded::P_GHOST] = ghostObject;
-                newData[GhostCollisionEnded::P_GHOSTNODE] = entity->node_;
-                (*it)->GetNode()->SendEvent( E_GHOST_COLLISION_ENDED, newData );
-            }
-        }
+        for( const auto& previousCollisionObject : prevCollisions_ )
+            if( previousCollisionObject && currentCollisions_.Contains( previousCollisionObject ) == false )
+                SendCollisionEvent( E_GHOST_COLLISION_ENDED, previousCollisionObject, entity->node_ );
 
         //Keep track of collisions across frames
-        prevCollisions = currentCollisions;
+        prevCollisions_ = currentCollisions_;
     }
+}
+
+inline void EntityCollision::SendCollisionEvent( StringHash event, RigidBody* body, Node* node )
+{
+    VariantMap newData{};
+    newData[GhostCollisionEnded::P_BODY] = body;
+    newData[GhostCollisionEnded::P_GHOST] = ghostObject_;
+    newData[GhostCollisionEnded::P_GHOSTNODE] = node;
+    body->GetNode()->SendEvent( event, newData );
+}
+
+inline const btTransform EntityCollision::GetInitialTransform( Node* node ) const
+{
+    btTransform startTransform;
+    startTransform.setIdentity();
+    startTransform.setOrigin( btVector3( node->GetWorldPosition().x_, node->GetWorldPosition().y_, node->GetWorldPosition().z_ ) );
+    startTransform.setRotation( ToBtQuaternion( Quaternion( 90, 0, 0 ) ) );
+    return startTransform;
+}
+
+inline btConvexShape* EntityCollision::CreateCollisionShape( float radius, float height )
+{
+    return new btCapsuleShape( radius, height );
+}
+
+inline btPairCachingGhostObject* EntityCollision::CreateGhostObject( Node* node, btCollisionShape* collisionShape ) const
+{
+    auto physicsWorld = node->GetScene()->GetComponent<PhysicsWorld>()->GetWorld();
+    auto collisionObject = new btPairCachingGhostObject();
+
+    if( collisionObject && physicsWorld )
+    {
+        collisionObject->setWorldTransform( GetInitialTransform( node ) );
+        physicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback( new btGhostPairCallback() );
+        collisionObject->setCollisionShape( collisionShape );
+        collisionObject->setCollisionFlags( btCollisionObject::CF_CHARACTER_OBJECT );
+        return collisionObject;
+    }
+
+    return nullptr;
+}
+
+inline btKinematicCharacterController* EntityCollision::CreateCharacterController( Node* node, btConvexShape* collisionShape, btPairCachingGhostObject* collisionObject )
+{
+    auto physicsWorld = node->GetScene()->GetComponent<PhysicsWorld>()->GetWorld();
+    
+    if( node && collisionObject )
+    {
+        auto characterController = new btKinematicCharacterController( collisionObject, collisionShape, 0.3f, btVector3( 0, 0, 1 ) );
+        characterController->setGravity( physicsWorld->getGravity() );
+        characterController->setMaxJumpHeight( 1.5 );
+        return characterController;
+    }
+
+    return nullptr;
 }
 };

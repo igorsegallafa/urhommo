@@ -8,7 +8,7 @@
 #define USERHANDLER         (SERVERHANDLER->Get<UserHandler>())
 #define CHATHANDLER         (SERVERHANDLER->Get<ChatHandler>())
 
-#define IMPL_HANDLER(name)  handlers[name::GetTypeStatic()] = new name( context ); 
+#define IMPL_HANDLER(name)  handlers_[name::GetTypeStatic()] = new name( context ); 
 
 class ServerHandler : public HandlerImpl
 {
@@ -33,13 +33,13 @@ public:
     template<class T>
     inline T* Get()
     {
-        auto it = handlers.Find( T::GetTypeStatic() );
+        auto it = handlers_.Find( T::GetTypeStatic() );
 
-        if( it != handlers.End() )
+        if( it != handlers_.End() )
             return static_cast<T*>(it->second_);
 
         return nullptr;
     }
 private:
-    HashMap<StringHash, HandlerImpl*> handlers;  //!< Pointer for Handlers.
+    HashMap<StringHash, HandlerImpl*> handlers_;  //!< Pointer for Handlers.
 };

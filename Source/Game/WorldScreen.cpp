@@ -37,15 +37,16 @@ void WorldScreen::Init()
 
 void WorldScreen::CreateScene()
 {
-    //Set Game Server Connection Scene
-    CONNECTIONG->SetScene( scene );
-
     //Create Scene Components
-    scene->CreateComponent<Octree>( LOCAL );
-    scene->CreateComponent<PhysicsWorld>( LOCAL );
+    scene_->CreateComponent<Octree>( LOCAL );
+    scene_->CreateComponent<PhysicsWorld>( LOCAL );
 
-    //Setup for Async Loading
-    scene->SetAsyncLoadingMs( 3 );
+    //Create Procedural Sky
+    if( auto xmlFile = RESOURCECACHE->GetResource<XMLFile>( "Objects/Sky.xml" ); xmlFile )
+        scene_->InstantiateXML( xmlFile->GetRoot(), Vector3::ZERO, Quaternion::IDENTITY, LOCAL );
+
+    //Set Game Server Connection Scene
+    CONNECTIONG->SetScene( scene_ );
 
     //Game Server can Set Connection Scene
     CONNECTIONG->Send( MSGID_WorldData, true, true, VectorBuffer() );
@@ -57,7 +58,7 @@ void WorldScreen::SetupViewport()
     CAMERA->SetViewMask( DEFAULT_VIEWMASK & ~8 );
 
     //Create Viewport and Set it
-    SharedPtr<Viewport> viewport( new Viewport( context_, scene, CAMERA ) );
+    SharedPtr<Viewport> viewport( new Viewport( context_, scene_, CAMERA ) );
     RENDERER->SetViewport( 0, viewport );
 }
 

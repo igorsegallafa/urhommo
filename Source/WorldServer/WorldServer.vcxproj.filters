@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Header">
+      <UniqueIdentifier>{5ed3d5d2-21ff-4e15-abab-2722e1a927e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{2fdbf818-36a1-442f-b3a6-840d648895a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler">
+      <UniqueIdentifier>{78fed0d8-5499-475f-bde8-1d6394e23fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{a6cdac1d-cf04-40f2-8bdb-3bf50cf3bd4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler">
+      <UniqueIdentifier>{333199f9-78a1-4dc3-8469-95f9bd635683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler\Network">
+      <UniqueIdentifier>{fc94b165-25d1-4541-899b-edcded0e19ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\Network">
+      <UniqueIdentifier>{1ae2df77-6761-45c8-98b7-9916bf84d823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{c4acae6f-9598-499f-952c-a487d8e4f2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{ff3188ed-c35b-4238-9f82-519465a1b357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\User">
+      <UniqueIdentifier>{d82d2e59-165f-489f-b061-41d555f8746c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\User">
+      <UniqueIdentifier>{667ef1ab-d905-4b49-b744-855d3698494c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\User">
+      <UniqueIdentifier>{c0cac2be-95b6-44da-af06-cc8ee18f9821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\User">
+      <UniqueIdentifier>{0764c388-08a2-4f62-b11d-ba6cf195e4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Config">
+      <UniqueIdentifier>{ec557251-2d05-4d63-8f40-3c2c373aeb89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Config">
+      <UniqueIdentifier>{92397792-927c-4945-a49a-1efc78e183be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Handler\User">
+      <UniqueIdentifier>{8bb07f3d-237a-42b0-abab-76ada655e8f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Handler\User">
+      <UniqueIdentifier>{b02b6c59-553c-4d45-8f1f-a188f0615430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager\Database">
+      <UniqueIdentifier>{bd6ca20e-38a0-408a-92b1-5d960953dd7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager\Database">
+      <UniqueIdentifier>{34a36c14-7bfe-4268-bce8-ce9690607cd1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PrecompiledHeader.cpp">
+      <Filter>Header Files\Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHandler.cpp">
+      <Filter>Source Files\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHandler.cpp">
+      <Filter>Source Files\Handler\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files\Core\User</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager.cpp">
+      <Filter>Source Files\Manager\User</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigManager.cpp">
+      <Filter>Source Files\Manager\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="UserHandler.cpp">
+      <Filter>Source Files\Handler\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseManager.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\DatabaseConnection.cpp">
+      <Filter>Source Files\Manager\Database</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PrecompiledHeader.h">
+      <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerManager.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerHandler.h">
+      <Filter>Header Files\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHandler.h">
+      <Filter>Header Files\Handler\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files\Core\User</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager.h">
+      <Filter>Header Files\Manager\User</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigManager.h">
+      <Filter>Header Files\Manager\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="UserHandler.h">
+      <Filter>Header Files\Handler\User</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseConnection.h">
+      <Filter>Header Files\Manager\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\DatabaseManager.h">
+      <Filter>Header Files\Manager\Database</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\Urho3D.natvis" />
+  </ItemGroup>
+</Project>

@@ -30,18 +30,26 @@ Game::~Game()
 
 void Game::Setup()
 {
+    CONFIGMANAGER->Load( "GameData/config.json" ); 
+
     engineParameters_[EP_WINDOW_TITLE] = "Game";
-    engineParameters_[EP_FULL_SCREEN] = false;
-    engineParameters_[EP_WINDOW_HEIGHT] = 600;
-    engineParameters_[EP_WINDOW_WIDTH] = 800;
+    engineParameters_[EP_FULL_SCREEN] = !CONFIGMANAGER->Get().windowedMode;
+    engineParameters_[EP_WINDOW_HEIGHT] = CONFIGMANAGER->Get().startMaximized ? 0 : CONFIGMANAGER->Get().screenResolutionHeight;
+    engineParameters_[EP_WINDOW_WIDTH] = CONFIGMANAGER->Get().startMaximized ? 0 : CONFIGMANAGER->Get().screenResolutionWidth;
     engineParameters_[EP_WINDOW_RESIZABLE] = true;
-    engineParameters_[EP_RESOURCE_PATHS] = "Data;";
+    engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;GameData;";
 }
 
 void Game::Start()
 {
+    //Initialize Default UI Style
+    USERINTERFACE->GetRoot()->SetDefaultStyle( RESOURCECACHE->GetResource<XMLFile>( "UI/DefaultStyle.xml" ) );
+
+    //Register UI
+    UserInterface::RegisterLibrary( context_ );
+
     //Create ImGui
-    imGui = MakeShared<imgui>( context_ );
+    imGui_ = MakeShared<imgui>( context_ );
 
     //Set Mouse Visible
     GetSubsystem<Input>()->SetMouseVisible( true );

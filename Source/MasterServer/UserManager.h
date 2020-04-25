@@ -17,7 +17,7 @@ public:
     void UnInit();
 
     //! Get User by Connection.
-    User* GetUser( Connection* connection ){ return users[connection]; }
+    User* GetUser( Connection* connection ){ return users_[connection]; }
 
     //! Add an user for the list.
     SharedPtr<User> AddUser( Connection* connection );
@@ -25,5 +25,5 @@ public:
     //! Del user from the list.
     void DelUser( Connection* connection );
 private:
-    HashMap<Connection*, SharedPtr<User>> users;
+    HashMap<Connection*, SharedPtr<User>> users_;
 };

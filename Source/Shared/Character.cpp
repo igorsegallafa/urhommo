@@ -3,6 +3,8 @@
 
 #undef new
 
+#include "CharacterDef.h"
+
 #include <Bullet/btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionDispatch/btGhostObject.h>
 #include <Bullet/BulletDynamics/Character/btKinematicCharacterController.h>
@@ -11,21 +13,24 @@ namespace Core
 {
 Character::Character( Context* context ) :
     Entity( context ),
-    connection( nullptr )
+    connection_( nullptr ),
+    equipmentMgr_( nullptr )
 {
 }
 
 Character::~Character()
 {
+    connection_ = nullptr;
+    equipmentMgr_ = nullptr;
 }
 
 void Character::FixedUpdate( float time )
 {
     using namespace CharacterData;
 
-    if( connection )
+    if( connection_ )
     {
-        const Controls& controls = connection->GetControls();
+        const Controls& controls = connection_->GetControls();
 
         if( Shared::IsGameRunning() )
         {
@@ -35,7 +40,7 @@ void Character::FixedUpdate( float time )
             auto transform = GetComponent<SmoothedTransform>();
 
             //Smoothed Transform not found
-            if( transform == nullptr || bulletController == nullptr )
+            if( transform == nullptr || bulletController_ == nullptr )
                 return;
 
             //Character is walking?
@@ -48,10 +53,10 @@ void Character::FixedUpdate( float time )
             }
 
             //Following Target
-            if( followingTarget )
+            if( followingTarget_ )
             {
-                moveDirection = targetDirection;
-                rotation.FromLookRotation( targetDirection );
+                moveDirection = targetDirection_;
+                rotation.FromLookRotation( targetDirection_ );
                 transform->SetTargetRotation( rotation );
             }
 
@@ -59,26 +64,26 @@ void Character::FixedUpdate( float time )
             if( moveDirection.LengthSquared() > 0.0f )
             {
                 //It's in a ground?
-                if( bulletController->onGround() )
-                    bulletController->setWalkDirection( ToBtVector3( moveDirection * time * 5.f ) );
+                if( bulletController_->onGround() )
+                    bulletController_->setWalkDirection( ToBtVector3( moveDirection * time * 5.f ) );
                 else
-                    bulletController->setWalkDirection( ToBtVector3( moveDirection * time * 5.f ) );
+                    bulletController_->setWalkDirection( ToBtVector3( moveDirection * time * 5.f ) );
             }
             else
-                bulletController->setWalkDirection( btVector3( 0, 0, 0 ) );
+                bulletController_->setWalkDirection( btVector3( 0, 0, 0 ) );
 
             //Get World Transform
             btTransform worldTransform;
-            worldTransform = bulletController->getGhostObject()->getWorldTransform();
+            worldTransform = bulletController_->getGhostObject()->getWorldTransform();
 
             //Set World Position
-            Vector3 newPosition = ToVector3( worldTransform.getOrigin() ) + Vector3::DOWN * height * 0.5f;
+            Vector3 newPosition = ToVector3( worldTransform.getOrigin() ) + Vector3::DOWN * height_ * 0.5f;
             node_->SetWorldPosition( newPosition );
         }
-        else if( connection->GetPosition() != Vector3( -1.f, -1.f, -1.f ) )
+        else if( connection_->GetPosition() != Vector3( -1.f, -1.f, -1.f ) )
         {
-            node_->SetRotation( connection->GetRotation() );
-            node_->SetPosition( connection->GetPosition() );
+            node_->SetRotation( connection_->GetRotation() );
+            node_->SetPosition( connection_->GetPosition() );
         }
 
         //Get Animation Current ID
@@ -87,11 +92,11 @@ void Character::FixedUpdate( float time )
         //Set Character Animation
         if( controls.extraData_.TryGetValue( P_ANIMATIONID, animationOut ) )
             if( auto animationID = animationOut.GetInt(); animationID != -1 )
-                animationMgr->Play( animationID, controls.extraData_[P_ANIMATIONEXCLUSIVE]->GetBool() );
-        else if( controls.buttons_ & CHARACTERCONTROL_Forward || followingTarget )
-            animationMgr->Play( AnimationType::Walk );
+                animationMgr_->Play( animationID, controls.extraData_[P_ANIMATIONEXCLUSIVE]->GetBool() );
+        else if( controls.buttons_ & CHARACTERCONTROL_Forward || followingTarget_ )
+            animationMgr_->Play( AnimationType::Run );
         else
-            animationMgr->Play( AnimationType::Idle );
+            animationMgr_->Play( AnimationType::Idle );
     }
 
     Entity::FixedUpdate( time );

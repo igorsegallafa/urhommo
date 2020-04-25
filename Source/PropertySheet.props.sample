@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <GAME_DIR>C:\Users\igorc\Desktop\UrhoMMO\Dev\Client</GAME_DIR>
+	<SERVER_DIR>C:\Users\igorc\Desktop\UrhoMMO\Dev\Server</SERVER_DIR>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+	<BuildMacro Include="GAME_DIR">
+      <Value>$(GAME_DIR)</Value>
+    </BuildMacro>
+	<BuildMacro Include="SERVER_DIR">
+      <Value>$(SERVER_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

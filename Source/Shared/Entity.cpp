@@ -7,13 +7,13 @@ Entity::Entity( Context* context ) :
     LogicComponent( context ),
     EntityCollision(),
     EntityNavigation(),
-    animationMgr( nullptr )
+    animationMgr_( nullptr )
 {
 }
 
 Entity::~Entity()
 {
-    animationMgr = nullptr;
+    animationMgr_ = nullptr;
 
     if( node_ )
         node_->Remove();

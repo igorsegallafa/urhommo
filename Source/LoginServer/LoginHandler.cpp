@@ -10,86 +10,142 @@ LoginHandler::~LoginHandler()
 {
 }
 
-bool LoginHandler::Init()
+const LoginStatusFlags LoginHandler::HandleUserValidation( const String& account, const String& password, int& outUserID )
 {
-    //Subscribe Events
-    SubscribeToEvent( E_CLIENTIDENTITY, URHO3D_HANDLER( LoginHandler, HandleClientIdentity ) );
+    LoginStatusFlags loginStatus = LoginStatus::None;
+    auto db = DATABASEMANAGER->Get( DatabaseConn::AoR );
+    
+    outUserID = -1;
 
-    return true;
+    if( db )
+    {
+        String query =  "SELECT id, "
+                        "password = $2 AS ValidPassword "
+                        "FROM aor_user.users "
+                        "WHERE account = $1 LIMIT 1;";
+
+        auto results = db->Exec( query, account.CString(), password.CString() );
+        
+        if( auto result = results[0]; results.size() )
+        {
+            if( result["ValidPassword"].as<bool>() == false )
+                loginStatus = LoginStatus::WrongPassword;
+            else
+                outUserID = result["id"].as<int>();
+        }
+        else
+            loginStatus = LoginStatus::WrongAccount;
+    }
+
+    return loginStatus;
 }
 
-void LoginHandler::ProcessLogin( Core::User* user )
+const LoginStatusFlags LoginHandler::HandleUserLogin( User* user )
 {
-    VectorBuffer loginDataMsg;
-    Core::LoginStatus loginStatus = Core::LoginStatus::Successful;
-    unsigned int totalGameServers = 0;
+    LoginStatusFlags loginStatus = LoginStatus::None;
 
-    //Check if account is logged
-    if( auto foundUser = USERMANAGER->GetUser( user->accountName ) )
-        if( foundUser != user )
-            loginStatus = Core::LoginStatus::AlreadyIngame;
+    if( IsAccountLogged( user ) )
+        loginStatus |= LoginStatus::AlreadyIngame;
 
-    //Write Login Response Status
-    loginDataMsg.WriteInt( (int)loginStatus );
+   /**
+    * Example of how this should works
+    *
+    *if( IsAccountBanned( user ) )
+    *    loginStatus |= LoginStatus::Banned;
+    *
+    *if( IsAccountGameMaster( user ) )
+    *    loginStatus |= LoginStatus::GameMaster;
+    */
 
     //Successful Login
-    if( loginStatus == Core::LoginStatus::Successful )
+    if( loginStatus == LoginStatus::None )
+        loginStatus |= LoginStatus::Successful;
+
+    return loginStatus;
+}
+
+void LoginHandler::ProcessLoginResponse( const LoginStatusFlags& loginStatus, User* user )
+{
+    //Login Response Message
+    VectorBuffer loginDataMsg;
+    loginDataMsg.WriteInt( loginStatus );
+
+    if( loginStatus & LoginStatus::Successful )
     {
-        //Get Total Game Servers
-        for( const auto& gameServer : CONFIGMANAGER->GetNetConnections() )
-            if( gameServer->serverType == Net::ServerType::Game )
-                totalGameServers++;
+        //Get Total World Servers
+        auto worldServersFound = CONFIGMANAGER->GetNetConnections( Net::ServerType::World );
 
         //Write Total of Game Servers
-        loginDataMsg.WriteInt( totalGameServers );
+        loginDataMsg.WriteInt( worldServersFound.Size() );
 
-        //Write Game Servers Info
-        for( unsigned int i = 0; i < totalGameServers; i++ )
+        //Write World Servers Info
+        for( const auto& worldServer : worldServersFound )
         {
-            auto serverConfig = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, i );
-            loginDataMsg.WriteString( serverConfig->name );
-            loginDataMsg.WriteString( serverConfig->ip );
-            loginDataMsg.WriteInt( serverConfig->port );
+            loginDataMsg.WriteString( worldServer->name_ );
+            loginDataMsg.WriteString( worldServer->ip_ );
+            loginDataMsg.WriteInt( worldServer->port_ );
+            loginDataMsg.WriteBool( worldServer->connection_ != nullptr );   //World Server is online?
+
+            auto gameServerInfo = CONFIGMANAGER->GetNetConfig( Net::ServerType::Game, worldServer->id_ );
+            loginDataMsg.WriteString( gameServerInfo->ip_ );
+            loginDataMsg.WriteInt( gameServerInfo->port_ );
         }
 
         //Write Character List
+        auto characters = GetCharactersFromAccount( user->id_ );
+        loginDataMsg.WriteUInt( characters.Size() );
+
+        for( const auto& character : characters )
         {
+            loginDataMsg.WriteString( character.name );
+            loginDataMsg.WriteUInt( character.level );
+            loginDataMsg.WriteInt( character.characterClass );
+            loginDataMsg.WriteInt( character.armorId );
+            loginDataMsg.WriteInt( character.headId );
         }
 
         //Write Master Server Info
         auto masterServerInfo = CONFIGMANAGER->GetNetConfig( Net::ServerType::Master );
-        loginDataMsg.WriteString( masterServerInfo->ip );
-        loginDataMsg.WriteInt( masterServerInfo->port );
+        loginDataMsg.WriteString( masterServerInfo->ip_ );
+        loginDataMsg.WriteInt( masterServerInfo->port_ );
     }
 
     //Send Message
-    user->connection->Send( MSGID_LoginData, true, true, loginDataMsg );
-
-    //Disconnect if login has been failed
-    if( loginStatus != Core::LoginStatus::Successful )
-        user->connection->Disconnect( 50 );
+    user->connection_->Send( MSGID_LoginData, true, true, loginDataMsg );
 }
 
-void LoginHandler::HandleClientIdentity( StringHash eventType, VariantMap& eventData )
+bool LoginHandler::IsAccountLogged( User* user )
 {
-    if( Variant outAccountName, outPassword; eventData.TryGetValue( Login::P_ACCOUNTNAME, outAccountName ) && eventData.TryGetValue( Login::P_PASSWORD, outPassword ) )
+    if( const auto& foundUser = USERMANAGER->GetUser( user->accountName_ ); foundUser )
+        return foundUser != user;
+
+    return false;
+}
+
+Vector<CharacterInfo>& LoginHandler::GetCharactersFromAccount( int userId )
+{
+    Vector<CharacterInfo> ret;
+    auto db = DATABASEMANAGER->Get( DatabaseConn::AoR );
+
+    if( db )
     {
-        auto connection = static_cast<Connection*>(eventData[ClientIdentity::P_CONNECTION].GetPtr());
+        String query =  "SELECT name, level, class, armor_id, head_id "
+                        "FROM aor_user.characters "
+                        "WHERE user_id = $1;";
 
-        //TODO: Process Account Login
-        //eventData[ClientIdentity::P_ALLOW] = false;
+        auto results = db->Exec( query, userId );
 
-        //Add User to Server Memory
-        auto user = USERMANAGER->AddUser( connection );
-
-        //User Allocated?
-        if( user )
+        for( const auto& result : results )
         {
-            //Set AccountName
-            user->accountName = outAccountName.GetString();
-
-            //Process Login of User
-            ProcessLogin( user );
+            CharacterInfo characterInfo;
+            characterInfo.name = result["name"].as<std::string>().c_str();
+            characterInfo.level = result["level"].as<int>();
+            characterInfo.characterClass = result["class"].as<int>();
+            characterInfo.armorId = result["armor_id"].as<int>();
+            characterInfo.headId = result["head_id"].as<int>();
+            ret.Push( characterInfo );
         }
     }
+
+    return ret;
 }

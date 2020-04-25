@@ -18,7 +18,7 @@ void Server::Setup()
     engineParameters_[EP_WINDOW_RESIZABLE] = false;
     engineParameters_[EP_WINDOW_WIDTH] = 800;
     engineParameters_[EP_WINDOW_HEIGHT] = 405;
-    engineParameters_[EP_RESOURCE_PATHS] = "Data;ServerData;";
+    engineParameters_[EP_RESOURCE_PATHS] = "Data;CoreData;ServerData;";
     engineParameters_[EP_LOG_NAME] = "Logs/" + engineParameters_[EP_WINDOW_TITLE].GetString() + ".log";
 }
 
@@ -43,7 +43,7 @@ void Server::PrintSignature()
     printf( "\nMP\"\"\"\"\"\"`MM M\"\"MMMMM\"\"M\n" );
     printf( "M  mmmmm..M M  MMMMM  M\n" );
     printf( "M.      `YM M  MMMMP  M\n" );
-    printf( "MMMMMMM.  M M  MMMM' .M\t\Game Server\n" );
+    printf( "MMMMMMM.  M M  MMMM' .M\t\tGame Server\n" );
     printf( "M. .MMM'  M M  MMP' .MM\n" );
     printf( "Mb.     .dM M     .dMMM\n" );
     printf( "MMMMMMMMMMM MMMMMMMMMMM\n\n" );

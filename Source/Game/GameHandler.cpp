@@ -11,29 +11,29 @@ GameHandler::GameHandler( Context* context ) :
 {
     IMPL_HANDLER( LoginHandler );
     IMPL_HANDLER( NetworkHandler );
-    IMPL_HANDLER( AccountHandler );
+    IMPL_HANDLER( UserHandler );
     IMPL_HANDLER( CharacterHandler );
     IMPL_HANDLER( ChatHandler );
 }
 
 GameHandler::~GameHandler()
 {
-    for( auto& p : handlers )
-        delete p.second_;
+    for( auto& handler : handlers_ )
+        delete handler.second_;
 
-    handlers.Clear();
+    handlers_.Clear();
 }
 
 bool GameHandler::Init()
 {
-    for( const auto& m : handlers )
-        m.second_->Init();
+    for( const auto& handler : handlers_ )
+        handler.second_->Init();
 
     return true;
 }
 
 void GameHandler::UnInit()
 {
-    for( const auto& m : handlers )
-        m.second_->UnInit();
+    for( const auto& handler : handlers_ )
+        handler.second_->UnInit();
 }
